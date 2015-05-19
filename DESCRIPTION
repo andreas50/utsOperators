@@ -1,0 +1,12 @@
+Package: utsAlg
+Version: 1.0-0
+Date: 2015-04-12
+Title: Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators
+Author: Andreas Eckner <andreas@eckner.com>
+Maintainer: Andreas Eckner <andreas@eckner.com>
+Depends: uts
+Description: This package implements several rolling time series operators for unevenly
+  spaced data. In particular, several version of simple moving averages (SMAs) and exponential
+  moving averages (EMAs) are included.
+License: GPL-2 | GPL-3
+URL: www.eckner.com
