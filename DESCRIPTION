@@ -5,6 +5,7 @@ Title: Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rol
 Author: Andreas Eckner <andreas@eckner.com>
 Maintainer: Andreas Eckner <andreas@eckner.com>
 Depends: uts
+Suggests: testthat
 Description: This package implements several rolling time series operators for unevenly
   spaced data. In particular, several version of simple moving averages (SMAs) and exponential
   moving averages (EMAs) are included.
