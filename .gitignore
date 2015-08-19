@@ -1,5 +1,12 @@
-*.so
-*.o
+.RData
+.Rhistory
+.Rproj.user
 *.project
 .settings/
-symbols.rds
+src/*.dll
+src/*.o
+src/*.so
+src/symbols.rds
+src-i386/
+src-x64/
+inst/doc

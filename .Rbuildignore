@@ -1,0 +1,7 @@
+workflow.txt
+conventions.txt
+.*\.so$
+.*\.o$
+^.*\.Rproj$
+^\.Rproj\.user$
+to_do_list.md
