@@ -4,6 +4,7 @@ useDynLib(utsOperators)
 
 ### Imports from other packages
 import(uts)
+import(lubridate)
 
 
 ### Export generic methods 
@@ -15,4 +16,6 @@ S3method(sma, uts)
 
 
 ### Miscellaneous functions
-#exportPattern("^[^\\.]")      # export all methods/variables that do not start with a period
+export(generic_C_interface)
+export(generic_C_interface_rolling)
+

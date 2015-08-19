@@ -10,7 +10,7 @@
 #' \item \code{equal}: Each observation values is weighted equally.
 #' \item \code{last}: Use last-point interpolation. Each observation value is weighted by how long it remained unchanged.
 #' \item \code{next}: Use next-point interpolation. Each observation value is weighted by how long it remained the next (i.e. upcomming) observation.
-#' \item \code{linear}: Use linear interpolation. The behavior is approximately half-way in-between last-point and next-point interpolation.
+#' \item \code{linear}: Use linear interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 #' }
 #' See the reference below for details for precise definitions and on why one would use one SMA type over another.
 #' 
@@ -40,4 +40,15 @@ sma.uts <- function(x, tau, type="last", ...)
     sma_next(x, tau, ...)
   else
     stop("Unknown moving average calculation type")
+}
+
+#' Equally-weighted SMA
+#' 
+#' @keywords internal
+sma_eq <- function (x, tau, ...)
+{
+  if (tau == ddays(0))
+    x
+  else
+    generic_roll_interface(x, tau, ..., C_fct="sma_eq")
 }

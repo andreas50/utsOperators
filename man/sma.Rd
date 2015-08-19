@@ -26,7 +26,7 @@ Currently, four different SMAs types are supported for \code{"uts"} objects. Eac
 \item \code{equal}: Each observation values is weighted equally.
 \item \code{last}: Use last-point interpolation. Each observation value is weighted by how long it remained unchanged.
 \item \code{next}: Use next-point interpolation. Each observation value is weighted by how long it remained the next (i.e. upcomming) observation.
-\item \code{linear}: Use linear interpolation. The behavior is approximately half-way in-between last-point and next-point interpolation.
+\item \code{linear}: Use linear interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 }
 See the reference below for details for precise definitions and on why one would use one SMA type over another.
 }
