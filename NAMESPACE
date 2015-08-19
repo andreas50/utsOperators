@@ -1,5 +1,5 @@
 ### Load dynamic library with compliled C code
-useDynLib(operators)
+useDynLib(utsOperators)
 
 
 ### Imports from other packages
