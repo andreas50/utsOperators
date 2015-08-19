@@ -66,28 +66,35 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 
 #' Generic C interface for rolling time series operators
 #' 
-#' Generic interface for rolling operators with one parameter tau (window width), and zero or more other parameters
+#' This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{tau}.
 #' 
+#' @param x a \code{"uts"} object.
 #' @param tau a \code{\link[lubridate]{duration}} object, specifying the temporal length of the rolling time window.
 #' @param \dots further arguments passed to \code{\link{generic_C_interface}}.
 #' 
 #' @keywords internal
-generic_C_interface_rolling <- function(x, tau, NA_method="reinsert", C_fct, ...)
+#' @examples
+#' # Prepare sample 'uts"
+#' x <- ex_uts()
+#' x$values[2] <- NA
+#' 
+#' # SMA_eq
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+#' 
+#' # SMA_last
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+generic_C_interface_rolling <- function(x, tau, ...)
 {
   # Argument checking
-  if (missing(C_fct) | missing(tau))
-    stop("One or more arguments missing.")
   if (!is.duration(tau))
-    stop("The length/width of the rolling operator needs is not a 'duration' object.")
+    stop("The rolling window width 'tau' is not a 'duration' object")
   if (is.na(tau))
-    stop("Length of rolling window is equal to NA")
+    stop("The rolling window width 'tau' cannot be NA")
   if (tau < ddays(0))
-    stop("Length of rolling window is negative.")
-  
-  # Trivial cases
-  if (length(x) == 0)
-    return(x)
+    stop("The rolling window width 'tau' cannot be negative")
   
   # Call standardized C-interface
-  generic_C_interface(x, tau=as.double(tau), ...)
+  generic_C_interface(x, tau=tau, ...)
 }

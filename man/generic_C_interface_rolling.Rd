@@ -4,15 +4,30 @@
 \alias{generic_C_interface_rolling}
 \title{Generic C interface for rolling time series operators}
 \usage{
-generic_C_interface_rolling(x, tau, NA_method = "reinsert", C_fct, ...)
+generic_C_interface_rolling(x, tau, ...)
 }
 \arguments{
+\item{x}{a \code{"uts"} object.}
+
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the temporal length of the rolling time window.}
 
 \item{\dots}{further arguments passed to \code{\link{generic_C_interface}}.}
 }
 \description{
-Generic interface for rolling operators with one parameter tau (window width), and zero or more other parameters
+This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{tau}.
+}
+\examples{
+# Prepare sample 'uts"
+x <- ex_uts()
+x$values[2] <- NA
+
+# SMA_eq
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+
+# SMA_last
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
 }
 \keyword{internal}
 
