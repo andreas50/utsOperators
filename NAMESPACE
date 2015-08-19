@@ -1,12 +1,18 @@
-## Import packages
+### Load dynamic library with compliled C code
+useDynLib(operators)
+
+
+### Imports from other packages
 import(uts)
 
 
-## Register S3 methods (needed if a package is imported but not attached to the search path)
-S3method(ema, uts)
+### Export generic methods 
+export(sma)
+
+
+### Register S3 methods (needed if a package is imported but not attached to the search path)
 S3method(sma, uts)
-#S3method(sma, uts)
 
 
-## Miscellaneous functions
+### Miscellaneous functions
 #exportPattern("^[^\\.]")      # export all methods/variables that do not start with a period
