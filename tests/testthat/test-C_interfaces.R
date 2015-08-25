@@ -35,9 +35,28 @@ test_that("generic_C_interface works",{
 })
 
 
-
 test_that("generic_C_interface_rolling works",{
   # Argument checking
   expect_error(generic_C_interface_rolling(uts(), tau=5))
   expect_error(generic_C_interface_rolling(uts(), tau=as.duration(NA)))
+})
+
+
+test_that("rev works",{
+  expect_equal(
+    rev(uts()),
+    uts()
+  )
+  expect_equal(
+    rev(rev(ex_uts())),
+    ex_uts()
+  )
+  expect_equal(
+    rev(ex_uts())$values,
+    rev(ex_uts()$values)
+  )
+  expect_equal(
+    rev(diff(ex_uts()$times)),
+    diff(rev(ex_uts())$times)
+  )
 })
