@@ -70,6 +70,31 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 }
 
 
+#' Reverse Observations
+#'
+#' Reverse the observation values and times inside the time window bounded by the first and last observation time.
+#'
+#' @param x a \code{"uts"} object.
+#'
+#' @keywords internal
+#' @examples
+#' rev(ex_uts())
+#' 
+#' # Reversing a "uts" reverses the vector of observation values
+#' ex_uts()$values
+#' rev(ex_uts())$values
+#'
+#' # Reversing a "uts" reverses the vector of observation time differences
+#' diff(ex_uts()$times)
+#' diff(rev(ex_uts())$times)
+rev.uts <- function(x)
+{
+  x$values <- rev(x$values)
+  x$times <- start(x) + (end(x) - rev(x$times))
+  x
+}
+
+
 #' Generic C interface for rolling time series operators
 #' 
 #' This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{tau}.

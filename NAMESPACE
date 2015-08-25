@@ -14,6 +14,7 @@ export(sma)
 
 ### Register S3 methods (needed if a package is imported but not attached to the search path)
 S3method(ema, uts)
+S3method(rev, uts)
 S3method(sma, uts)
 
 
