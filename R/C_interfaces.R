@@ -116,6 +116,9 @@ rev.uts <- function(x)
 #' # SMA_last
 #' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
 #' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
+#' 
+#' # Forward-looking SMA
+#' generic_C_interface_rolling(x, tau=ddays(-1), C_fct="sma_equal")
 generic_C_interface_rolling <- function(x, tau, ...)
 {
   # Argument checking
@@ -123,9 +126,10 @@ generic_C_interface_rolling <- function(x, tau, ...)
     stop("The rolling window width 'tau' is not a 'duration' object")
   if (is.na(tau))
     stop("The rolling window width 'tau' cannot be NA")
-  if (tau < ddays(0))
-    stop("The rolling window width 'tau' cannot be negative")
   
   # Call standardized C-interface
-  generic_C_interface(x, tau=tau, ...)
+  if (tau >= ddays(0))
+    generic_C_interface(x, tau=tau, ...)
+  else
+    rev(generic_C_interface(rev(x), tau=abs(tau), ...))
 }

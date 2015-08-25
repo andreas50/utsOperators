@@ -28,6 +28,9 @@ generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit"
 # SMA_last
 generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
 generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
+
+# Forward-looking SMA
+generic_C_interface_rolling(x, tau=ddays(-1), C_fct="sma_equal")
 }
 \keyword{internal}
 

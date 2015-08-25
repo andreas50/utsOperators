@@ -41,8 +41,18 @@ sma(ex_uts(), ddays(1), type="linear")
 sma(ex_uts(), ddays(1), type="next")
 
 # For SMA_equal, the original time series is returned,
-# if the time window is narrow enough (modulo numerical noise).
+# if the time window is narrow enough (modulo numerical noise)
 sma(ex_uts(), dseconds(1), type="equal") - ex_uts()
+
+# Plot a monotonically increase time series, together with a
+# backward-looking and forward-looking SMA_equal
+\dontrun{
+  x <- uts(1:10, Sys.time() + dhours(1:10))
+  par(mfrow=c(1, 3))
+  plot(x)
+  plot(sma(x, ddays(1)))
+  plot(sma(x, ddays(-1)))
+}
 }
 \references{
 Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
