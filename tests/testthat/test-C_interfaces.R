@@ -39,6 +39,16 @@ test_that("generic_C_interface_rolling works",{
   # Argument checking
   expect_error(generic_C_interface_rolling(uts(), tau=5))
   expect_error(generic_C_interface_rolling(uts(), tau=as.duration(NA)))
+  
+  # Regressions tests for forward-looking operator
+  expect_equal_to_reference(
+    generic_C_interface_rolling(ex_uts(), "sma_equal", tau=ddays(-1)),
+    file="test-C_interface_5.rds"
+  )
+  expect_equal_to_reference(
+    generic_C_interface_rolling(ex_uts(), "sma_last", tau=ddays(-1)),
+    file="test-C_interface_6.rds"
+  )
 })
 
 

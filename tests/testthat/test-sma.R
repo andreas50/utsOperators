@@ -34,6 +34,10 @@ test_that("sma_equal works",{
     sma(ex_uts(), ddays(Inf), tye="equal"),
     file="test-sma_equal_2.rds"
   )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(-1), tye="equal"),
+    file="test-sma_equal_3.rds"
+  )
 })
 
 
@@ -46,6 +50,10 @@ test_that("sma_linear works",{
   expect_equal_to_reference(
     sma(ex_uts(), ddays(Inf), tye="linear"),
     file="test-sma_linear_2.rds"
+  )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(-1), tye="linear"),
+    file="test-sma_linear_3.rds"
   )
 })
 
@@ -60,6 +68,10 @@ test_that("sma_last works",{
     sma(ex_uts(), ddays(Inf), tye="last"),
     file="test-sma_last_2.rds"
   )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(-1), tye="last"),
+    file="test-sma_last_3.rds"
+  )
 })
 
 
@@ -73,5 +85,9 @@ test_that("sma_next works",{
   expect_equal_to_reference(
     sma(ex_uts(), ddays(Inf), tye="next"),
     file="test-sma_next_2.rds"
+  )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(-1), tye="next"),
+    file="test-sma_nextt_3.rds"
   )
 })
