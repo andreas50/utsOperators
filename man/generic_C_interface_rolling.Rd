@@ -22,12 +22,12 @@ x <- ex_uts()
 x$values[2] <- NA
 
 # SMA_eq
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
 
 # SMA_last
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
 }
 \keyword{internal}
 

@@ -6,13 +6,13 @@
 #' 
 #' Calculate an exponential moving average (EMA) of a time series.
 #' 
-#' Currently, four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values. The: \itemize{
+#' Four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values. The: \itemize{
 #' \item \code{equal}: 
 #' \item \code{last}: 
 #' \item \code{next}: 
 #' \item \code{linear}: 
 #' }
-#' See the reference below for details for precise definitions and on why one would use one EMA type over another.
+#' See the reference below for details for precise mathematical definitions and on why one would use one EMA type over another.
 #' 
 #' @param x a time series object.
 #' @param tau a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA
@@ -22,3 +22,13 @@
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 #' @seealso \code{\link{sma}} for simple moving averages.
 ema <- function(x, ...) UseMethod("ema")
+
+
+#' @describeIn ema exponential moving average for \code{"uts"} objects.
+#' 
+#' @examples
+#' #ema(ex_uts(), ddays(1)) 
+ema.uts <- function(x, tau, type="last", ...)
+{
+  x
+}

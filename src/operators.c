@@ -14,8 +14,8 @@
  * Simple Moving Averages (SMAs) *
  ********************************/
 
-// SMA_eq(X, tau)
-void sma_eq(double values[], double times[], int *n, double values_new[], double *tau)
+// SMA_equal(X, tau)
+void sma_equal(double values[], double times[], int *n, double values_new[], double *tau)
 {
   // values     ... array of time series values
   // times      ... array of observation times
@@ -87,8 +87,8 @@ void sma_last(double values[], double times[], int *n, double values_new[], doub
 }
 
 
-// SMA_lin(X, tau)
-void sma_lin(double values[], double times[], int *n, double values_new[], double *tau)
+// SMA_linear(X, tau)
+void sma_linear(double values[], double times[], int *n, double values_new[], double *tau)
 {
   // values     ... array of time series values
   // times      ... array of observation times

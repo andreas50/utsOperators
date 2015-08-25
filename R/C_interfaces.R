@@ -18,8 +18,8 @@
 #' x$values[2] <- NA
 #' 
 #' # SMA_eq
-#' generic_C_interface(x, "sma_eq", tau=ddays(1))
-#' generic_C_interface(x, "sma_eq", tau=ddays(1), NA_method="omit")
+#' generic_C_interface(x, "sma_equal", tau=ddays(1))
+#' generic_C_interface(x, "sma_equal", tau=ddays(1), NA_method="omit")
 #' 
 #' # SMA_last
 #' generic_C_interface(x, "sma_last", tau=ddays(1))
@@ -79,12 +79,12 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 #' x$values[2] <- NA
 #' 
 #' # SMA_eq
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
 #' 
 #' # SMA_last
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq")
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_eq", NA_method="omit")
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
 generic_C_interface_rolling <- function(x, tau, ...)
 {
   # Argument checking

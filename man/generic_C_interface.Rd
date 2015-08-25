@@ -24,8 +24,8 @@ x <- ex_uts()
 x$values[2] <- NA
 
 # SMA_eq
-generic_C_interface(x, "sma_eq", tau=ddays(1))
-generic_C_interface(x, "sma_eq", tau=ddays(1), NA_method="omit")
+generic_C_interface(x, "sma_equal", tau=ddays(1))
+generic_C_interface(x, "sma_equal", tau=ddays(1), NA_method="omit")
 
 # SMA_last
 generic_C_interface(x, "sma_last", tau=ddays(1))

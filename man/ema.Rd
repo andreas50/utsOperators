@@ -2,9 +2,12 @@
 % Please edit documentation in R/ema.R
 \name{ema}
 \alias{ema}
+\alias{ema.uts}
 \title{Exponential Moving Average (SMA)}
 \usage{
 ema(x, ...)
+
+\method{ema}{uts}(x, tau, type = "last", ...)
 }
 \arguments{
 \item{x}{a time series object.}
@@ -19,13 +22,20 @@ ema(x, ...)
 Calculate an exponential moving average (EMA) of a time series.
 }
 \details{
-Currently, four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values. The: \itemize{
+Four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values. The: \itemize{
 \item \code{equal}:
 \item \code{last}:
 \item \code{next}:
 \item \code{linear}:
 }
-See the reference below for details for precise definitions and on why one would use one EMA type over another.
+See the reference below for details for precise mathematical definitions and on why one would use one EMA type over another.
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{uts}: exponential moving average for \code{"uts"} objects.
+}}
+\examples{
+#ema(ex_uts(), ddays(1))
 }
 \references{
 Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
