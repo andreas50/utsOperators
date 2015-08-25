@@ -1,12 +1,17 @@
 context("C utility functions")
 
 test_that("generic_C_interface works",{
+  # Argument checking
+  expect_error(generic_C_interface(ex_uts2()))
+  expect_error(generic_C_interface("abc"))
+  
+  # Empty "uts"
   expect_equal(
     generic_C_interface(uts()),
     uts()
   )
   
-  # Prepare sample "uts"
+  # Prepare sample "uts" for regression tests
   x <- ex_uts()
   x$values[2] <- NA
   
@@ -27,4 +32,11 @@ test_that("generic_C_interface works",{
     generic_C_interface(x, "sma_last", tau=ddays(1), NA_method="omit"),
     file="test-C_interface_4.rds"
   )
+})
+
+
+
+test_that("generic_C_interface_rolling works",{
+  # Argument checking
+  expect_error(generic_C_interface_rolling(uts(), tau=5))
 })

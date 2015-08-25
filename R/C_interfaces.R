@@ -26,6 +26,12 @@
 #' generic_C_interface(x, "sma_last", tau=ddays(1), NA_method="omit")
 generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 {
+  # Argument checking
+  if (!is.uts(x))
+    stop("'x' is not a 'uts' object")
+  if (!is.numeric(x$values))
+    stop("The time series is not numeric")
+  
   # Trivial case
   if (length(x) == 0)
     return(x)
