@@ -35,3 +35,43 @@ test_that("sma_equal works",{
     file="test-sma_equal_2.rds"
   )
 })
+
+
+test_that("sma_linear works",{
+  # Regressions tests
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(1), tye="linear"),
+    file="test-sma_linear_1.rds"
+  )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(Inf), tye="linear"),
+    file="test-sma_linear_2.rds"
+  )
+})
+
+
+test_that("sma_last works",{
+  # Regressions tests
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(1), tye="last"),
+    file="test-sma_last_1.rds"
+  )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(Inf), tye="last"),
+    file="test-sma_last_2.rds"
+  )
+})
+
+
+
+test_that("sma_next works",{
+  # Regressions tests
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(1), tye="next"),
+    file="test-sma_next_1.rds"
+  )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(Inf), tye="next"),
+    file="test-sma_next_2.rds"
+  )
+})
