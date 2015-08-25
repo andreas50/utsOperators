@@ -1,4 +1,4 @@
-context("C utility functions")
+context("C interfaces")
 
 test_that("generic_C_interface works",{
   # Argument checking
@@ -39,4 +39,5 @@ test_that("generic_C_interface works",{
 test_that("generic_C_interface_rolling works",{
   # Argument checking
   expect_error(generic_C_interface_rolling(uts(), tau=5))
+  expect_error(generic_C_interface_rolling(uts(), tau=as.duration(NA)))
 })
