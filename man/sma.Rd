@@ -7,7 +7,7 @@
 \usage{
 sma(x, ...)
 
-\method{sma}{uts}(x, tau, type = "last", ...)
+\method{sma}{uts}(x, tau, type = "last", NA_method = "ignore", ...)
 }
 \arguments{
 \item{x}{a time series object.}
@@ -15,6 +15,8 @@ sma(x, ...)
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
 \item{type}{the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details}
+
+\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
@@ -44,8 +46,9 @@ sma(ex_uts(), ddays(1), type="next")
 # if the time window is narrow enough (modulo numerical noise)
 sma(ex_uts(), dseconds(1), type="equal") - ex_uts()
 
-# Plot a monotonically increase time series, together with a
-# backward-looking and forward-looking SMA_equal
+# Plot a monotonically increasing time series 'x', together with
+# a backward-looking and forward-looking SMA.
+# Note that SMA_last(x)_t <= x_t <= SMA_next(x)_t for all observation times t.
 \dontrun{
   x <- uts(1:10, Sys.time() + dhours(1:10))
   par(mfrow=c(1, 3))

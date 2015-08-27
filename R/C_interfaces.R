@@ -46,6 +46,8 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
   is_na <- is.na(values)
   any_na <- any(is_na)
   if (any_na) {
+    if (NA_method == "fail")
+      stop("One or more observation values are NA")
     na_pos <- which(is.na(values))
     values <- values[-na_pos]
     na_times <- x$times[na_pos]
@@ -109,13 +111,14 @@ rev.uts <- function(x)
 #' x <- ex_uts()
 #' x$values[2] <- NA
 #' 
-#' # SMA_eq
+#' # SMA_eqqual
 #' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
 #' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
 #' 
-#' # SMA_last
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
+#' # EMA_last
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_equal", initial_value=first(x))
+#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_equal", initial_value=first(x),
+#'   NA_method="omit")
 #' 
 #' # Forward-looking SMA
 #' generic_C_interface_rolling(x, tau=ddays(-1), C_fct="sma_equal")

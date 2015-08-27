@@ -21,13 +21,14 @@ This function is a convenience wrapper around \code{\link{generic_C_interface}} 
 x <- ex_uts()
 x$values[2] <- NA
 
-# SMA_eq
+# SMA_eqqual
 generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
 generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
 
-# SMA_last
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
+# EMA_last
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_equal", initial_value=first(x))
+generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_equal", initial_value=first(x),
+  NA_method="omit")
 
 # Forward-looking SMA
 generic_C_interface_rolling(x, tau=ddays(-1), C_fct="sma_equal")
