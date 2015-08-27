@@ -16,10 +16,11 @@
 #' 
 #' @param x a time series object.
 #' @param tau a \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
-#' @param type the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details
+#' @param type the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
 #' 
+#' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 #' @seealso \code{\link{ema}} for exponential moving averages.
 sma <- function(x, ...) UseMethod("sma")

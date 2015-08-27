@@ -14,7 +14,7 @@ ema(x, ...)
 
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA}
 
-\item{type}{the type of the EMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details}
+\item{type}{the type of the EMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
 
@@ -24,11 +24,10 @@ ema(x, ...)
 Calculate an exponential moving average (EMA) of a time series.
 }
 \details{
-Four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values. The: \itemize{
-\item \code{equal}:
-\item \code{last}:
-\item \code{next}:
-\item \code{linear}:
+Four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values: \itemize{
+\item \code{last}: Apply the exponential moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained unchanged.
+\item \code{next}: Apply the exponential moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained the next (i.e. upcomming) observation. For equally spaced time series this method coincides with the usual definition used for such time series, see Proposition 8.8 in Eckner, A. (2014).
+\item \code{linear}: Apply the exponential moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 }
 See the reference below for details for precise mathematical definitions and on why one would use one EMA type over another.
 }
@@ -55,6 +54,8 @@ ema(ex_uts(), ddays(1), type="next")
 }
 \references{
 Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+
+Eckner, A. (2014) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 }
 \seealso{
 \code{\link{sma}} for simple moving averages.

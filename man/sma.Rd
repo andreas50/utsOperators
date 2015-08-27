@@ -14,7 +14,7 @@ sma(x, ...)
 
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
-\item{type}{the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details}
+\item{type}{the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
 
@@ -58,6 +58,8 @@ sma(ex_uts(), dseconds(1), type="equal") - ex_uts()
 }
 }
 \references{
+Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+
 Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 }
 \seealso{
