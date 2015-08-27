@@ -17,6 +17,7 @@
 #' @param x a time series object.
 #' @param tau a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA
 #' @param type the type of the EMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details
+#' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
@@ -28,7 +29,15 @@ ema <- function(x, ...) UseMethod("ema")
 #' 
 #' @examples
 #' #ema(ex_uts(), ddays(1)) 
-ema.uts <- function(x, tau, type="last", ...)
+ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
 {
-  x
+  # Argument checking and trival cases
+  if (!is.duration(tau))
+    stop("'tau' is not a duration object")
+  if (tau == ddays(0) | (length(x) <= 1))
+    return(x)
+  
+  # Determine first non-NA value of time series
+  
 }
+

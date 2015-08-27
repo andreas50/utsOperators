@@ -3,6 +3,7 @@
  * "Algorithms for Unevenly-Spaced Time Series", Eckner (2011).
  */
 
+#include <math.h>
 
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -137,6 +138,79 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
     
     // Save SMA value for current time window
     values_new[i] = roll_area / *tau;
+  }
+}
+
+
+
+/**************************************
+ * Exponential Moving Averages (SMAs) *
+ *************************************/
+
+// EMA_eq(X, tau)
+void ema_equal(double values[], double times[], int *n, double values_new[], double *tau,
+                double *initial_value)
+{
+  int i;
+  double w;
+  
+  // Error checking
+  if (*n == 0)
+    return;
+  
+  // Calculate ema recursively
+  values_new[0] = initial_value[0];
+  for (i = 1; i < *n; i++) {
+    w = exp(-(times[i]-times[i-1]) / *tau);
+    values_new[i] = values_new[i-1] * w + values[i] * (1-w);
+  }
+}
+
+
+// EMA_last(X, tau)
+void ema_last(double values[], double times[], int *n, double values_new[], double *tau,
+              double *initial_value)
+{
+  int i;
+  double w;
+  
+  // Error checking
+  if (*n == 0)
+    return;
+  
+  // Calculate ema recursively   
+  values_new[0] = initial_value[0];
+  for (i = 1; i < *n; i++) {
+    w = exp(-(times[i]-times[i-1]) / *tau);
+    values_new[i] = values_new[i-1] * w + values[i-1] * (1-w);
+  }
+  
+}
+
+
+// EMA_lin(X, tau)
+void ema_linear(double values[], double times[], int *n, double values_new[], double *tau,
+                double *initial_value)
+{
+  int i;
+  double w, w2, tmp;
+  
+  // Error checking
+  if (*n == 0)
+    return;
+  
+  // Calculate ema recursively   
+  values_new[0] = initial_value[0];   
+  for (i = 1; i < *n; i++) {
+    tmp = (times[i] - times[i-1]) / *tau;
+    w = exp(-tmp);
+    if (tmp > 1e-6)
+      w2 = (1 - w) / tmp;
+    else {
+      // Use Taylor expansion for numerical stabiliy
+      w2 = 1 - tmp/2 + tmp*tmp/6 - tmp*tmp*tmp/24;
+    }
+    values_new[i] = values_new[i-1] * w + values[i] * (1 - w2) + values[i-1] * (w2 - w);
   }
 }
 

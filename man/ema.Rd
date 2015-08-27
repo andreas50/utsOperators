@@ -7,7 +7,7 @@
 \usage{
 ema(x, ...)
 
-\method{ema}{uts}(x, tau, type = "last", ...)
+\method{ema}{uts}(x, tau, type = "last", NA_method = "ignore", ...)
 }
 \arguments{
 \item{x}{a time series object.}
@@ -15,6 +15,8 @@ ema(x, ...)
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA}
 
 \item{type}{the type of the EMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details}
+
+\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
