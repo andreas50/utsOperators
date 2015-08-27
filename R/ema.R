@@ -2,7 +2,7 @@
 # Exponential Moving Averages #
 ###############################
 
-#' Exponential Moving Average (SMA)
+#' Exponential Moving Average (EMA)
 #' 
 #' Calculate an exponential moving average (EMA) of a time series.
 #' 
@@ -15,7 +15,7 @@
 #' 
 #' @param x a time series object.
 #' @param tau a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA
-#' @param type the type of the EMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
+#' @param type the type of the EMA. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
 #' 
@@ -29,7 +29,6 @@ ema <- function(x, ...) UseMethod("ema")
 #' 
 #' @examples
 #' ema(ex_uts(), ddays(1))
-#' ema(ex_uts(), ddays(1), type="equal")
 #' ema(ex_uts(), ddays(1), type="linear")
 #' ema(ex_uts(), ddays(1), type="next")
 #' 
@@ -52,8 +51,8 @@ ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
     return(x)
 
   # Call generic C interface for rolling operators
-  if ((type == "equal") | (type == "next"))
-    generic_C_interface_rolling(x, tau, C_fct="ema_equal", NA_method=NA_method, ...)
+  if (type == "next")
+    generic_C_interface_rolling(x, tau, C_fct="ema_next", NA_method=NA_method, ...)
   else if (type == "last")
     generic_C_interface_rolling(x, tau, C_fct="ema_last", NA_method=NA_method, ...)
   else if (type == "linear")

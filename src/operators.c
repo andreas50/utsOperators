@@ -147,8 +147,8 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
  * Exponential Moving Averages (SMAs) *
  *************************************/
 
-// EMA_eq(X, tau)
-void ema_equal(double values[], double times[], int *n, double values_new[], double *tau)
+// EMA_next(X, tau)
+void ema_next(double values[], double times[], int *n, double values_new[], double *tau)
 {
   int i;
   double w;

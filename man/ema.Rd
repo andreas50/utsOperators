@@ -3,7 +3,7 @@
 \name{ema}
 \alias{ema}
 \alias{ema.uts}
-\title{Exponential Moving Average (SMA)}
+\title{Exponential Moving Average (EMA)}
 \usage{
 ema(x, ...)
 
@@ -14,7 +14,7 @@ ema(x, ...)
 
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA}
 
-\item{type}{the type of the EMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
+\item{type}{the type of the EMA. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
 
@@ -37,7 +37,6 @@ See the reference below for details for precise mathematical definitions and on 
 }}
 \examples{
 ema(ex_uts(), ddays(1))
-ema(ex_uts(), ddays(1), type="equal")
 ema(ex_uts(), ddays(1), type="linear")
 ema(ex_uts(), ddays(1), type="next")
 
