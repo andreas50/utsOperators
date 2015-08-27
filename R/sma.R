@@ -29,7 +29,7 @@ sma <- function(x, ...) UseMethod("sma")
 #' 
 #' @examples
 #' sma(ex_uts(), ddays(1))
-#' sma(ex_uts(), ddays(1), type="last")
+#' sma(ex_uts(), ddays(1), type="equal")
 #' sma(ex_uts(), ddays(1), type="linear")
 #' sma(ex_uts(), ddays(1), type="next")
 #' 

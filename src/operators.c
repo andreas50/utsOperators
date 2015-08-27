@@ -148,8 +148,7 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
  *************************************/
 
 // EMA_eq(X, tau)
-void ema_equal(double values[], double times[], int *n, double values_new[], double *tau,
-                double *initial_value)
+void ema_equal(double values[], double times[], int *n, double values_new[], double *tau)
 {
   int i;
   double w;
@@ -159,7 +158,7 @@ void ema_equal(double values[], double times[], int *n, double values_new[], dou
     return;
   
   // Calculate ema recursively
-  values_new[0] = initial_value[0];
+  values_new[0] = values[0];
   for (i = 1; i < *n; i++) {
     w = exp(-(times[i]-times[i-1]) / *tau);
     values_new[i] = values_new[i-1] * w + values[i] * (1-w);
@@ -168,8 +167,7 @@ void ema_equal(double values[], double times[], int *n, double values_new[], dou
 
 
 // EMA_last(X, tau)
-void ema_last(double values[], double times[], int *n, double values_new[], double *tau,
-              double *initial_value)
+void ema_last(double values[], double times[], int *n, double values_new[], double *tau)
 {
   int i;
   double w;
@@ -179,7 +177,7 @@ void ema_last(double values[], double times[], int *n, double values_new[], doub
     return;
   
   // Calculate ema recursively   
-  values_new[0] = initial_value[0];
+  values_new[0] = values[0];
   for (i = 1; i < *n; i++) {
     w = exp(-(times[i]-times[i-1]) / *tau);
     values_new[i] = values_new[i-1] * w + values[i-1] * (1-w);
@@ -189,8 +187,7 @@ void ema_last(double values[], double times[], int *n, double values_new[], doub
 
 
 // EMA_lin(X, tau)
-void ema_linear(double values[], double times[], int *n, double values_new[], double *tau,
-                double *initial_value)
+void ema_linear(double values[], double times[], int *n, double values_new[], double *tau)
 {
   int i;
   double w, w2, tmp;
@@ -200,7 +197,7 @@ void ema_linear(double values[], double times[], int *n, double values_new[], do
     return;
   
   // Calculate ema recursively   
-  values_new[0] = initial_value[0];   
+  values_new[0] = values[0];   
   for (i = 1; i < *n; i++) {
     tmp = (times[i] - times[i-1]) / *tau;
     w = exp(-tmp);
@@ -213,5 +210,3 @@ void ema_linear(double values[], double times[], int *n, double values_new[], do
     values_new[i] = values_new[i-1] * w + values[i] * (1 - w2) + values[i-1] * (w2 - w);
   }
 }
-
- 

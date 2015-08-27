@@ -37,7 +37,21 @@ See the reference below for details for precise mathematical definitions and on 
 \item \code{uts}: exponential moving average for \code{"uts"} objects.
 }}
 \examples{
-#ema(ex_uts(), ddays(1))
+ema(ex_uts(), ddays(1))
+ema(ex_uts(), ddays(1), type="equal")
+ema(ex_uts(), ddays(1), type="linear")
+ema(ex_uts(), ddays(1), type="next")
+
+# Plot a monotonically increasing time series 'x', together with
+# a backward-looking and forward-looking EMA.
+# Note that EMA_last(x)_t <= x_t <= EMA_next(x)_t for all observation times t.
+\dontrun{
+  x <- uts(1:10, Sys.time() + dhours(1:10))
+  par(mfrow=c(1, 3))
+  plot(x)
+  plot(ema(x, ddays(1)))
+  plot(ema(x, ddays(-1)))
+}
 }
 \references{
 Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.

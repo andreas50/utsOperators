@@ -28,7 +28,21 @@ ema <- function(x, ...) UseMethod("ema")
 #' @describeIn ema exponential moving average for \code{"uts"} objects.
 #' 
 #' @examples
-#' #ema(ex_uts(), ddays(1)) 
+#' ema(ex_uts(), ddays(1))
+#' ema(ex_uts(), ddays(1), type="equal")
+#' ema(ex_uts(), ddays(1), type="linear")
+#' ema(ex_uts(), ddays(1), type="next")
+#' 
+#' # Plot a monotonically increasing time series 'x', together with
+#' # a backward-looking and forward-looking EMA.
+#' # Note that EMA_last(x)_t <= x_t <= EMA_next(x)_t for all observation times t.
+#' \dontrun{
+#'   x <- uts(1:10, Sys.time() + dhours(1:10))
+#'   par(mfrow=c(1, 3))
+#'   plot(x)
+#'   plot(ema(x, ddays(1)))
+#'   plot(ema(x, ddays(-1)))
+#' }
 ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
 {
   # Argument checking and trival cases
@@ -36,8 +50,14 @@ ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
     stop("'tau' is not a duration object")
   if (tau == ddays(0) | (length(x) <= 1))
     return(x)
-  
-  # Determine first non-NA value of time series
-  
-}
 
+  # Call generic C interface for rolling operators
+  if ((type == "equal") | (type == "next"))
+    generic_C_interface_rolling(x, tau, C_fct="ema_equal", NA_method=NA_method, ...)
+  else if (type == "last")
+    generic_C_interface_rolling(x, tau, C_fct="ema_last", NA_method=NA_method, ...)
+  else if (type == "linear")
+    generic_C_interface_rolling(x, tau, C_fct="ema_linear", NA_method=NA_method, ...)
+  else
+    stop("Unknown EMA calculation type")
+}
