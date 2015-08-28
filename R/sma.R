@@ -79,14 +79,8 @@ sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
     generic_C_interface_rolling(x, tau, C_fct="sma_last", NA_method=NA_method, ...)
   else if (type == "linear")
     generic_C_interface_rolling(x, tau, C_fct="sma_linear", NA_method=NA_method, ...)
-  else if (type == "next") {
-    # Generate dummy "uts" with observation values shifted backward
-    x2 <- uts(values = c(x$values, last(x)),
-      times = c(start(x) - days(1), x$times))
-    
-    # SMA_next = SMA_last on dummy "uts"
-    out <- generic_C_interface_rolling(x2, tau, C_fct="sma_last", NA_method=NA_method, ...)
-    head(out, -1)
-  } else
+  else if (type == "next")
+    generic_C_interface_rolling(x, tau, C_fct="sma_next", NA_method=NA_method, ...)
+  else
     stop("Unknown moving average calculation type")
 }

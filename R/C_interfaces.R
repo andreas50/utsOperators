@@ -118,9 +118,6 @@ rev.uts <- function(x)
 #' # EMA_last
 #' generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_last")
 #' generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_last", NA_method="omit")
-#' 
-#' # Forward-looking SMA
-#' generic_C_interface_rolling(x, tau=ddays(-1), C_fct="sma_equal")
 generic_C_interface_rolling <- function(x, tau, ...)
 {
   # Argument checking
@@ -130,6 +127,8 @@ generic_C_interface_rolling <- function(x, tau, ...)
     stop("'tau' is NA")
   if (tau < ddays(0))
     stop("'tau' is negative")
+  if (abs(tau) == ddays(Inf))
+    stop("'tau' is not finite")
   
   # Call standardized C-interface
   generic_C_interface(x, tau=tau, ...)

@@ -43,12 +43,8 @@ test_that("sma_equal works",{
     file="test-sma_equal_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(Inf), type="equal"),
-    file="test-sma_equal_2.rds"
-  )
-  expect_equal_to_reference(
     sma(ex_uts(), ddays(-1), type="equal"),
-    file="test-sma_equal_3.rds"
+    file="test-sma_equal_2.rds"
   )
 })
 
@@ -60,12 +56,8 @@ test_that("sma_linear works",{
     file="test-sma_linear_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(Inf), type="linear"),
-    file="test-sma_linear_2.rds"
-  )
-  expect_equal_to_reference(
     sma(ex_uts(), ddays(-1), type="linear"),
-    file="test-sma_linear_3.rds"
+    file="test-sma_linear_2.rds"
   )
 })
 
@@ -77,12 +69,8 @@ test_that("sma_last works",{
     file="test-sma_last_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(Inf), type="last"),
-    file="test-sma_last_2.rds"
-  )
-  expect_equal_to_reference(
     sma(ex_uts(), ddays(-1), type="last"),
-    file="test-sma_last_3.rds"
+    file="test-sma_last_2.rds"
   )
 })
 
@@ -95,11 +83,27 @@ test_that("sma_next works",{
     file="test-sma_next_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(Inf), type="next"),
+    sma(ex_uts(), ddays(-1), type="next"),
     file="test-sma_next_2.rds"
   )
-  expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), type="next"),
-    file="test-sma_next_3.rds"
+})
+
+
+test_that("sma_next equal to sma_last with shifted observations",{
+  # Define common parameters
+  x <- ex_uts()
+  tau <- ddays(1)
+  
+  # Calculate SMA last with shifted observations
+  x_shifted <- uts(values = c(x$values, last(x)),
+            times = c(start(x) - days(1), x$times))
+  out <- sma(x_shifted, tau, type="last")
+  res1 <- head(out, -1)
+  
+  
+  expect_equal(
+    res1,
+    sma(x, tau, type="next")
   )
 })
+
