@@ -48,13 +48,24 @@ sma(ex_uts(), dseconds(1), type="equal") - ex_uts()
 
 # Plot a monotonically increasing time series 'x', together with
 # a backward-looking and forward-looking SMA.
-# Note that SMA_last(x)_t <= x_t <= SMA_next(x)_t for all observation times t.
+# Note how the forward-looking SMA is leading the increase in 'x', which
+# in turn is leading the increase in the backward-looking SMA.
 \dontrun{
-  x <- uts(1:10, Sys.time() + dhours(1:10))
+  x <- uts(0:10, Sys.time() + dhours(0:10))
   par(mfrow=c(1, 3))
-  plot(x)
-  plot(sma(x, ddays(1)))
-  plot(sma(x, ddays(-1)))
+  plot(x, ylim=c(0, 10), main="Original time series")
+  plot(sma(x, dhours(5)), ylim=c(0, 10), main="Backward-looking SMA")
+  plot(sma(x, dhours(-5)), ylim=c(0, 10), main="Forward-looking SMA")
+}
+
+# Plot three different SMAs of a monotonically increasing time series
+# Note that SMA_last(x)_t <= SMA_linear(x)_t <= SMA_next(x)_t for all observation times t
+\dontrun{
+  x <- uts(0:8, Sys.time() + dhours(0:8))
+  par(mfrow=c(1, 3))
+  plot(sma(x, dhours(10), type="last"), ylim=c(0, 4), main="Last-point interpolation")
+  plot(sma(x, dhours(10), type="linear"), ylim=c(0, 4), main="Linear interpolation")
+  plot(sma(x, dhours(10), type="next"), ylim=c(0, 4), main="Next-point interpolation")
 }
 }
 \references{
