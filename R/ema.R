@@ -34,13 +34,24 @@ ema <- function(x, ...) UseMethod("ema")
 #' 
 #' # Plot a monotonically increasing time series 'x', together with
 #' # a backward-looking and forward-looking EMA.
-#' # Note that EMA_last(x)_t <= x_t <= EMA_next(x)_t for all observation times t.
+#' # Note how the forward-looking SMA is leading the increase in 'x', which
+#' # in turn is leading the increase in the backward-looking SMA.
 #' \dontrun{
-#'   x <- uts(1:10, Sys.time() + dhours(1:10))
+#'   x <- uts(0:10, Sys.time() + dhours(0:10))
 #'   par(mfrow=c(1, 3))
-#'   plot(x)
-#'   plot(ema(x, ddays(1)))
-#'   plot(ema(x, ddays(-1)))
+#'   plot(x, ylim=c(0, 10), main="Original time series")
+#'   plot(ema(x, dhours(3)), ylim=c(0, 10), main="Backward-looking EMA")
+#'   plot(ema(x, dhours(-3)), ylim=c(0, 10), main="Forward-looking EMA")
+#' }
+#' 
+#' # Plot three different EMAs of a monotonically increasing time series
+#' # Note that EMA_last(x)_t <= EMA_linear(x)_t <= EMA_next(x)_t for all observation times t
+#' \dontrun{
+#'   x <- uts(0:8, Sys.time() + dhours(0:8))
+#'   par(mfrow=c(1, 3))
+#'   plot(ema(x, dhours(10), type="last"), ylim=c(0, 3), main="Last-point interpolation")
+#'   plot(ema(x, dhours(10), type="linear"), ylim=c(0, 3), main="Linear interpolation")
+#'   plot(ema(x, dhours(10), type="next"), ylim=c(0, 3), main="Next-point interpolation")
 #' }
 ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
 {
@@ -50,6 +61,22 @@ ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
   if (tau == ddays(0) | (length(x) <= 1))
     return(x)
 
+  # For forward-looking EMAs, call an appropriate EMA on the time-reversed time series
+  if (tau < ddays(0)) {
+    # Need to switch types "next" and "last"
+    x_rev <- rev(x)
+    if (type == "next")
+      type_rev <- "last"
+    else if (type == "last")
+      type_rev <- "next"
+    else
+      type_rev <- type
+    
+    # Call C interface and reverse output again
+    tmp <- ema(x_rev, tau=abs(tau), type=type_rev, NA_method=NA_method, ...)
+    return(rev(tmp))
+  }
+  
   # Call generic C interface for rolling operators
   if (type == "next")
     generic_C_interface_rolling(x, tau, C_fct="ema_next", NA_method=NA_method, ...)

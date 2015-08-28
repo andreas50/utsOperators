@@ -38,7 +38,7 @@ sma <- function(x, ...) UseMethod("sma")
 #' # if the time window is narrow enough (modulo numerical noise)
 #' sma(ex_uts(), dseconds(1), type="equal") - ex_uts()
 #' 
-#' # Plot a monotonically increasing time series 'x', together with
+#' # Plot a monotonically increasing time series 'x' together with
 #' # a backward-looking and forward-looking SMA.
 #' # Note how the forward-looking SMA is leading the increase in 'x', which
 #' # in turn is leading the increase in the backward-looking SMA.
@@ -46,8 +46,8 @@ sma <- function(x, ...) UseMethod("sma")
 #'   x <- uts(0:10, Sys.time() + dhours(0:10))
 #'   par(mfrow=c(1, 3))
 #'   plot(x, ylim=c(0, 10), main="Original time series")
-#'   plot(sma(x, dhours(5)), ylim=c(0, 10), main="Backward-looking SMA")
-#'   plot(sma(x, dhours(-5)), ylim=c(0, 10), main="Forward-looking SMA")
+#'   plot(sma(x, dhours(3)), ylim=c(0, 10), main="Backward-looking SMA")
+#'   plot(sma(x, dhours(-3)), ylim=c(0, 10), main="Forward-looking SMA")
 #' }
 #' 
 #' # Plot three different SMAs of a monotonically increasing time series

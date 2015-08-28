@@ -42,13 +42,24 @@ ema(ex_uts(), ddays(1), type="next")
 
 # Plot a monotonically increasing time series 'x', together with
 # a backward-looking and forward-looking EMA.
-# Note that EMA_last(x)_t <= x_t <= EMA_next(x)_t for all observation times t.
+# Note how the forward-looking SMA is leading the increase in 'x', which
+# in turn is leading the increase in the backward-looking SMA.
 \dontrun{
-  x <- uts(1:10, Sys.time() + dhours(1:10))
+  x <- uts(0:10, Sys.time() + dhours(0:10))
   par(mfrow=c(1, 3))
-  plot(x)
-  plot(ema(x, ddays(1)))
-  plot(ema(x, ddays(-1)))
+  plot(x, ylim=c(0, 10), main="Original time series")
+  plot(ema(x, dhours(3)), ylim=c(0, 10), main="Backward-looking EMA")
+  plot(ema(x, dhours(-3)), ylim=c(0, 10), main="Forward-looking EMA")
+}
+
+# Plot three different EMAs of a monotonically increasing time series
+# Note that EMA_last(x)_t <= EMA_linear(x)_t <= EMA_next(x)_t for all observation times t
+\dontrun{
+  x <- uts(0:8, Sys.time() + dhours(0:8))
+  par(mfrow=c(1, 3))
+  plot(ema(x, dhours(10), type="last"), ylim=c(0, 3), main="Last-point interpolation")
+  plot(ema(x, dhours(10), type="linear"), ylim=c(0, 3), main="Linear interpolation")
+  plot(ema(x, dhours(10), type="next"), ylim=c(0, 3), main="Next-point interpolation")
 }
 }
 \references{
