@@ -125,13 +125,12 @@ generic_C_interface_rolling <- function(x, tau, ...)
 {
   # Argument checking
   if (!is.duration(tau))
-    stop("The rolling window width 'tau' is not a 'duration' object")
+    stop("'tau' is not a 'duration' object")
   if (is.na(tau))
-    stop("The rolling window width 'tau' cannot be NA")
+    stop("'tau' is NA")
+  if (tau < ddays(0))
+    stop("'tau' is negative")
   
   # Call standardized C-interface
-  if (tau >= ddays(0))
-    generic_C_interface(x, tau=tau, ...)
-  else
-    rev(generic_C_interface(rev(x), tau=abs(tau), ...))
+  generic_C_interface(x, tau=tau, ...)
 }

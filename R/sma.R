@@ -56,6 +56,22 @@ sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
   if (tau == ddays(0) | (length(x) <= 1))
     return(x)
   
+  # For forward-looking SMAs, call an appropriate SMA on the time-reversed time series
+  if (tau < ddays(0)) {
+    # Need to switch types "next" and "last"
+    x_rev <- rev(x)
+    if (type == "next")
+      type_rev <- "last"
+    else if (type == "last")
+      type_rev <- "next"
+    else
+      type_rev <- type
+    
+    # Call C interface and reverse output again
+    tmp <- sma(x_rev, tau=abs(tau), type=type_rev, NA_method=NA_method, ...)
+    return(rev(tmp))
+  }
+  
   # Call generic C interface for rolling operators
   if (type == "equal")
     generic_C_interface_rolling(x, tau, C_fct="sma_equal", NA_method=NA_method, ...)
