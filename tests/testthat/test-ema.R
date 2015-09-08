@@ -75,3 +75,21 @@ test_that("ema_next works",{
     file="test-ema_next_2.rds"
   )
 })
+
+
+test_that("a really long ema produces a flat output",{
+  expect_equal(
+    ema(ex_uts(), ddays(1e30), type="last")$values,
+    rep(first(ex_uts()), length(ex_uts()))
+  )
+  
+  expect_equal(
+    ema(ex_uts(), ddays(1e30), type="next")$values,
+    rep(first(ex_uts()), length(ex_uts()))
+  )
+  
+  expect_equal(
+    ema(ex_uts(), ddays(1e30), type="linear")$values,
+    rep(first(ex_uts()), length(ex_uts()))
+  )
+})
