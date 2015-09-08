@@ -3,6 +3,7 @@ context("sma")
 test_that("argument checking and trivial cases work",{
   # Argument checking
   expect_error(sma(ex_uts(), 123))
+  expect_error(sma(ex_uts(), ddays(1), type="abc"))
   expect_error(sma("abc"))
   
   # "uts" with <= 1 observations
@@ -73,7 +74,6 @@ test_that("sma_last works",{
     file="test-sma_last_2.rds"
   )
 })
-
 
 
 test_that("sma_next works",{

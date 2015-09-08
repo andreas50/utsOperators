@@ -12,7 +12,7 @@ ema(x, ...)
 \arguments{
 \item{x}{a time series object.}
 
-\item{tau}{a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA}
+\item{tau}{a \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.}
 
 \item{type}{the type of the EMA. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
