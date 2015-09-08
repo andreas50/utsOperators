@@ -91,8 +91,9 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 #' diff(rev(ex_uts())$times)
 rev.uts <- function(x)
 {
+  # as.duration() cast needed to preserve "tzone" attribute
   x$values <- rev(x$values)
-  x$times <- start(x) + (end(x) - rev(x$times))
+  x$times <- start(x) + as.duration((end(x) - rev(x$times)))
   x
 }
 
