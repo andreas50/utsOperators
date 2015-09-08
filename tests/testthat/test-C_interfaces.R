@@ -6,7 +6,7 @@ test_that("generic_C_interface works",{
   expect_error(generic_C_interface("abc"))
   
   # Empty "uts"
-  expect_equal(
+  expect_identical(
     generic_C_interface(uts()),
     uts()
   )
@@ -45,19 +45,19 @@ test_that("generic_C_interface_rolling works",{
 
 
 test_that("rev works",{
-  expect_equal(
+  expect_identical(
     rev(uts()),
     uts()
   )
-  expect_equal(
+  expect_identical(
     rev(rev(ex_uts())),
     ex_uts()
   )
-  expect_equal(
+  expect_identical(
     rev(ex_uts())$values,
     rev(ex_uts()$values)
   )
-  expect_equal(
+  expect_identical(
     rev(diff(ex_uts()$times)),
     diff(rev(ex_uts())$times)
   )

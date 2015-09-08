@@ -7,29 +7,29 @@ test_that("argument checking and trivial cases work",{
   expect_error(sma("abc"))
   
   # "uts" with <= 1 observations
-  expect_equal(
+  expect_identical(
     sma(uts(), ddays(1)),
     uts()
   )
   x <- uts(12.1, Sys.time())
-  expect_equal(
+  expect_identical(
     sma(x, ddays(1)),
     x
   )
   
   # zero-length time window
-  expect_equal(
+  expect_identical(
     sma(ex_uts(), ddays(0)),
     ex_uts()
   )
   
   # time series with only NAs
   x <- uts(as.numeric(c(NA, NA)), as.POSIXct("2015-06-06") + dhours(0:1))
-  expect_equal(
+  expect_identical(
     sma(x, ddays(1), NA_method="ignore"),
     x
   )
-  expect_equal(
+  expect_identical(
     sma(x, ddays(1), NA_method="omit"),
     uts()
   )
@@ -100,7 +100,7 @@ test_that("sma_next equal to sma_last with shifted observations",{
   out <- sma(x_shifted, tau, type="last")
   res1 <- head(out, -1)
   
-  
+  # Cannot use expect_identical(), because using c() for "POSIXct" objects drops any "tzone" attribute
   expect_equal(
     res1,
     sma(x, tau, type="next")

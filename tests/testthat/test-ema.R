@@ -8,29 +8,29 @@ test_that("argument checking and trivial cases work",{
   expect_error(ema("abc"))
   
   # "uts" with <= 1 observations
-  expect_equal(
+  expect_identical(
     ema(uts(), ddays(1)),
     uts()
   )
   x <- uts(12.1, Sys.time())
-  expect_equal(
+  expect_identical(
     ema(x, ddays(1)),
     x
   )
   
   # zero-length time window
-  expect_equal(
+  expect_identical(
     ema(ex_uts(), ddays(0)),
     ex_uts()
   )
   
   # time series with only NAs
   x <- uts(as.numeric(c(NA, NA)), as.POSIXct("2015-06-06") + dhours(0:1))
-  expect_equal(
+  expect_identical(
     ema(x, ddays(1), NA_method="ignore"),
     x
   )
-  expect_equal(
+  expect_identical(
     ema(x, ddays(1), NA_method="omit"),
     uts()
   )
