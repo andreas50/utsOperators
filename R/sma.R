@@ -1,4 +1,4 @@
-###########################
+##########################
 # Simple Moving Averages #
 ##########################
 
@@ -95,3 +95,42 @@ sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
   else
     stop("Unknown moving average calculation type")
 }
+
+
+#' R implementation of sma(..., type="equal")
+#'
+#' This function exists solely for testing the C implementation.
+#'
+#' @param x a \code{"uts"} object.
+#' @param tau a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#'
+#' @keywords internal
+#' @examples
+#' sma_equal_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), type="equal")
+sma_equal_R <- function(x, tau)
+{
+  # Argument checking and special cases
+  if (!is.duration(tau))
+    stop("The length/width of the rolling operator needs is not a 'duration' object.")
+  if (is.na(tau))
+    stop("The length/width of the rolling window is equal to NA")
+  if (tau < ddays(0))
+    stop("The length/width of the rolling operator is negative.")
+  if ((length(x) <= 1) | (tau == ddays(0)))
+    return(x)
+  
+  # Prepare data for algorithm
+  values <- x$values
+  n <- length(values)
+  values_new <- numeric(n)
+  times <- as.double(x$times)
+  tau <- as.numeric(tau)
+  
+  # Calculate moving average
+  for (j in 1:n) {
+    used <- (times > times[j] - tau) & (times <= times[j])  # use half-open interval
+    values_new[j] <- mean(values[used])
+  }
+  uts(values_new, x$times)
+}
+
