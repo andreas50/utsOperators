@@ -22,7 +22,7 @@ void sma_equal(double values[], double times[], int *n, double values_new[], dou
   // times      ... array of observation times
   // n          ... number of observations, i.e. length of 'values' and 'times'
   // values_new ... array of length *n to store output time series values
-  // tau        ... width of rolling window
+  // tau        ... (positive) width of rolling window
    
   int i, left = 0;
   double roll_sum = 0;
@@ -50,12 +50,12 @@ void sma_last(double values[], double times[], int *n, double values_new[], doub
   // times      ... array of observation times
   // n          ... number of observations, i.e. length of 'values' and 'times'
   // values_new ... array of length *n to store output time series values
-  // tau        ... width of rolling window
+  // tau        ... (positive) width of rolling window
   
   int i, left = 0;
   double t_left_new, roll_area, left_area;
   
-  // Error checking
+  // Trivial case
   if (*n == 0)
     return;
   
@@ -95,12 +95,12 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
   // times      ... array of observation times
   // n          ... number of observations, i.e. length of 'values' and 'times'
   // values_new ... array of length *n to store output time series values
-  // tau        ... width of rolling window
+  // tau        ... (positive) width of rolling window
   
   int i, left = 0;
   double t_left_new, roll_area, left_area;
   
-  // Error checking
+  // Trivial case
   if (*n == 0)
     return;
   
@@ -141,12 +141,12 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
   // times      ... array of observation times
   // n          ... number of observations, i.e. length of 'values' and 'times'
   // values_new ... array of length *n to store output time series values
-  // tau        ... width of rolling window
+  // tau        ... (positive) width of rolling window
   
   int i, left = 0;
   double t_left_new, roll_area, left_area, width, weight, y2;
   
-  // Error checking
+  // Trivial case
   if (*n == 0)
     return;
   
@@ -196,10 +196,16 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
 // EMA_next(X, tau)
 void ema_next(double values[], double times[], int *n, double values_new[], double *tau)
 {
+  // values     ... array of time series values
+  // times      ... array of observation times
+  // n          ... number of observations, i.e. length of 'values' and 'times'
+  // values_new ... array of length *n to store output time series values
+  // tau        ... (positive) half-life of EMA kernel
+  
   int i;
   double w;
   
-  // Error checking
+  // Trivial case
   if (*n == 0)
     return;
   
@@ -215,10 +221,16 @@ void ema_next(double values[], double times[], int *n, double values_new[], doub
 // EMA_last(X, tau)
 void ema_last(double values[], double times[], int *n, double values_new[], double *tau)
 {
+  // values     ... array of time series values
+  // times      ... array of observation times
+  // n          ... number of observations, i.e. length of 'values' and 'times'
+  // values_new ... array of length *n to store output time series values
+  // tau        ... (positive) half-life of EMA kernel
+  
   int i;
   double w;
   
-  // Error checking
+  // Trivial case
   if (*n == 0)
     return;
   
@@ -235,10 +247,16 @@ void ema_last(double values[], double times[], int *n, double values_new[], doub
 // EMA_lin(X, tau)
 void ema_linear(double values[], double times[], int *n, double values_new[], double *tau)
 {
+  // values     ... array of time series values
+  // times      ... array of observation times
+  // n          ... number of observations, i.e. length of 'values' and 'times'
+  // values_new ... array of length *n to store output time series values
+  // tau        ... (positive) half-life of EMA kernel
+  
   int i;
   double w, w2, tmp;
   
-  // Error checking
+  // Trivial case
   if (*n == 0)
     return;
   

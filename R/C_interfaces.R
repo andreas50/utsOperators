@@ -32,10 +32,6 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
   if (!is.numeric(x$values))
     stop("The time series is not numeric")
   
-  # Trivial case
-  if (length(x) == 0)
-    return(x)
-  
   # Prepare data for C-interface
   values <- as.double(x$values)
   times <- as.double(x$times)
@@ -91,7 +87,7 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 #' diff(rev(ex_uts())$times)
 rev.uts <- function(x)
 {
-  # as.duration() cast needed to preserve "tzone" attribute
+  # Remark: as.duration() cast needed to preserve "tzone" attribute
   x$values <- rev(x$values)
   x$times <- start(x) + as.duration((end(x) - rev(x$times)))
   x

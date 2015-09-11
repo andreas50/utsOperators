@@ -55,10 +55,10 @@ ema <- function(x, ...) UseMethod("ema")
 #' }
 ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
 {
-  # Argument checking and trival cases
+  # Argument checking and special case
   if (!is.duration(tau))
     stop("'tau' is not a duration object")
-  if (tau == ddays(0) | (length(x) <= 1))
+  if (tau == ddays(0))
     return(x)
 
   # For forward-looking EMAs, call an appropriate EMA on the time-reversed time series

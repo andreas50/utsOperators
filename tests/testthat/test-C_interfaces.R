@@ -7,7 +7,7 @@ test_that("generic_C_interface works",{
   
   # Empty "uts"
   expect_identical(
-    generic_C_interface(uts()),
+    generic_C_interface(uts(),"sma_equal", tau=ddays(1)),
     uts()
   )
   
