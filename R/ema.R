@@ -55,7 +55,7 @@ ema <- function(x, ...) UseMethod("ema")
 #' }
 ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
 {
-  # Argument checking and special case
+  # Argument checking and special case (not handled by C code)
   if (!is.duration(tau))
     stop("'tau' is not a duration object")
   if (tau == ddays(0))
