@@ -5,7 +5,7 @@ test_that("argument checking and trivial cases work",{
   expect_error(ema(ex_uts(), 123))
   expect_error(ema(ex_uts()))
   expect_error(ema(ex_uts(), ddays(1), type="abc"))
-  expect_error(ema("abc"))
+  expect_error(ema(ex_uts(), ddays(Inf)))
   
   # "uts" with <= 1 observations
   expect_identical(

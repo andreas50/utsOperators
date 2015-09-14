@@ -21,4 +21,5 @@ S3method(sma, uts)
 ### Miscellaneous functions
 export(generic_C_interface)
 export(generic_C_interface_rolling)
+export(sma_equal_R)
 
