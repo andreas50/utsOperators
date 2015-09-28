@@ -77,6 +77,21 @@ test_that("sma_linear works",{
   )
 })
 
+test_that("sma_linear and sma_linear_R give the same result",{
+  expect_equal(
+    sma(ex_uts(), ddays(1), type="linear"),
+    sma_linear_R(ex_uts(), ddays(1))
+  )
+  expect_equal(
+    sma(ex_uts(), ddays(0), type="linear"),
+    sma_linear_R(ex_uts(), ddays(0))
+  )
+  expect_equal(
+    sma(ex_uts(), ddays(1000), type="linear"),
+    sma_linear_R(ex_uts(), ddays(1000))
+  )
+})
+
 
 test_that("sma_last works",{
   # Regressions tests
@@ -104,7 +119,6 @@ test_that("sma_last and sma_last_R give the same result",{
     sma_last_R(ex_uts(), ddays(1000))
   )
 })
-
 
 
 test_that("sma_next works",{

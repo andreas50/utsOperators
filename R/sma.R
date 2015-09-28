@@ -206,3 +206,76 @@ sma_last_R <- function(x, tau)
 }
 
 
+#' R implementation of sma(..., type="linear")
+#'
+#' This function is identical to \code{\link{sma}} with \code{type="linear"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
+#'
+#' @param x a \code{"uts"} object.
+#' @param tau a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#'
+#' @keywords internal
+#' @examples
+#' sma_linear_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), type="linear")
+sma_linear_R <- function(x, tau)
+{
+  # Error and trivial case checking
+  if (!is.duration(tau))
+    stop("The length/width of the rolling operator needs is not a 'duration' object.")
+  if (is.na(tau))
+    stop("The length/width of the rolling window is equal to NA")
+  if (tau < ddays(0))
+    stop("The length/width of the rolling operator is negative.")
+  if (length(x) <= 1 | tau == ddays(0))
+    return(x)
+  
+  # Extract time points an observations times
+  values <- x$values
+  if (any(is.na(values)))
+    stop("sma_lin does not support NAs yet.")
+  times <- as.double(x$times)
+  by <- diff(times)
+  num_points <- length(values)
+  tau <- as.numeric(tau)
+  
+  # Insert artificial observation at min(T(X))-tau
+  times <- c(times[1] - tau, times)
+  values <- c(values[1], values)
+  by <- c(tau, by)
+  
+  # Initialize loop
+  left <- 1
+  rollsum <- values[1] * tau
+  out <- numeric(num_points)
+  out[1] <- values[1]
+  
+  # Calculate sma
+  for (j in 3:(num_points+1)) {
+    # Expand interval on right
+    t_left_new <- times[j] - tau
+    t_left_old <- times[j-1] - tau
+    rollsum <- rollsum + (values[j-1] + values[j]) * by[j-1] / 2
+    
+    # Add other half of partly included observation (on left end of interval)
+    ll <- t_left_old - times[left]
+    hh <- (values[left+1] - values[left]) * ll / (times[left+1] - times[left])
+    gamma <- values[left] * ll + hh * ll / 2
+    rollsum <- rollsum + gamma
+    
+    # Shrink interval of left
+    while (times[left+1] <= t_left_new) {
+      rollsum <- rollsum - (values[left] + values[left+1]) * by[left] / 2
+      left <- left + 1  
+    }
+    
+    # Remove half of partly included observation (on left end of interval)
+    ll <- t_left_new - times[left]
+    hh <- (values[left+1] - values[left]) * ll / (times[left+1] - times[left])
+    gamma <- values[left] * ll + hh * ll / 2
+    rollsum <- rollsum - gamma
+    
+    # Calculate sma value for current window
+    out[j-1] <- rollsum / tau
+  }
+  x$values <- out
+  x
+}
