@@ -50,6 +50,22 @@ test_that("sma_equal works",{
 })
 
 
+test_that("sma_equal and sma_equal_R give the same result",{
+  expect_equal(
+    sma(ex_uts(), ddays(1), type="equal"),
+    sma_equal_R(ex_uts(), ddays(1))
+  )
+  expect_equal(
+    sma(ex_uts(), ddays(0), type="equal"),
+    sma_equal_R(ex_uts(), ddays(0))
+  )
+  expect_equal(
+    sma(ex_uts(), ddays(1000), type="equal"),
+    sma_equal_R(ex_uts(), ddays(1000))
+  )
+})
+
+
 test_that("sma_linear works",{
   # Regressions tests
   expect_equal_to_reference(

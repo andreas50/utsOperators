@@ -1,6 +1,6 @@
 #' Internal Functions
 #'
-#' The internal functions listed below might be of interest to developers seeking to extend the package.
+#' The internal functions listed below might be of interest to developers seeking to extend the package functionality.
 #' 
 #' C interfaces:
 #' \itemize{
