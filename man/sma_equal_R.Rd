@@ -12,6 +12,9 @@ sma_equal_R(x, tau)
 \item{tau}{a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 }
 \description{
+This function is identical to \code{\link{sma}}  with \code{type="equal"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
+}
+\details{
 This function exists solely for testing the C implementation.
 }
 \examples{

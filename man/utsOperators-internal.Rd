@@ -4,7 +4,7 @@
 \alias{utsOperators-internal}
 \title{Internal Functions}
 \description{
-The internal functions listed below might be of interest to developers seeking to extend the package.
+The internal functions listed below might be of interest to developers seeking to extend the package functionality.
 }
 \details{
 C interfaces:
@@ -20,7 +20,7 @@ C interfaces:
   %\item \code{\link{ema_next_R}}
   %\item \code{\link{ema_linear_R}
   \item \code{\link{sma_equal_R}}
-  %\item \code{\link{sma_last_R}}
+  \item \code{\link{sma_last_R}}
   %\item \code{\link{sma_next_R}}
   %\item \code{\link{sma_linear_R}}
   \item \code{\link{rev}}

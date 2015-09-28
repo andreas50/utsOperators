@@ -22,4 +22,4 @@ S3method(sma, uts)
 export(generic_C_interface)
 export(generic_C_interface_rolling)
 export(sma_equal_R)
-
+export(sma_last_R)

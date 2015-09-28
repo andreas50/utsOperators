@@ -49,7 +49,6 @@ test_that("sma_equal works",{
   )
 })
 
-
 test_that("sma_equal and sma_equal_R give the same result",{
   expect_equal(
     sma(ex_uts(), ddays(1), type="equal"),
@@ -90,6 +89,22 @@ test_that("sma_last works",{
     file="test-sma_last_2.rds"
   )
 })
+
+test_that("sma_last and sma_last_R give the same result",{
+  expect_equal(
+    sma(ex_uts(), ddays(1), type="last"),
+    sma_last_R(ex_uts(), ddays(1))
+  )
+  expect_equal(
+    sma(ex_uts(), ddays(0), type="last"),
+    sma_last_R(ex_uts(), ddays(0))
+  )
+  expect_equal(
+    sma(ex_uts(), ddays(1000), type="last"),
+    sma_last_R(ex_uts(), ddays(1000))
+  )
+})
+
 
 
 test_that("sma_next works",{
