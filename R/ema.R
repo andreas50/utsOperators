@@ -58,11 +58,11 @@ ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
   # Argument checking and special case (not handled by C code)
   if (!is.duration(tau))
     stop("'tau' is not a duration object")
-  if (tau == ddays(0))
+  if (unclass(tau) == 0)
     return(x)
 
   # For forward-looking EMAs, call an appropriate EMA on the time-reversed time series
-  if (tau < ddays(0)) {
+  if (unclass(tau) < 0) {
     # Need to switch types "next" and "last"
     x_rev <- rev(x)
     if (type == "next")

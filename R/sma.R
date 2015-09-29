@@ -64,11 +64,11 @@ sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
   # Argument checking and special case (not handled by C code)
   if (!is.duration(tau))
     stop("'tau' is not a duration object")
-  if (tau == ddays(0))
+  if (unclass(tau) == 0)
     return(x)
   
   # For forward-looking SMAs, call an appropriate SMA on the time-reversed time series
-  if (tau < ddays(0)) {
+  if (unclass(tau) < 0) {
     # Need to switch types "next" and "last"
     x_rev <- rev(x)
     if (type == "next")
@@ -116,9 +116,9 @@ sma_equal_R <- function(x, tau)
     stop("The length/width of the rolling operator needs is not a 'duration' object.")
   if (is.na(tau))
     stop("The length/width of the rolling window is equal to NA")
-  if (tau < ddays(0))
+  if (unclass(tau) < 0)
     stop("The length/width of the rolling operator is negative.")
-  if ((length(x) <= 1) | (tau == ddays(0)))
+  if ((length(x) <= 1) | (unclass(tau) == 0))
     return(x)
   
   # Prepare data for algorithm
@@ -126,7 +126,7 @@ sma_equal_R <- function(x, tau)
   n <- length(values)
   values_new <- numeric(n)
   times <- as.double(x$times)
-  tau <- as.numeric(tau)
+  tau <- unclass(tau)
   
   # Calculate moving average
   for (j in 1:n) {
@@ -154,9 +154,9 @@ sma_last_R <- function(x, tau)
     stop("The length/width of the rolling operator needs is not a 'duration' object.")
   if (is.na(tau))
     stop("The length/width of the rolling window is equal to NA")
-  if (tau < ddays(0))
+  if (unclass(tau) < 0)
     stop("The length/width of the rolling operator is negative.")
-  if (length(x) <= 1 | tau == ddays(0))
+  if (length(x) <= 1 | unclass(tau) == 0)
     return(x)
   
   # Prepare data for algorithm
@@ -166,7 +166,7 @@ sma_last_R <- function(x, tau)
   times <- as.double(x$times)
   by <- diff(times)
   num_points <- length(values)
-  tau <- as.numeric(tau)
+  tau <- unclass(tau)
   
   # Insert artificial observation at time point min(T(X))-tau
   times <- c(times[1] - tau, times)
@@ -223,9 +223,9 @@ sma_linear_R <- function(x, tau)
     stop("The length/width of the rolling operator needs is not a 'duration' object.")
   if (is.na(tau))
     stop("The length/width of the rolling window is equal to NA")
-  if (tau < ddays(0))
+  if (unclass(tau) < 0)
     stop("The length/width of the rolling operator is negative.")
-  if (length(x) <= 1 | tau == ddays(0))
+  if (length(x) <= 1 | unclass(tau) == 0)
     return(x)
   
   # Extract time points an observations times
@@ -235,7 +235,7 @@ sma_linear_R <- function(x, tau)
   times <- as.double(x$times)
   by <- diff(times)
   num_points <- length(values)
-  tau <- as.numeric(tau)
+  tau <- unclass(tau)
   
   # Insert artificial observation at min(T(X))-tau
   times <- c(times[1] - tau, times)

@@ -122,9 +122,9 @@ generic_C_interface_rolling <- function(x, tau, ...)
     stop("'tau' is not a 'duration' object")
   if (is.na(tau))
     stop("'tau' is NA")
-  if (tau < ddays(0))
+  if (unclass(tau) < 0)
     stop("'tau' is negative")
-  if (abs(tau) == ddays(Inf))
+  if (!is.finite(tau))
     stop("'tau' is not finite")
   
   # Call standardized C-interface
