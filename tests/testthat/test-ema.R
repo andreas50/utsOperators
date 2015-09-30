@@ -38,6 +38,29 @@ test_that("argument checking and trivial cases work",{
 })
 
 
+test_that("an extremely long EMA gives a flat output",{
+  x <- ex_uts()
+  tau <- ddays(1e20)
+  exptected_ema_values <- rep(first(x), length(x))
+  
+  expect_equal(
+    ema(x, tau, type="last")$values,
+    exptected_ema_values <- rep(first(x), length(x))
+  )
+  expect_equal(
+    ema(x, tau, type="next")$values,
+    exptected_ema_values <- rep(first(x), length(x))
+  )
+  expect_equal(
+    ema(x, tau, type="linear")$values,
+    exptected_ema_values <- rep(first(x), length(x))
+  )
+})
+
+
+
+### EMA_linear ###
+
 test_that("ema_linear works",{
   # Regressions tests
   expect_equal_to_reference(
@@ -50,6 +73,9 @@ test_that("ema_linear works",{
   )
 })
 
+
+
+### EMA_last ###
 
 test_that("ema_last works",{
   # Regressions tests
@@ -64,6 +90,9 @@ test_that("ema_last works",{
 })
 
 
+
+### EMA_next ###
+
 test_that("ema_next works",{
   # Regressions tests
   expect_equal_to_reference(
@@ -77,19 +106,3 @@ test_that("ema_next works",{
 })
 
 
-test_that("a really long ema produces a flat output",{
-  expect_equal(
-    ema(ex_uts(), ddays(1e30), type="last")$values,
-    rep(first(ex_uts()), length(ex_uts()))
-  )
-  
-  expect_equal(
-    ema(ex_uts(), ddays(1e30), type="next")$values,
-    rep(first(ex_uts()), length(ex_uts()))
-  )
-  
-  expect_equal(
-    ema(ex_uts(), ddays(1e30), type="linear")$values,
-    rep(first(ex_uts()), length(ex_uts()))
-  )
-})

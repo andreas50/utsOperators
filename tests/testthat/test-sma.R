@@ -37,6 +37,28 @@ test_that("argument checking and trivial cases work",{
 })
 
 
+test_that("an extremely long SMA gives a flat output for type 'last', 'next' and 'linear'",{
+  x <- ex_uts()
+  tau <- ddays(1e20)
+  exptected_sma_values <- rep(first(x), length(x))
+  
+  expect_equal(
+    sma(x, tau, type="last")$values,
+    exptected_sma_values
+  )
+  expect_equal(
+    sma(x, tau, type="next")$values,
+    exptected_sma_values
+  )
+  expect_equal(
+    sma(x, tau, type="linear")$values,
+    exptected_sma_values
+  )
+})
+
+
+### SMA_equal ###
+
 test_that("sma_equal works",{
   # Regressions tests
   expect_equal_to_reference(
@@ -64,6 +86,9 @@ test_that("sma_equal and sma_equal_R give the same result",{
   )
 })
 
+
+
+### SMA_linear ###
 
 test_that("sma_linear works",{
   # Regressions tests
@@ -93,6 +118,20 @@ test_that("sma_linear and sma_linear_R give the same result",{
 })
 
 
+
+### SMA_last ###
+
+test_that("sma_equal special cases work",{
+  # If the time window is shorter than the smallest observation time difference,
+  # then SMA_last is equal to backshifted time series (apart from the first observation)
+  x <- ex_uts()
+  tau <- as.duration(min(diff(x$times))) / 2
+  expect_identical(
+    head(sma(x, tau, type="last"), -1),
+    lag(x)
+  )
+})
+
 test_that("sma_last works",{
   # Regressions tests
   expect_equal_to_reference(
@@ -120,6 +159,9 @@ test_that("sma_last and sma_last_R give the same result",{
   )
 })
 
+
+
+### SMA_next ###
 
 test_that("sma_next works",{
   # Regressions tests
