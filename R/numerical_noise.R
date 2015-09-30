@@ -10,7 +10,7 @@ if (0) {
   tau <- ddays(3)
   
   # The R & C implementation diverge over time.
-  # -), the problem becomes more serious for longer, heavily skewed time series
+  # -) the problem becomes more serious for longer, heavily skewed time series
   plot(sma(x, tau, type="equal") - sma_equal_R(x, tau))
 }
 

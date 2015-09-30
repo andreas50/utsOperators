@@ -13,7 +13,7 @@
 #'   \item \code{\link{sma_equal_R}}
 #'   \item \code{\link{sma_last_R}}
 #'   \item \code{\link{sma_linear_R}}
-#'   \item \code{\link{rev}}
+#'   \item \code{\link[=rev.uts]{rev}}
 #' }
 #' 
 #' @name utsOperators-internal
