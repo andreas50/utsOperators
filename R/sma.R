@@ -12,7 +12,15 @@
 #' \item \code{next}: Apply the moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted by how long it remained the next (i.e. upcomming) observation.
 #' \item \code{linear}: Apply the moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 #' }
-#' See the reference below for precise mathematical definitions and on why one would use one SMA type over another.
+#' See the first reference below for precise mathematical definitions.
+#' 
+#' \subsection{Which SMA \code{type} to use?}{
+#' Type \code{"equal"} is ideal for analyzing discrete events; for example, to calculate the average insurance loss per hurricane over the past twelve months, or to determine the average number of IBM common shares traded on the NYSE per executed order during the past 30 minutes.
+#' 
+#' The other three types can be used to analyze periodic measurements on the same object. Depending on the application, one interpolation type will often be preferable.
+#' For example, to calculate the average FED funds target rate over the past three years, it is desirable to weight each observation value by the amount of time it remained unchanged, which is achieved by using type \code{"last"}.
+#' On the other hand, type \code{"linear"} can be used to estimate the rolling average value of a discretely-observed continuous-time stochastic processes (see the second reference below for a precise mathematical statement).
+#' }
 #' 
 #' @param x a time series object.
 #' @param tau a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
@@ -21,7 +29,7 @@
 #' @param \dots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
-#' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+#' @references Eckner, A. (2014) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 #' @seealso \code{\link{ema}} for exponential moving averages.
 sma <- function(x, ...) UseMethod("sma")
 

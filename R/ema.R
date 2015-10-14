@@ -11,7 +11,11 @@
 #' \item \code{next}: Apply the exponential moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained the next (i.e. upcomming) observation. For equally spaced time series this method coincides with the usual definition used for such time series, see Proposition 8.8 in Eckner, A. (2014).
 #' \item \code{linear}: Apply the exponential moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 #' }
-#' See the reference below for details for precise mathematical definitions and on why one would use one EMA type over another.
+#' See the first reference below for precise mathematical definitions.
+#' 
+#' \subsection{Which EMA \code{type} to use?}{
+#' Depending on the application, one interpolation type will often be preferable. See the corresponding discussion for \code{\link[=sma]{simple moving averages}}.
+#' }
 #' 
 #' @param x a time series object.
 #' @param tau a finite \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.
