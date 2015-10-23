@@ -52,15 +52,11 @@ rolling_time_window <- function(start, end, width, by)
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 
-# Apply a function to set of time series values in a rolling time window
-# Optimized version compared to 'rolling_window.uts'
+#' @describeIn rolling_apply apply rolling function to \code{"uts"} object.
 #' 
 #' @examples
-#' rolling_apply(ex_uts(), ddays(0.1), FUN="mean", by=ddays(0.1))
-#' plot(rolling_apply(SPX, ddays(90), FUN="mean"))
-#' plot(rolling_apply(SPX, ddays(90), FUN="max", by=ddays(90)))
-#' plot(rolling_apply(SPX, ddays(90), FUN="min"))
-#' system.time(window_apply(SPX, ddays(90), FUN="mean"))   # 0.56s
+#' rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1))
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right")
 {
   # Argument checking
@@ -69,7 +65,7 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right")
   if (as.numeric(width) < 0)
     stop("'width' is negative")
   if (!is.null(by)) {
-    if (is.duration(by))
+    if (!is.duration(by))
       stop("'by' is not a duration object")
     if (as.numeric(by) <= 0)
       stop("'by' is not positive")
@@ -77,29 +73,35 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right")
   
   # Determine the rolling time window
   if (is.null(by)) {
-    start_times <- window(x$times, end=end(x) - by)
-    end_times <- start_times + by
+    start_times <- window(x, end=end(x) - width)$times
+    end_times <- start_times + width
   } else {
     tmp <- rolling_time_window(start(x), end(x), width=width, by=by)
     start_times <- tmp$start_times
     end_times <- tmp$end_times
   }
   
-  new_ticks <- rolling_window$end_times - window_after                 
-  num_times <- length(new_ticks)                   
-  
   # Determine set of values in each subinterval
-  subperiod_values <- rolling_window_values_optimized(x, rolling_window)
+  if (0) {
+    #subperiod_values <- rolling_window_values_optimized(x, rolling_window)
+  } else {
+    subperiod_values <- list()
+    for (j in 1:length(start_times))
+      subperiod_values[[j]] <- window(x, start_times[j], end_times[j])$values
+  }
   non_empty <- which(sapply(subperiod_values, length) > 0)
   
   # Evaluate function on values in each time-window of interest
   FUN <- match.fun(FUN)
   args <- c(list(c()), list(...))
-  values_new <- rep(NA, num_times)
+  values_new <- rep(NA, length(start_times))
   for (j in non_empty) {  # slow because of loop, but fast for large values of 'by'
     window_values <- subperiod_values[[j]]
     args[[1]] <- window_values
     values_new[j] <- do.call(FUN, args)
   }
+  
+  # Return output time series with proper time alignment
+  new_ticks <- start_times  # needs updating
   uts(values_new, new_ticks)
 }

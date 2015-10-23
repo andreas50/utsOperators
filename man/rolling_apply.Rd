@@ -2,9 +2,12 @@
 % Please edit documentation in R/rolling_apply.R
 \name{rolling_apply}
 \alias{rolling_apply}
+\alias{rolling_apply.uts}
 \title{Apply Rolling Function}
 \usage{
 rolling_apply(x, ...)
+
+\method{rolling_apply}{uts}(x, width, FUN, ..., by = NULL, align = "right")
 }
 \arguments{
 \item{x}{a time series object.}
@@ -13,13 +16,21 @@ rolling_apply(x, ...)
 
 \item{FUN}{a function to be applied to the vector of observation values within the rolling time window.}
 
-\item{\dots}{arguments passed to \code{FUN}.}
-
 \item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
 
 \item{align}{}
+
+\item{\dots}{arguments passed to \code{FUN}.}
 }
 \description{
 Apply a function to the time series values in a rolling time window.
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{uts}: apply rolling function to \code{"uts"} object.
+}}
+\examples{
+rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1))
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
 }
 
