@@ -7,16 +7,15 @@
 #' Generate a sequence of start times and end times for a rolling time window of specified width.
 #' 
 #' @return A list with two \code{POSIXct} objects of equal length, specifying the start and end times of the rolling time window.
-#' @param start a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The alignment point of the first time window.
-#' @param end a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The latest possible alignment point.
+#' @param start a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The start time of the first time window.
+#' @param end a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The maximum end time of the last time window.
 #' @param width a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
-#' @param by a positive \code{\link[lubridate]{duration}} object. The temporal spacing between alignment points (and therefore also start times and end times) of adjacent time windows.
-#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies how the rolling windows should be aligned relative to the sequence of time points generated between \code{start} and \code{end}.
+#' @param by a positive \code{\link[lubridate]{duration}} object. The temporal spacing between start times (and therefore also end times) of adjacent time windows.
 #' 
 #' @keywords internal
 #' @examples
 #' rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))
-rolling_time_window <- function(start, end, width, by, align="right")
+rolling_time_window <- function(start, end, width, by)
 {
   # Argument checking
   if (!is.duration(width))
@@ -34,19 +33,8 @@ rolling_time_window <- function(start, end, width, by, align="right")
   if (start > end)
     stop("'start' cannot be after 'end'")
   
-  # Determine the window start points
-  start_times <- seq(start, end, by=by)
-  if (align == "right")
-    start_times <- start_times - by
-  else if (align == "left") {
-    # nothing to do
-  } else if (align == "center")
-    start_times <- start_times - by / 2
-  else
-    stop("'align' has to be either 'right', 'left', or 'center'")
-  
-  # Determine window start points, return window start- and end-points as POSIXct_VECTOR
+  # Determine the window start and end times
+  start_times <- seq(start, end - by, by=by)
   list(start_times=start_times, end_time=start_times + by)
 }
-
 

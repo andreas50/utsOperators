@@ -4,18 +4,16 @@
 \alias{rolling_time_window}
 \title{Rolling Time Window}
 \usage{
-rolling_time_window(start, end, width, by, align = "right")
+rolling_time_window(start, end, width, by)
 }
 \arguments{
-\item{start}{a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The alignment point of the first time window.}
+\item{start}{a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The start time of the first time window.}
 
-\item{end}{a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The latest possible alignment point.}
+\item{end}{a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The maximum end time of the last time window.}
 
 \item{width}{a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
-\item{by}{a positive \code{\link[lubridate]{duration}} object. The temporal spacing between alignment points (and therefore also start times and end times) of adjacent time windows.}
-
-\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies how the rolling windows should be aligned relative to the sequence of time points generated between \code{start} and \code{end}.}
+\item{by}{a positive \code{\link[lubridate]{duration}} object. The temporal spacing between start times (and therefore also end times) of adjacent time windows.}
 }
 \value{
 A list with two \code{POSIXct} objects of equal length, specifying the start and end times of the rolling time window.
