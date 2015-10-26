@@ -35,13 +35,13 @@ rolling_time_window <- function(start, end, width, by)
   
   # Determine the window start and end times
   start_times <- seq(start, end - by, by=by)
-  list(start_times=start_times, end_time=start_times + by)
+  list(start_times=start_times, end_times=start_times + by)
 }
 
 
 #' Apply Rolling Function (Static Version)
 #' 
-#' Apply a function to the time series values in a squence of user-defined time windows.
+#' Apply a function to the time series values in a sequence of user-defined time windows.
 #' 
 #' @param x a time series object.
 #' @param start a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.
@@ -49,17 +49,18 @@ rolling_time_window <- function(start, end, width, by)
 #' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start[i], end[i]]}.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
-#' @param interior logical. Only include time windows \code{[start[i], end[i]]} in the output that are in the interior of the temporal support of x, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
+#' @param interior logical. Only include time windows \code{[start[i], end[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
 #' 
 #' @keywords internal
+#' @seealso \code{\link{rolling_apply}} for a version of this function that \emph{dynamically} determines the time windows.
 #' @examples
 #' start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
 #' end <- start + dhours(8)
-#' rolling_apply_helper(ex_uts(), start, end, FUN=mean, interior=TRUE)
-#' rolling_apply_helper(ex_uts(), start, end, FUN=mean)
-#' rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="left")
-#' rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="center")
-rolling_apply_helper <- function(x, start, end, FUN, ..., align="right", interior=FALSE)
+#' rolling_apply_static(ex_uts(), start, end, FUN=mean, interior=TRUE)
+#' rolling_apply_static(ex_uts(), start, end, FUN=mean)
+#' rolling_apply_static(ex_uts(), start, end, FUN=mean, align="left")
+#' rolling_apply_static(ex_uts(), start, end, FUN=mean, align="center")
+rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interior=FALSE)
 {
   # Argument checking
   if (!is.POSIXct(start))
@@ -87,7 +88,7 @@ rolling_apply_helper <- function(x, start, end, FUN, ..., align="right", interio
   args <- c(list(c()), list(...))
   values_new <- rep(NA, length(start))
   for (j in seq_along(start)) {
-    pos <- (start[j] >= x$times) && (x$times <= end[j])
+    pos <- (x$times >= start[j]) & (x$times <= end[j])
     args[[1]] <- x$values[pos]
     values_new[j] <- do.call(FUN, args)
   }
@@ -114,21 +115,8 @@ rolling_apply_helper <- function(x, start, end, FUN, ..., align="right", interio
 #' @param FUN a function to be applied to the vector of observation values within the rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
-#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time inside the corresponding time window.
-rolling_apply <- function(x, ...) UseMethod("rolling_apply")
-
-
-
-#' Apply Rolling Function
-#' 
-#' Apply a function to the time series values in a rolling time window.
-#' 
-#' @param x a time series object.
-#' @param width a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
-#' @param FUN a function to be applied to the vector of observation values within the rolling time window.
-#' @param \dots arguments passed to \code{FUN}.
-#' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
 #' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.
+#' @param interior logical. Include only output times where the corresponding time window is entirely in the interior of the temporal support of \code{x,} i.e. in the interior of the time interval \code{[start(x), end(x)]}?
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 
@@ -137,7 +125,8 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 #' @examples
 #' rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1))
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
-rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right")
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
+rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE)
 {
   # Argument checking
   if (!is.duration(width))
@@ -151,37 +140,26 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right")
       stop("'by' is not positive")
   }
   
+  # For each time window, determine the output time adjustment relative to 'start'
+  if (align == "left")
+    adj <- ddays(0)
+  else if (align == "right")
+    adj <- width
+  else if (align == "center")
+    adj <- width / 2
+  else
+    stop("'align' has to be either 'left', 'right', or 'center")
+  
   # Determine the rolling time window
   if (is.null(by)) {
-    start_times <- window(x, end=end(x) - width)$times
-    end_times <- start_times + width
+      start_times <- x$times - adj
+      end_times <- start_times + width
   } else {
-    tmp <- rolling_time_window(start(x), end(x), width=width, by=by)
+    tmp <- rolling_time_window(start(x) - adj, end(x) - adj, width=width, by=by)
     start_times <- tmp$start_times
     end_times <- tmp$end_times
   }
   
-  # Determine set of values in each subinterval
-  if (0) {
-    #subperiod_values <- rolling_window_values_optimized(x, rolling_window)
-  } else {
-    subperiod_values <- list()
-    for (j in 1:length(start_times))
-      subperiod_values[[j]] <- window(x, start_times[j], end_times[j])$values
-  }
-  non_empty <- which(sapply(subperiod_values, length) > 0)
-  
-  # Evaluate function on values in each time-window of interest
-  FUN <- match.fun(FUN)
-  args <- c(list(c()), list(...))
-  values_new <- rep(NA, length(start_times))
-  for (j in non_empty) {  # slow because of loop, but fast for large values of 'by'
-    window_values <- subperiod_values[[j]]
-    args[[1]] <- window_values
-    values_new[j] <- do.call(FUN, args)
-  }
-  
-  # Return output time series with proper time alignment
-  new_ticks <- start_times  # needs updating
-  uts(values_new, new_ticks)
+  # Call helper functions that does the remaining work
+  rolling_apply_static(x, start=start_times, end=end_times, align=align, interior=interior, FUN=FUN, ...)
 }

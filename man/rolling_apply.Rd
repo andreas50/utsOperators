@@ -7,9 +7,8 @@
 \usage{
 rolling_apply(x, ...)
 
-rolling_apply(x, ...)
-
-\method{rolling_apply}{uts}(x, width, FUN, ..., by = NULL, align = "right")
+\method{rolling_apply}{uts}(x, width, FUN, ..., by = NULL, align = "right",
+  interior = FALSE)
 }
 \arguments{
 \item{x}{a time series object.}
@@ -20,25 +19,13 @@ rolling_apply(x, ...)
 
 \item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
 
-\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time inside the corresponding time window.}
-
-\item{\dots}{arguments passed to \code{FUN}.}
-
-\item{x}{a time series object.}
-
-\item{width}{a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
-
-\item{FUN}{a function to be applied to the vector of observation values within the rolling time window.}
-
-\item{\dots}{arguments passed to \code{FUN}.}
-
-\item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
-
 \item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.}
+
+\item{interior}{logical. Include only output times where the corresponding time window is entirely in the interior of the temporal support of \code{x,} i.e. in the interior of the time interval \code{[start(x), end(x)]}?}
+
+\item{\dots}{arguments passed to \code{FUN}.}
 }
 \description{
-Apply a function to the time series values in a rolling time window.
-
 Apply a function to the time series values in a rolling time window.
 }
 \section{Methods (by class)}{
@@ -48,5 +35,6 @@ Apply a function to the time series values in a rolling time window.
 \examples{
 rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1))
 rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
 }
 
