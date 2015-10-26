@@ -39,6 +39,63 @@ rolling_time_window <- function(start, end, width, by)
 }
 
 
+#' Apply Rolling Function (Static Version)
+#' 
+#' Apply a function to the time series values in a squence of user-defined time windows.
+#' 
+#' @param x a time series object.
+#' @param start a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.
+#' @param end a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.
+#' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start[i], end[i]]}.
+#' @param \dots arguments passed to \code{FUN}.
+#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
+#' 
+#' @keywords internal
+#' @examples
+#' start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
+#' end <- start + dhours(4)
+#' rolling_apply_helper(ex_uts(), start, end, FUN=mean)
+#' rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="left")
+#' rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="center")
+rolling_apply_helper <- function(x, start, end, FUN, ..., align="right")
+{
+  # Argument checking
+  if (!is.POSIXct(start))
+    stop("'start' is not a POSIXct object")
+  if (!is.POSIXct(end))
+    stop("'end' is not a POSIXct object")
+  if (any(diff(start) <= 0))
+    stop("The window start times (start) need to be a strictly increasing")
+  if (any(diff(end) <= 0))
+    stop("The window end times (end) need to be a strictly increasing")
+  if (length(start) != length(end))
+    stop("The number of window start and end times differs")
+  if (any(start > end))
+    stop("Some of the window end times (end) are before the corresponding start time (start)")
+  
+  # Evaluate function on values in each time-window of interest
+  FUN <- match.fun(FUN)
+  args <- c(list(c()), list(...))
+  values_new <- rep(NA, length(start))
+  for (j in 1:length(start)) {
+    pos <- (start[j] >= x$times) & (x$times <= end[j])
+    args[[1]] <- x$values[pos]
+    values_new[j] <- do.call(FUN, args)
+  }
+  
+  # Return output time series with proper time alignment
+  if (align == "left")
+    times_new <- start
+  else if (align == "right")
+    times_new <- end
+  else if (align == "center")
+    times_new <- start + (end - start) / 2
+  else
+    stop("'align' has to be either 'left', 'right', or 'center")
+  uts(values_new, times_new)
+}
+
+
 #' Apply Rolling Function
 #' 
 #' Apply a function to the time series values in a rolling time window.
@@ -48,7 +105,21 @@ rolling_time_window <- function(start, end, width, by)
 #' @param FUN a function to be applied to the vector of observation values within the rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
-#' @param align 
+#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time inside the corresponding time window.
+rolling_apply <- function(x, ...) UseMethod("rolling_apply")
+
+
+
+#' Apply Rolling Function
+#' 
+#' Apply a function to the time series values in a rolling time window.
+#' 
+#' @param x a time series object.
+#' @param width a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param FUN a function to be applied to the vector of observation values within the rolling time window.
+#' @param \dots arguments passed to \code{FUN}.
+#' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
+#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 

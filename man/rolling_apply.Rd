@@ -7,6 +7,8 @@
 \usage{
 rolling_apply(x, ...)
 
+rolling_apply(x, ...)
+
 \method{rolling_apply}{uts}(x, width, FUN, ..., by = NULL, align = "right")
 }
 \arguments{
@@ -18,11 +20,25 @@ rolling_apply(x, ...)
 
 \item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
 
-\item{align}{}
+\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.}
 
 \item{\dots}{arguments passed to \code{FUN}.}
+
+\item{x}{a time series object.}
+
+\item{width}{a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
+
+\item{FUN}{a function to be applied to the vector of observation values within the rolling time window.}
+
+\item{\dots}{arguments passed to \code{FUN}.}
+
+\item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
+
+\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.}
 }
 \description{
+Apply a function to the time series values in a rolling time window.
+
 Apply a function to the time series values in a rolling time window.
 }
 \section{Methods (by class)}{

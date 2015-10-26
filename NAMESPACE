@@ -23,6 +23,7 @@ S3method(sma, uts)
 ### Miscellaneous functions
 export(generic_C_interface)
 export(generic_C_interface_rolling)
+export(rolling_apply_helper)
 export(rolling_time_window)
 export(sma_equal_R)
 export(sma_linear_R)
