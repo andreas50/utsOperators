@@ -49,15 +49,17 @@ rolling_time_window <- function(start, end, width, by)
 #' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start[i], end[i]]}.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
+#' @param interior logical. Only include time windows \code{[start[i], end[i]]} in the output that are in the interior of the temporal support of x, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
 #' 
 #' @keywords internal
 #' @examples
 #' start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
-#' end <- start + dhours(4)
+#' end <- start + dhours(8)
+#' rolling_apply_helper(ex_uts(), start, end, FUN=mean, interior=TRUE)
 #' rolling_apply_helper(ex_uts(), start, end, FUN=mean)
 #' rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="left")
 #' rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="center")
-rolling_apply_helper <- function(x, start, end, FUN, ..., align="right")
+rolling_apply_helper <- function(x, start, end, FUN, ..., align="right", interior=FALSE)
 {
   # Argument checking
   if (!is.POSIXct(start))
@@ -73,12 +75,19 @@ rolling_apply_helper <- function(x, start, end, FUN, ..., align="right")
   if (any(start > end))
     stop("Some of the window end times (end) are before the corresponding start time (start)")
   
-  # Evaluate function on values in each time-window of interest
+  # Remove time windows that are not completely inside the temporal support of x
+  if (interior) {
+    drop <- (start < start(x)) | (end > end(x))
+    start <- start[!drop]
+    end <- end[!drop]
+  }
+  
+  # Evaluate function on values in each time window
   FUN <- match.fun(FUN)
   args <- c(list(c()), list(...))
   values_new <- rep(NA, length(start))
-  for (j in 1:length(start)) {
-    pos <- (start[j] >= x$times) & (x$times <= end[j])
+  for (j in seq_along(start)) {
+    pos <- (start[j] >= x$times) && (x$times <= end[j])
     args[[1]] <- x$values[pos]
     values_new[j] <- do.call(FUN, args)
   }

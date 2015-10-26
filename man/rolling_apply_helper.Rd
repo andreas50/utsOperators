@@ -4,10 +4,13 @@
 \alias{rolling_apply_helper}
 \title{Apply Rolling Function (Static Version)}
 \usage{
-rolling_apply_helper(x, left, end, FUN, ..., align = "right")
+rolling_apply_helper(x, start, end, FUN, ..., align = "right",
+  interior = FALSE)
 }
 \arguments{
 \item{x}{a time series object.}
+
+\item{start}{a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.}
 
 \item{end}{a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.}
 
@@ -15,7 +18,7 @@ rolling_apply_helper(x, left, end, FUN, ..., align = "right")
 
 \item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.}
 
-\item{start}{a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.}
+\item{interior}{logical. Only include time windows \code{[start[i], end[i]]} in the output that are in the interior of the temporal support of x, i.e. in the interior of the time interval \code{[start(x), end(x)]}.}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }
@@ -24,7 +27,8 @@ Apply a function to the time series values in a squence of user-defined time win
 }
 \examples{
 start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
-end <- start + dhours(4)
+end <- start + dhours(8)
+rolling_apply_helper(ex_uts(), start, end, FUN=mean, interior=TRUE)
 rolling_apply_helper(ex_uts(), start, end, FUN=mean)
 rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="left")
 rolling_apply_helper(ex_uts(), start, end, FUN=mean, align="center")
