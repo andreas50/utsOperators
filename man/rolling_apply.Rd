@@ -13,7 +13,7 @@ rolling_apply(x, ...)
 \arguments{
 \item{x}{a time series object.}
 
-\item{width}{a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
+\item{width}{a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
 \item{FUN}{a function to be applied to the vector of observation values within the rolling time window.}
 

@@ -49,6 +49,7 @@ test_that("rolling_apply works",{
   expect_error(rolling_apply(ex_uts(), width=ddays(1), by="abc"))
   expect_error(rolling_apply(ex_uts(), width=ddays(1), by=ddays(-1)))
   expect_error(rolling_apply(ex_uts(), width=ddays(1), by=ddays(1), align="abc"))
+  expect_error(rolling_apply(ex_uts(), width=ddays(Inf), by=ddays(1)))
   
   # Regression tests
   expect_equal_to_reference(

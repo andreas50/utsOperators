@@ -113,7 +113,7 @@ rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interio
 #' Apply a function to the time series values in a rolling time window.
 #' 
 #' @param x a time series object.
-#' @param width a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param width a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values within the rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
@@ -141,6 +141,8 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
     if (as.numeric(by) <= 0)
       stop("'by' is not positive")
   }
+  if (!is.finite(width))
+    stop("Only finite window widths (width) are supported at the moment")
   
   # For each time window, determine the output time adjustment relative to 'start'
   if (align == "left")

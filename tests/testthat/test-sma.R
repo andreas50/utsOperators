@@ -86,6 +86,13 @@ test_that("sma_equal and sma_equal_R give the same result",{
   )
 })
 
+test_that("sma_equal and rolling_apply give the same result",{
+  expect_equal(
+    sma(ex_uts(), ddays(1), type="equal"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+  )
+})
+
 
 
 ### SMA_linear ###
