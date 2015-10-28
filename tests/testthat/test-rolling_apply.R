@@ -28,6 +28,7 @@ test_that("rolling_apply_static works",{
   expect_error(rolling_apply_static(ex_uts(), start, c(end, Sys.time()), FUN=mean))
   expect_error(rolling_apply_static(ex_uts(), rev(start), end, FUN=mean))
   expect_error(rolling_apply_static(ex_uts(), rev(start), rev(end), FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), start, end, FUN=mean, align="abc"))
   
   # Regression tests
   expect_equal_to_reference(
@@ -39,3 +40,32 @@ test_that("rolling_apply_static works",{
     file="test-rolling_apply_static_2"
   )
 })
+
+
+test_that("rolling_apply works",{
+  # Argument checking
+  expect_error(rolling_apply(ex_uts(), width="abc"))
+  expect_error(rolling_apply(ex_uts(), width=ddays(-1)))
+  expect_error(rolling_apply(ex_uts(), width=ddays(1), by="abc"))
+  expect_error(rolling_apply(ex_uts(), width=ddays(1), by=ddays(-1)))
+  expect_error(rolling_apply(ex_uts(), width=ddays(1), by=ddays(1), align="abc"))
+  
+  # Regression tests
+  expect_equal_to_reference(
+    rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1)),
+    file="test-rolling_apply_1"
+  )
+  expect_equal_to_reference(
+    rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1), interior=TRUE),
+    file="test-rolling_apply_2"
+  )
+  expect_equal_to_reference(
+    rolling_apply(ex_uts(), width=ddays(1), FUN="mean"),
+    file="test-rolling_apply_3"
+  )
+  expect_equal_to_reference(
+    rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE),
+    file="test-rolling_apply_4"
+  )
+})
+
