@@ -63,6 +63,8 @@ rolling_time_window <- function(start, end, width, by)
 rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interior=FALSE)
 {
   # Argument checking
+  if (!is.uts(x))
+    stop("'x' is not a UTS object")
   if (!is.POSIXct(start))
     stop("'start' is not a POSIXct object")
   if (!is.POSIXct(end))
