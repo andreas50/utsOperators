@@ -43,7 +43,7 @@ rolling_time_window <- function(start, end, width, by)
 #' 
 #' Apply a function to the time series values in a sequence of user-defined time windows.
 #' 
-#' @param x a time series object.
+#' @param x a numeric time series object.
 #' @param start a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.
 #' @param end a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.
 #' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start[i], end[i]]}.
@@ -64,7 +64,9 @@ rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interio
 {
   # Argument checking
   if (!is.uts(x))
-    stop("'x' is not a UTS object")
+    stop("'x' is not a 'uts' object")
+  if (!is.numeric(x$values))
+    stop("The time series is not numeric")
   if (!is.POSIXct(start))
     stop("'start' is not a POSIXct object")
   if (!is.POSIXct(end))
@@ -112,7 +114,7 @@ rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interio
 #' 
 #' Apply a function to the time series values in a rolling time window.
 #' 
-#' @param x a time series object.
+#' @param x a numeric time series object.
 #' @param width a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values within the rolling time window.
 #' @param \dots arguments passed to \code{FUN}.

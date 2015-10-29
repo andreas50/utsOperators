@@ -8,7 +8,7 @@ rolling_apply_static(x, start, end, FUN, ..., align = "right",
   interior = FALSE)
 }
 \arguments{
-\item{x}{a time series object.}
+\item{x}{a numeric time series object.}
 
 \item{start}{a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.}
 

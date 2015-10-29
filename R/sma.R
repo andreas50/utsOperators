@@ -22,7 +22,7 @@
 #' On the other hand, type \code{"linear"} can be used to estimate the rolling average value of a discretely-observed continuous-time stochastic processes (see the second reference below for a precise mathematical statement).
 #' }
 #' 
-#' @param x a time series object.
+#' @param x a numeric time series object.
 #' @param tau a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
 #' @param type the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.

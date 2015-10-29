@@ -7,7 +7,7 @@
 generic_C_interface_rolling(x, tau, ...)
 }
 \arguments{
-\item{x}{a \code{"uts"} object.}
+\item{x}{a numeric \code{"uts"} object.}
 
 \item{tau}{a \code{\link[lubridate]{duration}} object, specifying the temporal length of the rolling time window.}
 

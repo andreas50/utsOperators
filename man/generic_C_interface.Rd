@@ -7,7 +7,7 @@
 generic_C_interface(x, C_fct, NA_method = "ignore", ...)
 }
 \arguments{
-\item{x}{a \code{"uts"} object.}
+\item{x}{a numeric \code{"uts"} object.}
 
 \item{C_fct}{the name of the C function to call.}
 

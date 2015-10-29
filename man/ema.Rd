@@ -10,7 +10,7 @@ ema(x, ...)
 \method{ema}{uts}(x, tau, type = "last", NA_method = "ignore", ...)
 }
 \arguments{
-\item{x}{a time series object.}
+\item{x}{a numeric time series object.}
 
 \item{tau}{a finite \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.}
 

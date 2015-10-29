@@ -10,7 +10,7 @@ sma(x, ...)
 \method{sma}{uts}(x, tau, type = "last", NA_method = "ignore", ...)
 }
 \arguments{
-\item{x}{a time series object.}
+\item{x}{a numeric time series object.}
 
 \item{tau}{a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
 

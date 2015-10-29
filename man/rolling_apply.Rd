@@ -11,7 +11,7 @@ rolling_apply(x, ...)
   interior = FALSE)
 }
 \arguments{
-\item{x}{a time series object.}
+\item{x}{a numeric time series object.}
 
 \item{width}{a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 

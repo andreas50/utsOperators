@@ -29,6 +29,7 @@ test_that("rolling_apply_static works",{
   expect_error(rolling_apply_static(ex_uts(), rev(start), end, FUN=mean))
   expect_error(rolling_apply_static(ex_uts(), rev(start), rev(end), FUN=mean))
   expect_error(rolling_apply_static(ex_uts(), start, end, FUN=mean, align="abc"))
+  expect_error(rolling_apply_static(ex_uts2(), start, end, FUN=mean))
   
   # Trivial case of no window
   expect_equal(

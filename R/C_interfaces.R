@@ -6,7 +6,7 @@
 #' 
 #' Generic interface for C-functions with inputs (values, times, length(values), values_new, ...) and output (values_new). Example: sma, rollingMax, ema, ...
 #' 
-#' @param x a \code{"uts"} object.
+#' @param x a numeric \code{"uts"} object.
 #' @param C_fct the name of the C function to call.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.
 #' @param \dots further arguments passed to the C function.
@@ -98,7 +98,7 @@ rev.uts <- function(x)
 #' 
 #' This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{tau}.
 #' 
-#' @param x a \code{"uts"} object.
+#' @param x a numeric \code{"uts"} object.
 #' @param tau a \code{\link[lubridate]{duration}} object, specifying the temporal length of the rolling time window.
 #' @param \dots further arguments passed to \code{\link{generic_C_interface}}.
 #' 
