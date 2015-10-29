@@ -39,34 +39,25 @@ rolling_time_window <- function(start, end, width, by)
 }
 
 
-#' Apply Rolling Function (Static Version)
+#' Rolling Time Window Indices
 #' 
-#' Apply a function to the time series values in a sequence of user-defined time windows.
+#' For a sorted sequence of time points, determine the start and end indices inside a rolling time window.
 #' 
-#' @param x a numeric time series object.
-#' @param start a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.
-#' @param end a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.
-#' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start[i], end[i]]}.
-#' @param \dots arguments passed to \code{FUN}.
-#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
-#' @param interior logical. Only include time windows \code{[start[i], end[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
+#' @return A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window.
+#' @param times a \code{\link{POSIXct}} object of strictly increasing time points.
+#' @param start_times a strictly increasing \code{\link{POSIXct}} object, specifying the start times of the time windows.
+#' @param end_times a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.
 #' 
 #' @keywords internal
-#' @seealso \code{\link{rolling_apply}} for a version of this function that \emph{dynamically} determines the time windows.
 #' @examples
-#' start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
-#' end <- start + dhours(8)
-#' rolling_apply_static(ex_uts(), start, end, FUN=mean, interior=TRUE)
-#' rolling_apply_static(ex_uts(), start, end, FUN=mean)
-#' rolling_apply_static(ex_uts(), start, end, FUN=mean, align="left")
-#' rolling_apply_static(ex_uts(), start, end, FUN=mean, align="center")
-rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interior=FALSE)
+#' tmp <- rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))
+#' times <- seq(as.POSIXct("2014-12-01"), as.POSIXct("2015-12-30"), by="week")
+#' rolling_time_window_indices(times, tmp$start_times, tmp$end_times)
+rolling_time_window_indices <- function(times, start_times, end_times)
 {
   # Argument checking
-  if (!is.uts(x))
-    stop("'x' is not a 'uts' object")
-  if (!is.numeric(x$values))
-    stop("The time series is not numeric")
+  if (!is.POSIXct(times))
+    stop("'times' is not a POSIXct object")
   if (!is.POSIXct(start))
     stop("'start' is not a POSIXct object")
   if (!is.POSIXct(end))
@@ -80,30 +71,82 @@ rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interio
   if (any(start > end))
     stop("Some of the window end times (end) are before the corresponding start time (start)")
   
+  # Determine start indices
+  start_index <- c()
+  
+  # Determine end indices
+  end_index <- num_leq_sorted(end, times)
+  
+  # Return indices as list
+  list(start_index=start_index, end_index=end_index)
+}
+
+
+#' Apply Rolling Function (Static Version)
+#' 
+#' Apply a function to the time series values in a sequence of user-defined time windows.
+#' 
+#' @param x a numeric time series object.
+#' @param start_times a \code{\link{POSIXct}} object of strictly increasing time points, specifying the start times of the time windows.
+#' @param end_times a \code{\link{POSIXct}} object of strictly increasing time points, of same length as \code{start_times}, and with \code{start_times[i] <= end_times[i]} for each \code{1 <= i <= length(start_times)}. Specifies the end times of the time windows.
+#' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start_times[i], end_times[i]]}.
+#' @param \dots arguments passed to \code{FUN}.
+#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
+#' @param interior logical. Only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
+#' 
+#' @keywords internal
+#' @seealso \code{\link{rolling_apply}} for a version of this function that \emph{dynamically} determines the time windows.
+#' @examples
+#' start_times <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
+#' end_times <- start_times + dhours(8)
+#' rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, interior=TRUE)
+#' rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean)
+#' rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, align="left")
+#' rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, align="center")
+rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="right", interior=FALSE)
+{
+  # Argument checking
+  if (!is.uts(x))
+    stop("'x' is not a 'uts' object")
+  if (!is.numeric(x$values))
+    stop("The time series is not numeric")
+  if (!is.POSIXct(start_times))
+    stop("'start_times' is not a POSIXct object")
+  if (!is.POSIXct(end_times))
+    stop("'end_times' is not a POSIXct object")
+  if (any(diff(start_times) <= 0))
+    stop("The window start times (start_times) need to be a strictly increasing")
+  if (any(diff(end_times) <= 0))
+    stop("The window end times (end_times) need to be a strictly increasing")
+  if (length(start_times) != length(end_times))
+    stop("The number of window start and end times differs")
+  if (any(start_times > end_times))
+    stop("Some of the window end times (end_times) are before the corresponding start time (start)")
+  
   # Remove time windows that are not completely inside the temporal support of x
   if (interior) {
-    drop <- (start < start(x)) | (end > end(x))
-    start <- start[!drop]
-    end <- end[!drop]
+    drop <- (start_times < start(x)) | (end_times > end(x))
+    start_times <- start_times[!drop]
+    end_times <- end_times[!drop]
   }
   
   # Evaluate function on values in each time window
   FUN <- match.fun(FUN)
   args <- c(list(c()), list(...))
-  values_new <- rep(NA_real_, length(start))
-  for (j in seq_along(start)) {
-    pos <- (x$times >= start[j]) & (x$times <= end[j])
+  values_new <- rep(NA_real_, length(start_times))
+  for (j in seq_along(start_times)) {
+    pos <- (x$times >= start_times[j]) & (x$times <= end_times[j])
     args[[1]] <- x$values[pos]
     values_new[j] <- do.call(FUN, args)
   }
   
   # Return output time series with proper time alignment
   if (align == "left")
-    times_new <- start
+    times_new <- start_times
   else if (align == "right")
-    times_new <- end
+    times_new <- end_times
   else if (align == "center")
-    times_new <- start + (end - start) / 2
+    times_new <- start_times + (end_times - start_times) / 2
   else
     stop("'align' has to be either 'left', 'right', or 'center")
   uts(values_new, times_new)
@@ -127,7 +170,7 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 #' @describeIn rolling_apply apply rolling function to \code{"uts"} object.
 #' 
 #' @examples
-#' rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1))
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(0.5))
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE)
@@ -167,5 +210,5 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
   }
   
   # Call helper functions that does the remaining work
-  rolling_apply_static(x, start=start_times, end=end_times, align=align, interior=interior, FUN=FUN, ...)
+  rolling_apply_static(x, start_times, end_times, align=align, interior=interior, FUN=FUN, ...)
 }

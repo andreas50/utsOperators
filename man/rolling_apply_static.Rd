@@ -4,21 +4,21 @@
 \alias{rolling_apply_static}
 \title{Apply Rolling Function (Static Version)}
 \usage{
-rolling_apply_static(x, start, end, FUN, ..., align = "right",
+rolling_apply_static(x, start_times, end_times, FUN, ..., align = "right",
   interior = FALSE)
 }
 \arguments{
 \item{x}{a numeric time series object.}
 
-\item{start}{a strictly increasing \code{\link{POSIXct}}, specifying the start times of the time windows.}
+\item{start_times}{a \code{\link{POSIXct}} object of strictly increasing time points, specifying the start times of the time windows.}
 
-\item{end}{a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.}
+\item{end_times}{a \code{\link{POSIXct}} object of strictly increasing time points, of same length as \code{start_times}, and with \code{start_times[i] <= end_times[i]} for each \code{1 <= i <= length(start_times)}. Specifies the end times of the time windows.}
 
-\item{FUN}{a function to be applied to the vector of observation values in each close time interval \code{[start[i], end[i]]}.}
+\item{FUN}{a function to be applied to the vector of observation values in each close time interval \code{[start_times[i], end_times[i]]}.}
 
 \item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.}
 
-\item{interior}{logical. Only include time windows \code{[start[i], end[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.}
+\item{interior}{logical. Only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }
@@ -26,12 +26,12 @@ rolling_apply_static(x, start, end, FUN, ..., align = "right",
 Apply a function to the time series values in a sequence of user-defined time windows.
 }
 \examples{
-start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
-end <- start + dhours(8)
-rolling_apply_static(ex_uts(), start, end, FUN=mean, interior=TRUE)
-rolling_apply_static(ex_uts(), start, end, FUN=mean)
-rolling_apply_static(ex_uts(), start, end, FUN=mean, align="left")
-rolling_apply_static(ex_uts(), start, end, FUN=mean, align="center")
+start_times <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
+end_times <- start_times + dhours(8)
+rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, interior=TRUE)
+rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean)
+rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, align="left")
+rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, align="center")
 }
 \seealso{
 \code{\link{rolling_apply}} for a version of this function that \emph{dynamically} determines the time windows.

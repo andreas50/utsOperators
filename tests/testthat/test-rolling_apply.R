@@ -17,19 +17,19 @@ test_that("rolling_time_window works",{
 
 
 test_that("rolling_apply_static works",{
-  start <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
-  end <- start + dhours(8)
+  start_times <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
+  end_times <- start_times + dhours(8)
   
   # Argument checking
   expect_error(rolling_apply_static("abc"))
-  expect_error(rolling_apply_static(ex_uts(), "abc", end, FUN=mean))
-  expect_error(rolling_apply_static(ex_uts(), start, "abc", FUN=mean))
-  expect_error(rolling_apply_static(ex_uts(), end, start, FUN=mean))
-  expect_error(rolling_apply_static(ex_uts(), start, c(end, Sys.time()), FUN=mean))
-  expect_error(rolling_apply_static(ex_uts(), rev(start), end, FUN=mean))
-  expect_error(rolling_apply_static(ex_uts(), rev(start), rev(end), FUN=mean))
-  expect_error(rolling_apply_static(ex_uts(), start, end, FUN=mean, align="abc"))
-  expect_error(rolling_apply_static(ex_uts2(), start, end, FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), "abc", end_times, FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), start_times, "abc", FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), end_times, start_times, FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), start_times, c(end_times, Sys.time()), FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), rev(start_times), end_times, FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), rev(start_times), rev(end_times), FUN=mean))
+  expect_error(rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, align="abc"))
+  expect_error(rolling_apply_static(ex_uts2(), start_times, end_times, FUN=mean))
   
   # Trivial case of no window
   expect_equal(
@@ -39,11 +39,11 @@ test_that("rolling_apply_static works",{
   
   # Regression tests
   expect_equal_to_reference(
-    rolling_apply_static(ex_uts(), start, end, FUN=mean),
+    rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean),
     file="test-rolling_apply_static_1"
   )
   expect_equal_to_reference(
-    rolling_apply_static(ex_uts(), start, end, FUN=mean, interior=TRUE),
+    rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, interior=TRUE),
     file="test-rolling_apply_static_2"
   )
 })
