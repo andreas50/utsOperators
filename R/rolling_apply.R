@@ -35,7 +35,7 @@ rolling_time_window <- function(start, end, width, by)
   
   # Determine the window start and end times
   start_times <- seq(start, end - by, by=by)
-  list(start_times=start_times, end_times=start_times + by)
+  list(start_times=start_times, end_times=start_times + width)
 }
 
 
