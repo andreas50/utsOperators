@@ -88,7 +88,7 @@ rolling_apply_static <- function(x, start, end, FUN, ..., align="right", interio
   # Evaluate function on values in each time window
   FUN <- match.fun(FUN)
   args <- c(list(c()), list(...))
-  values_new <- rep(NA, length(start))
+  values_new <- rep(NA_real_, length(start))
   for (j in seq_along(start)) {
     pos <- (x$times >= start[j]) & (x$times <= end[j])
     args[[1]] <- x$values[pos]

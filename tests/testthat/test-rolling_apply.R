@@ -30,6 +30,12 @@ test_that("rolling_apply_static works",{
   expect_error(rolling_apply_static(ex_uts(), rev(start), rev(end), FUN=mean))
   expect_error(rolling_apply_static(ex_uts(), start, end, FUN=mean, align="abc"))
   
+  # Trivial case of no window
+  expect_equal(
+    rolling_apply_static(ex_uts(), as.POSIXct(character()), as.POSIXct(character()), FUN=mean),
+    uts()
+  )
+  
   # Regression tests
   expect_equal_to_reference(
     rolling_apply_static(ex_uts(), start, end, FUN=mean),
