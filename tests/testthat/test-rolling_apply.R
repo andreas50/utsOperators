@@ -16,6 +16,38 @@ test_that("rolling_time_window works",{
 })
 
 
+test_that("rolling_time_window_indices works",{
+  tmp <- rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))
+  start_times <- tmp$start_times
+  end_times <- tmp$end_times
+  times <- seq(as.POSIXct("2014-12-01"), as.POSIXct("2015-12-30"), by="week")
+  
+  # Argument checking
+  expect_error(rolling_time_window_indices(times, "abc", end_times))
+  expect_error(rolling_time_window_indices(times, start_times, "abc"))
+  expect_error(rolling_time_window_indices(times, end_times, start_times))
+  expect_error(rolling_time_window_indices(times, start_times, c(end_times, Sys.time())))
+  expect_error(rolling_time_window_indices(times, rev(start_times), end_times))
+  expect_error(rolling_time_window_indices(times, start_times, rev(end_times)))
+  
+  # Trivial cases
+  expect_equal(
+    rolling_time_window_indices(times, times, times)$start_index,
+    rolling_time_window_indices(times, times, times)$end_index
+  )
+  expect_equal(
+    rolling_time_window_indices(times, times, times)$start_index,
+    1:length(times)
+  )
+  
+  # Regression tests
+  expect_equal_to_reference(
+    rolling_time_window_indices(times, start_times, end_times),
+    file="test-rolling_time_window_indices"
+  )
+})
+
+
 test_that("rolling_apply_static works",{
   start_times <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")
   end_times <- start_times + dhours(8)

@@ -72,8 +72,9 @@ rolling_time_window_indices <- function(times, start_times, end_times)
     stop("Some of the window end times are before the corresponding start time")
   
   # Determine start indices
-  start_index <- pmin(num_leq_sorted(start_times, times) + 1, length(times))
-  start_index[start_times %in% times] <- start_index[start_times %in% times] - 1 
+  start_index <- num_leq_sorted(start_times, times)
+  start_index[start_times %in% times] <- start_index[start_times %in% times] - 1
+  start_index <- pmin(start_index + 1, length(times))
   
   # Determine end indices
   end_index <- num_leq_sorted(end_times, times)
