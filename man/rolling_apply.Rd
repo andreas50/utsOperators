@@ -33,7 +33,7 @@ Apply a function to the time series values in a rolling time window.
 \item \code{uts}: apply rolling function to \code{"uts"} object.
 }}
 \examples{
-rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1))
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(0.5))
 rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
 rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
 }

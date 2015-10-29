@@ -8,12 +8,19 @@
 #'   \item \code{\link{generic_C_interface_rolling}}
 #' }
 #' 
+#' Helper functions:
+#' \itemize{
+#'   \item \code{\link{rolling_time_window}}
+#'   \item \code{\link{rolling_time_window_indices}}
+#' }
+#' 
 #' \code{uts} methods:
 #' \itemize{
+#'   \item \code{\link[=rev.uts]{rev}}
+#'   \item \code{\link[=rolling_apply_static]{rolling_apply_static}}
 #'   \item \code{\link{sma_equal_R}}
 #'   \item \code{\link{sma_last_R}}
 #'   \item \code{\link{sma_linear_R}}
-#'   \item \code{\link[=rev.uts]{rev}}
 #' }
 #' 
 #' @name utsOperators-internal

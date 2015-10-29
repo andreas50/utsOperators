@@ -58,24 +58,25 @@ rolling_time_window_indices <- function(times, start_times, end_times)
   # Argument checking
   if (!is.POSIXct(times))
     stop("'times' is not a POSIXct object")
-  if (!is.POSIXct(start))
-    stop("'start' is not a POSIXct object")
-  if (!is.POSIXct(end))
-    stop("'end' is not a POSIXct object")
-  if (any(diff(start) <= 0))
-    stop("The window start times (start) need to be a strictly increasing")
-  if (any(diff(end) <= 0))
-    stop("The window end times (end) need to be a strictly increasing")
-  if (length(start) != length(end))
+  if (!is.POSIXct(start_times))
+    stop("'start_times' is not a POSIXct object")
+  if (!is.POSIXct(end_times))
+    stop("'end_times' is not a POSIXct object")
+  if (is.unsorted(start_times, strictly=TRUE))
+    stop("The window start times (start_times) need to be a strictly increasing")
+  if (is.unsorted(end_times, strictly=TRUE))
+    stop("The window end times (end_times) need to be a strictly increasing")
+  if (length(start_times) != length(end_times))
     stop("The number of window start and end times differs")
-  if (any(start > end))
-    stop("Some of the window end times (end) are before the corresponding start time (start)")
+  if (any(start_times > end_times))
+    stop("Some of the window end times are before the corresponding start time")
   
   # Determine start indices
-  start_index <- c()
+  start_index <- pmin(num_leq_sorted(start_times, times) + 1, length(times))
+  start_index[start_times %in% times] <- start_index[start_times %in% times] - 1 
   
   # Determine end indices
-  end_index <- num_leq_sorted(end, times)
+  end_index <- num_leq_sorted(end_times, times)
   
   # Return indices as list
   list(start_index=start_index, end_index=end_index)
@@ -114,14 +115,14 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
     stop("'start_times' is not a POSIXct object")
   if (!is.POSIXct(end_times))
     stop("'end_times' is not a POSIXct object")
-  if (any(diff(start_times) <= 0))
+  if (is.unsorted(start_times, strictly=TRUE))
     stop("The window start times (start_times) need to be a strictly increasing")
-  if (any(diff(end_times) <= 0))
+  if (is.unsorted(end_times, strictly=TRUE))
     stop("The window end times (end_times) need to be a strictly increasing")
   if (length(start_times) != length(end_times))
     stop("The number of window start and end times differs")
   if (any(start_times > end_times))
-    stop("Some of the window end times (end_times) are before the corresponding start time (start)")
+    stop("Some of the window end times are before the corresponding start time")
   
   # Remove time windows that are not completely inside the temporal support of x
   if (interior) {
