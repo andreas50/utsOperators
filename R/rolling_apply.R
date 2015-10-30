@@ -137,14 +137,30 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
     end_times <- end_times[!drop]
   }
   
+  # Determine observation indices for each time window
+  window_indices <- rolling_time_window_indices(x$times, start_times, end_times)
+  start_index <- window_indices$start_index
+  end_index <- window_indices$end_index
+  
   # Evaluate function on values in each time window
   FUN <- match.fun(FUN)
-  args <- c(list(c()), list(...))
-  values_new <- rep(NA_real_, length(start_times))
-  for (j in seq_along(start_times)) {
-    pos <- (x$times >= start_times[j]) & (x$times <= end_times[j])
-    args[[1]] <- x$values[pos]
-    values_new[j] <- do.call(FUN, args)
+  values <- x$values    # attach to avoid constant dereferencing
+  if (0) {
+    args <- c(list(c()), list(...))
+    values_new <- rep(NA_real_, length(start_times))
+    for (j in which(!is.na(start_index))) {
+      args[[1]] <- values[start_index[j]:end_index[j]]
+      values_new[j] <- do.call(FUN, args)
+    }
+  } else {
+    # Equivalent to loop, easier to read (only slightly faster though)
+    helper <- function(start, end) {
+      if (is.na(start))
+        NA_real_
+      else
+        FUN(values[start:end], ...)
+    }
+    values_new <- as.numeric(mapply(helper, start_index, end_index))
   }
   
   # Return output time series with proper time alignment
@@ -205,8 +221,6 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
     adj <- width / 2
   else
     stop("'align' has to be either 'left', 'right', or 'center")
-  
-  # Determine
   
   # Determine the rolling time window
   if (is.null(by)) {
