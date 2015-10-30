@@ -79,6 +79,11 @@ rolling_time_window_indices <- function(times, start_times, end_times)
   # Determine end indices
   end_index <- num_leq_sorted(end_times, times)
   
+  # Set indices to NA for windows that contain no observation
+  is_empty <- (times[start_index] > end_times) | (times[end_index] < start_times)
+  start_index[is_empty] <- NA
+  end_index[is_empty] <- NA
+  
   # Return indices as list
   list(start_index=start_index, end_index=end_index)
 }
@@ -164,8 +169,8 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' @param FUN a function to be applied to the vector of observation values within the rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
-#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.
-#' @param interior logical. Include only output times where the corresponding time window is entirely in the interior of the temporal support of \code{x,} i.e. in the interior of the time interval \code{[start(x), end(x)]}?
+#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window.
+#' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 
@@ -200,6 +205,8 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
     adj <- width / 2
   else
     stop("'align' has to be either 'left', 'right', or 'center")
+  
+  # Determine
   
   # Determine the rolling time window
   if (is.null(by)) {
