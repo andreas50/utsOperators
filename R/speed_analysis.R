@@ -75,13 +75,20 @@ if (0) {
   width <- ddays(100)
   by <- ddays(50)
   
-  # Move window one observation at a time: 2.01s
+  # Move window one observation at a time: 1.23s
   system.time(for (j in 1:100) rolling_apply(ts1, width=width, FUN="mean"))
   
-  # Move windows in big steps: 0.98s
+  # Move window in big steps: 0.62s
   system.time(for (j in 1:200) rolling_apply(ts1, width=width, FUN="mean", by=by))
   
-  # Profile implementation
+  # Profile implementation (move one observation at a time)
+  # -) 78% of time spent in mapply()
+  Rprof(interval=0.01)
+  for (j in 1:100) rolling_apply(ts1, width=width, FUN="mean", by=by)
+  Rprof(NULL)
+  summaryRprof()
+  
+  # Profile implementation (move window in big setps)
   # -) 78% of time spent in mapply()
   Rprof(interval=0.01)
   for (j in 1:100) rolling_apply(ts1, width=width, FUN="mean")
