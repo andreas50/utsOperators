@@ -164,8 +164,8 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' @param FUN a function to be applied to the vector of observation values within the rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
-#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.
-#' @param interior logical. Include only output times where the corresponding time window is entirely in the interior of the temporal support of \code{x,} i.e. in the interior of the time interval \code{[start(x), end(x)]}?
+#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window.
+#' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 

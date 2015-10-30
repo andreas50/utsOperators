@@ -19,9 +19,9 @@ rolling_apply(x, ...)
 
 \item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
 
-\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment each output time to its corresponding time window.}
+\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window.}
 
-\item{interior}{logical. Include only output times where the corresponding time window is entirely in the interior of the temporal support of \code{x,} i.e. in the interior of the time interval \code{[start(x), end(x)]}?}
+\item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }

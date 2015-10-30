@@ -40,6 +40,16 @@ test_that("rolling_time_window_indices works",{
     1:length(times)
   )
   
+  # Windows contain no observations
+  expect_equal(
+    rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$start_index,
+    rep(NA_real_, length(times))
+  )
+  expect_equal(
+    rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$end_index,
+    rep(NA_real_, length(times))
+  )
+  
   # Regression tests
   expect_equal_to_reference(
     rolling_time_window_indices(times, start_times, end_times),
