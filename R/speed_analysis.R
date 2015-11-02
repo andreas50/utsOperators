@@ -82,9 +82,9 @@ if (0) {
   system.time(for (j in 1:200) rolling_apply(ts1, width=width, FUN="mean", by=by))
   
   # Profile implementation (move one observation at a time)
-  # -) 78% of time spent in mapply()
+  # -) almost all time spent on argument checking
   Rprof(interval=0.01)
-  for (j in 1:100) rolling_apply(ts1, width=width, FUN="mean", by=by)
+  for (j in 1:500) rolling_apply(ts1, width=width, FUN="mean", by=by)
   Rprof(NULL)
   summaryRprof()
   
