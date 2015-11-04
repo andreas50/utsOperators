@@ -92,7 +92,7 @@ rolling_time_window_indices <- function(times, start_times, end_times)
 #' @param x a numeric time series object.
 #' @param start_times a \code{\link{POSIXct}} object of strictly increasing time points, specifying the start times of the time windows.
 #' @param end_times a \code{\link{POSIXct}} object of strictly increasing time points, of same length as \code{start_times}, and with \code{start_times[i] <= end_times[i]} for each \code{1 <= i <= length(start_times)}. Specifies the end times of the time windows.
-#' @param FUN a function to be applied to the vector of observation values in each close time interval \code{[start_times[i], end_times[i]]}.
+#' @param FUN a function to be applied to the vector of observation values inside each closed time interval \code{[start_times[i], end_times[i]]}.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
 #' @param interior logical. Only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
@@ -174,14 +174,14 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 
 #' Apply Rolling Function
 #' 
-#' Apply a function to the time series values in a rolling time window.
+#' Apply a function to the time series values in a closed rolling time window of fixed temporal width.
 #' 
 #' @param x a numeric time series object.
 #' @param width a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
-#' @param FUN a function to be applied to the vector of observation values within the rolling time window.
+#' @param FUN a function to be applied to the vector of observation values inside the closed rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
-#' @param by a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.
-#' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window.
+#' @param by a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.
+#' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
 #' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 

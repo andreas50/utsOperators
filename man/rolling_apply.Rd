@@ -15,18 +15,18 @@ rolling_apply(x, ...)
 
 \item{width}{a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
-\item{FUN}{a function to be applied to the vector of observation values within the rolling time window.}
+\item{FUN}{a function to be applied to the vector of observation values inside the closed rolling time window.}
 
-\item{by}{a positive \code{\link[lubridate]{duration}} object. Calculate \code{FUN} on a sequence of time points with this spacing, rather than at every observation time of \code{x}.}
+\item{by}{a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.}
 
-\item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window.}
+\item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 
 \item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }
 \description{
-Apply a function to the time series values in a rolling time window.
+Apply a function to the time series values in a closed rolling time window of fixed temporal width.
 }
 \section{Methods (by class)}{
 \itemize{
