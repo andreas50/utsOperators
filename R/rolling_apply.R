@@ -71,13 +71,9 @@ rolling_time_window_indices <- function(times, start_times, end_times)
   if (any(start_times > end_times))
     stop("Some of the window end times are before the corresponding start time")
   
-  # Determine end indices
+  # Determine start and end indices
   end_index <- num_leq_sorted(end_times, times)  
-  
-  # Determine start indices
-  start_index <- num_leq_sorted(start_times, times)
-  start_index[start_times %in% times] <- start_index[start_times %in% times] - 1
-  start_index <- pmin(start_index + 1, length(times))
+  start_index <- pmin(num_less_sorted(start_times, times) + 1, length(times))
   
   # Set indices to NA for windows that contain no observation
   is_empty <- (times[start_index] > end_times) | (times[end_index] < start_times)
