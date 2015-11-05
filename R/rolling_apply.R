@@ -197,8 +197,8 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
   # Argument checking
   if (!is.duration(width))
     stop("'width' is not a duration object")
-  if (as.numeric(width) < 0)
-    stop("'width' is negative")
+  if (as.numeric(width) <= 0)
+    stop("'width' is not positive")
   if (!is.null(by)) {
     if (!is.duration(by))
       stop("'by' is not a duration object")

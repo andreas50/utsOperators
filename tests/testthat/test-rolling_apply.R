@@ -94,6 +94,7 @@ test_that("rolling_apply_static works",{
 test_that("rolling_apply works",{
   # Argument checking
   expect_error(rolling_apply(ex_uts(), width="abc"))
+  expect_error(rolling_apply(ex_uts(), width=ddays(0)))
   expect_error(rolling_apply(ex_uts(), width=ddays(-1)))
   expect_error(rolling_apply(ex_uts(), width=ddays(1), by="abc"))
   expect_error(rolling_apply(ex_uts(), width=ddays(1), by=ddays(-1)))
