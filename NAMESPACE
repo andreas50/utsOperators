@@ -20,6 +20,10 @@ S3method(rolling_apply, uts)
 S3method(sma, uts)
 
 
+# S3 methods without exported generic
+export(rolling_sum.uts)
+
+
 # Miscellaneous functions
 export(generic_C_interface)
 export(generic_C_interface_rolling)

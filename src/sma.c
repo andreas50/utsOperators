@@ -21,7 +21,7 @@ void sma_equal(double values[], double times[], int *n, double values_new[], dou
   double roll_sum = 0;
   
   for (i = 0; i < *n; i++) {
-    // Expand window on right
+    // Expand window on the right
     roll_sum = roll_sum + values[i];
     
     // Shrink window on the left to get half-open interval

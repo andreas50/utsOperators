@@ -23,5 +23,13 @@
 #'   \item \code{\link{sma_linear_R}}
 #' }
 #' 
+#' Specialized \code{\link{rolling_apply}} implementations for certain functions:
+#' \itemize{
+#'   %\item \code{\link{rolling_max.uts}} (\code{FUN = max})
+#'   %\item \code{\link{rolling_min.uts}} (\code{FUN = min})
+#'   %\item \code{\link{rolling_num_obs.uts}} (\code{FUN = length})
+#'   \item \code{\link{rolling_sum.uts}} (\code{FUN = sum})
+#' }
+#' 
 #' @name utsOperators-internal
 NULL

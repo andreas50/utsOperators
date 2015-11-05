@@ -177,7 +177,7 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' Apply a function to the time series values in a closed rolling time window of fixed temporal width.
 #' 
 #' @param x a numeric time series object.
-#' @param width a finite, non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param width a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values inside the closed rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.
@@ -198,7 +198,7 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
   if (!is.duration(width))
     stop("'width' is not a duration object")
   if (as.numeric(width) <= 0)
-    stop("'width' is not positive")
+    stop("'width' is not negative")
   if (!is.null(by)) {
     if (!is.duration(by))
       stop("'by' is not a duration object")
