@@ -1,26 +1,26 @@
-### Load dynamic library with compliled C code
+# Load dynamic library with compliled C code
 useDynLib(utsOperators)
 
 
-### Imports from other packages
+# Imports from other packages
 import(uts)
 import(lubridate)
 
 
-### Export generic methods
+# Export generic methods
 export(ema)
 export(rolling_apply)
 export(sma)
 
 
-### Register S3 methods (needed if a package is imported but not attached to the search path)
+# Register S3 methods (needed if a package is imported but not attached to the search path)
 S3method(ema, uts)
 S3method(rev, uts)
 S3method(rolling_apply, uts)
 S3method(sma, uts)
 
 
-### Miscellaneous functions
+# Miscellaneous functions
 export(generic_C_interface)
 export(generic_C_interface_rolling)
 export(rolling_apply_static)
