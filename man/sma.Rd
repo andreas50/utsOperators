@@ -25,10 +25,10 @@ Calculate a simple moving average (SMA) of a time series.
 }
 \details{
 Four different SMAs types are supported for \code{"uts"} objects. Each type puts different weights on the observation values inside the rolling time window of width \code{tau}: \itemize{
-\item \code{equal}: Each observation value is weighted equally.
-\item \code{last}: Apply the moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted by how long it remained unchanged.
-\item \code{next}: Apply the moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted by how long it remained the next (i.e. upcomming) observation.
-\item \code{linear}: Apply the moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
+  \item \code{equal}: Each observation value is weighted equally.
+  \item \code{last}: Apply the moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted by how long it remained unchanged.
+  \item \code{next}: Apply the moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted by how long it remained the next (i.e. upcomming) observation.
+  \item \code{linear}: Apply the moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 }
 See the first reference below for precise mathematical definitions.
 
