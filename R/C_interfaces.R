@@ -18,12 +18,12 @@
 #' x$values[2] <- NA
 #' 
 #' # SMA_eq
-#' generic_C_interface(x, "sma_equal", tau=ddays(1))
-#' generic_C_interface(x, "sma_equal", tau=ddays(1), NA_method="omit")
+#' generic_C_interface(x, "sma_equal", width=ddays(1))
+#' generic_C_interface(x, "sma_equal", width=ddays(1), NA_method="omit")
 #' 
 #' # SMA_last
-#' generic_C_interface(x, "sma_last", tau=ddays(1))
-#' generic_C_interface(x, "sma_last", tau=ddays(1), NA_method="omit")
+#' generic_C_interface(x, "sma_last", width=ddays(1))
+#' generic_C_interface(x, "sma_last", width=ddays(1), NA_method="omit")
 generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 {
   # Argument checking
@@ -96,10 +96,10 @@ rev.uts <- function(x)
 
 #' Generic C interface for rolling time series operators
 #' 
-#' This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{tau}.
+#' This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{width}.
 #' 
 #' @param x a numeric \code{"uts"} object.
-#' @param tau a \code{\link[lubridate]{duration}} object, specifying the temporal length of the rolling time window.
+#' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param \dots further arguments passed to \code{\link{generic_C_interface}}.
 #' 
 #' @keywords internal
@@ -109,24 +109,24 @@ rev.uts <- function(x)
 #' x$values[2] <- NA
 #' 
 #' # SMA_eqqual
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
+#' generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_equal")
+#' generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_equal", NA_method="omit")
 #' 
 #' # EMA_last
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_last")
-#' generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_last", NA_method="omit")
-generic_C_interface_rolling <- function(x, tau, ...)
+#' generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last")
+#' generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last", NA_method="omit")
+generic_C_interface_rolling <- function(x, width, ...)
 {
   # Argument checking
-  if (!is.duration(tau))
-    stop("'tau' is not a 'duration' object")
-  if (is.na(tau))
-    stop("'tau' is NA")
-  if (unclass(tau) < 0)
-    stop("'tau' is negative")
-  if (!is.finite(tau))
-    stop("'tau' is not finite")
+  if (!is.duration(width))
+    stop("The rolling window width is not a 'duration' object")
+  if (is.na(width))
+    stop("The rolling window width is NA")
+  if (unclass(width) <= 0)
+    stop("The rolling window width is not positive")
+  if (!is.finite(width))
+    stop("The rolling window width is not finite")
   
   # Call standardized C-interface
-  generic_C_interface(x, tau=tau, ...)
+  generic_C_interface(x, width=width, ...)
 }

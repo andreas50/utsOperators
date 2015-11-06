@@ -4,12 +4,12 @@
 \alias{sma_equal_R}
 \title{R implementation of sma(..., type="equal")}
 \usage{
-sma_equal_R(x, tau)
+sma_equal_R(x, width)
 }
 \arguments{
 \item{x}{a \code{"uts"} object.}
 
-\item{tau}{a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
+\item{width}{a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 }
 \description{
 This function is identical to \code{\link{sma}}  with \code{type="equal"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.

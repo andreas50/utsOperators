@@ -10,22 +10,30 @@
 if (0) {
   set.seed(1)
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
-  tau <- ddays(100)
+  width <- ddays(100)
   
   # gneric vs. specialized: 2.37s vs. 1.66s
-  system.time(for (j in 1:200) rolling_apply(ts1, tau, FUN=mean))
-  system.time(for (j in 1:20000) sma(ts1, tau, type="equal"))
+  system.time(for (j in 1:200) rolling_apply(ts1, width, FUN=mean))
+  system.time(for (j in 1:20000) sma(ts1, width, type="equal"))
 }
 
 
-### rolling_sum vs. rolling_apply(..., FUN="sum")
-# -) the specialized implementation is 50-60 times faster
+### rolling_apply_specialized vs. rolling_apply
+# -) the specialized implementation is 40-50 times faster
 if (0) {
   set.seed(1)
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
   width <- ddays(100)
   
-  # gneric vs. specialized: 1.31s vs. 2.28s
-  system.time(for (j in 1:200) rolling_apply(ts1, width, FUN="sum"))
-  system.time(for (j in 1:20000) rolling_sum.uts(ts1, width))
+  # gneric vs. specialized: 1.28s vs. 2.87s
+  system.time(for (j in 1:200) rolling_apply(ts1, width, FUN=sum))
+  system.time(for (j in 1:20000) rolling_apply_specialized(ts1, width, FUN=sum))
+  
+  # Profile specialized implementation
+  # -) only ~10% of time spent in C code
+  # -) argument checking takes most of the time
+  Rprof(interval=0.01)
+  for (j in 1:20000) rolling_apply_specialized(ts1, width, FUN=sum)
+  Rprof(NULL)
+  summaryRprof()
 }

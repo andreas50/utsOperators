@@ -5,13 +5,13 @@
 
 
 // Rolling sum of observation values
-void rolling_sum(double values[], double times[], int *n, double values_new[], double *tau)
+void rolling_sum(double values[], double times[], int *n, double values_new[], double *width)
 {
   // values     ... array of time series values
   // times      ... array of observation times
   // n          ... number of observations, i.e. length of 'values' and 'times'
   // values_new ... array of length *n to store output time series values
-  // tau        ... (positive) width of rolling window
+  // width      ... (positive) width of rolling window
   
   int i, left = 0;
   double roll_sum = 0;
@@ -21,7 +21,7 @@ void rolling_sum(double values[], double times[], int *n, double values_new[], d
     roll_sum = roll_sum + values[i];
     
     // Shrink window on the left
-    while (times[left] <= times[i] - *tau) {
+    while (times[left] <= times[i] - *width) {
       roll_sum = roll_sum - values[left];
       left++;
     }
@@ -33,19 +33,19 @@ void rolling_sum(double values[], double times[], int *n, double values_new[], d
 
 
 // Rolling number of observation values
-void rolling_num_obs(double values[], double times[], int *n, double values_new[], double *tau)
+void rolling_num_obs(double values[], double times[], int *n, double values_new[], double *width)
 {
   // values     ... array of time series values
   // times      ... array of observation times
   // n          ... number of observations, i.e. length of 'values' and 'times'
   // values_new ... array of length *n to store output time series values
-  // tau        ... (positive) width of rolling window
+  // width      ... (positive) width of rolling window
   
   int i, left = 0;
 
   for (i = 0; i < *n; i++) {   
     // Shrink window on the left
-    while (times[left] <= times[i] - *tau)
+    while (times[left] <= times[i] - *width)
       left++;
     
     // Number of observations is equal to length of window
@@ -55,13 +55,13 @@ void rolling_num_obs(double values[], double times[], int *n, double values_new[
 
 
 // Rolling maximum of observation values
-void rolling_max(double *values, double times[], int *n, double values_new[], double *tau)
+void rolling_max(double *values, double times[], int *n, double values_new[], double *width)
 {
   // values     ... array of time series values
   // times      ... array of observation times matching time series values
   // n          ... length of 'values'
   // values_new ... array (of same length as 'values') used to store output
-  // tau        ... (positive) width of rolling window
+  // width      ... (positive) width of rolling window
   
   int i, j, left = 0, max_pos = 0;
   
@@ -71,7 +71,7 @@ void rolling_max(double *values, double times[], int *n, double values_new[], do
       max_pos = i;
     
     // Shrink window on the left to get half-open interval
-    while (times[left] <= times[i] - *tau)
+    while (times[left] <= times[i] - *width)
       left++;      
     
     // Recalculate position of maximum if old maximum dropped out
@@ -90,13 +90,13 @@ void rolling_max(double *values, double times[], int *n, double values_new[], do
 
 
 // Rolling minimum of observation values
-void rolling_min(double values[], double times[], int *n, double values_new[], double *tau)
+void rolling_min(double values[], double times[], int *n, double values_new[], double *width)
 {
   // values     ... array of time series values
   // times      ... array of observation times matching time series values
   // n          ... length of 'values'
   // values_new ... array (of same length as 'values') used to store output
-  // tau        ... (positive) width of rolling window
+  // width      ... (positive) width of rolling window
   
   int i, j, left = 0, min_pos=0;
   
@@ -106,7 +106,7 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
       min_pos = i;
     
     // Shrink window on the left to get half-open interval
-    while (times[left] <= times[i] - *tau)
+    while (times[left] <= times[i] - *width)
       left++;      
     
     // Recalculate position of minimum if old minimum dropped out

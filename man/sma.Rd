@@ -7,12 +7,12 @@
 \usage{
 sma(x, ...)
 
-\method{sma}{uts}(x, tau, type = "last", NA_method = "ignore", ...)
+\method{sma}{uts}(x, width, type = "last", NA_method = "ignore", ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
 
-\item{tau}{a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
+\item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
 
 \item{type}{the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
@@ -24,7 +24,7 @@ sma(x, ...)
 Calculate a simple moving average (SMA) of a time series.
 }
 \details{
-Four different SMAs types are supported for \code{"uts"} objects. Each type puts different weights on the observation values inside the rolling time window of width \code{tau}: \itemize{
+Four different SMAs types are supported for \code{"uts"} objects. Each type puts different weights on the observation values inside the rolling time window of width \code{width}: \itemize{
   \item \code{equal}: Each observation value is weighted equally.
   \item \code{last}: Apply the moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted by how long it remained unchanged.
   \item \code{next}: Apply the moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted by how long it remained the next (i.e. upcomming) observation.

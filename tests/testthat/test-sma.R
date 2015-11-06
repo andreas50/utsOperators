@@ -4,6 +4,7 @@ test_that("argument checking and trivial cases work",{
   # Argument checking
   expect_error(sma(ex_uts(), 123))
   expect_error(sma(ex_uts(), ddays(1), type="abc"))
+  expect_error(sma(ex_uts(), ddays(0)))
   expect_error(sma(ex_uts(), ddays(Inf)))
   
   # "uts" with <= 1 observations
@@ -15,12 +16,6 @@ test_that("argument checking and trivial cases work",{
   expect_identical(
     sma(x, ddays(1)),
     x
-  )
-  
-  # zero-length time window
-  expect_identical(
-    sma(ex_uts(), ddays(0)),
-    ex_uts()
   )
   
   # time series with only NAs
@@ -39,19 +34,19 @@ test_that("argument checking and trivial cases work",{
 
 test_that("an extremely long SMA gives a flat output for type 'last', 'next' and 'linear'",{
   x <- ex_uts()
-  tau <- ddays(1e20)
+  width <- ddays(1e20)
   exptected_sma_values <- rep(first(x), length(x))
   
   expect_equal(
-    sma(x, tau, type="last")$values,
+    sma(x, width, type="last")$values,
     exptected_sma_values
   )
   expect_equal(
-    sma(x, tau, type="next")$values,
+    sma(x, width, type="next")$values,
     exptected_sma_values
   )
   expect_equal(
-    sma(x, tau, type="linear")$values,
+    sma(x, width, type="linear")$values,
     exptected_sma_values
   )
 })
@@ -60,6 +55,12 @@ test_that("an extremely long SMA gives a flat output for type 'last', 'next' and
 ### SMA_equal ###
 
 test_that("sma_equal works",{
+  # Very short time window
+  expect_equal(
+    sma(ex_uts(), dseconds(1), type="equal"),
+    ex_uts()
+  )
+  
   # Regressions tests
   expect_equal_to_reference(
     sma(ex_uts(), ddays(1), type="equal"),
@@ -77,8 +78,8 @@ test_that("sma_equal and sma_equal_R give the same result",{
     sma_equal_R(ex_uts(), ddays(1))
   )
   expect_equal(
-    sma(ex_uts(), ddays(0), type="equal"),
-    sma_equal_R(ex_uts(), ddays(0))
+    sma(ex_uts(), dseconds(1), type="equal"),
+    sma_equal_R(ex_uts(), dseconds(1))
   )
   expect_equal(
     sma(ex_uts(), ddays(1000), type="equal"),
@@ -115,8 +116,8 @@ test_that("sma_linear and sma_linear_R give the same result",{
     sma_linear_R(ex_uts(), ddays(1))
   )
   expect_equal(
-    sma(ex_uts(), ddays(0), type="linear"),
-    sma_linear_R(ex_uts(), ddays(0))
+    sma(ex_uts(), dseconds(1), type="linear"),
+    sma_linear_R(ex_uts(), dseconds(1))
   )
   expect_equal(
     sma(ex_uts(), ddays(1000), type="linear"),
@@ -132,9 +133,9 @@ test_that("sma_equal special cases work",{
   # If the time window is shorter than the smallest observation time difference,
   # then SMA_last is equal to backshifted time series (apart from the first observation)
   x <- ex_uts()
-  tau <- as.duration(min(diff(x$times))) / 2
+  width <- as.duration(min(diff(x$times))) / 2
   expect_identical(
-    head(sma(x, tau, type="last"), -1),
+    head(sma(x, width, type="last"), -1),
     lag(x)
   )
 })
@@ -157,8 +158,8 @@ test_that("sma_last and sma_last_R give the same result",{
     sma_last_R(ex_uts(), ddays(1))
   )
   expect_equal(
-    sma(ex_uts(), ddays(0), type="last"),
-    sma_last_R(ex_uts(), ddays(0))
+    sma(ex_uts(), dseconds(1), type="last"),
+    sma_last_R(ex_uts(), dseconds(1))
   )
   expect_equal(
     sma(ex_uts(), ddays(1000), type="last"),
@@ -186,18 +187,18 @@ test_that("sma_next works",{
 test_that("sma_next equal to sma_last with shifted observations",{
   # Define common parameters
   x <- ex_uts()
-  tau <- ddays(1)
+  width <- ddays(1)
   
   # Calculate SMA last with shifted observations
   x_shifted <- uts(values = c(x$values, last(x)),
             times = c(start(x) - days(1), x$times))
-  out <- sma(x_shifted, tau, type="last")
+  out <- sma(x_shifted, width, type="last")
   res1 <- head(out, -1)
   
   # Cannot use expect_identical(), because using c() for "POSIXct" objects drops any "tzone" attribute
   expect_equal(
     res1,
-    sma(x, tau, type="next")
+    sma(x, width, type="next")
   )
 })
 

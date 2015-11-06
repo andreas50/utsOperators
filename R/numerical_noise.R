@@ -7,11 +7,11 @@
 if (0) {
   set.seed(1)
   x <- uts(rnorm(10000) ^ 3, as.POSIXct("2000-01-01") + ddays(1:10000))
-  tau <- ddays(3)
+  width <- ddays(3)
   
   # The R & C implementation diverge over time.
   # -) the problem becomes more serious for longer, heavily skewed time series
-  plot(sma(x, tau, type="equal") - sma_equal_R(x, tau))
+  plot(sma(x, width, type="equal") - sma_equal_R(x, width))
 }
 
 

@@ -6,7 +6,7 @@
 #' 
 #' Calculate a simple moving average (SMA) of a time series.
 #' 
-#' Four different SMAs types are supported for \code{"uts"} objects. Each type puts different weights on the observation values inside the rolling time window of width \code{tau}: \itemize{
+#' Four different SMAs types are supported for \code{"uts"} objects. Each type puts different weights on the observation values inside the rolling time window of width \code{width}: \itemize{
 #'   \item \code{equal}: Each observation value is weighted equally.
 #'   \item \code{last}: Apply the moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted by how long it remained unchanged.
 #'   \item \code{next}: Apply the moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted by how long it remained the next (i.e. upcomming) observation.
@@ -23,7 +23,7 @@
 #' }
 #' 
 #' @param x a numeric time series object.
-#' @param tau a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
+#' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
 #' @param type the type of the SMA. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
@@ -67,16 +67,10 @@ sma <- function(x, ...) UseMethod("sma")
 #'   plot(sma(x, dhours(10), type="linear"), ylim=c(0, 4), main="Linear interpolation")
 #'   plot(sma(x, dhours(10), type="next"), ylim=c(0, 4), main="Next-point interpolation")
 #' }
-sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
+sma.uts <- function(x, width, type="last", NA_method="ignore", ...)
 {
-  # Argument checking and special case (not handled by C code)
-  if (!is.duration(tau))
-    stop("'tau' is not a duration object")
-  if (unclass(tau) == 0)
-    return(x)
-  
   # For forward-looking SMAs, call an appropriate SMA on the time-reversed time series
-  if (unclass(tau) < 0) {
+  if (unclass(width) < 0) {
     # Need to switch types "next" and "last"
     x_rev <- rev(x)
     if (type == "next")
@@ -87,19 +81,19 @@ sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
       type_rev <- type
     
     # Call C interface and reverse output again
-    tmp <- sma(x_rev, tau=abs(tau), type=type_rev, NA_method=NA_method, ...)
+    tmp <- sma(x_rev, width=abs(width), type=type_rev, NA_method=NA_method, ...)
     return(rev(tmp))
   }
   
   # Call generic C interface for rolling operators
   if (type == "equal")
-    generic_C_interface_rolling(x, tau, C_fct="sma_equal", NA_method=NA_method, ...)
+    generic_C_interface_rolling(x, width, C_fct="sma_equal", NA_method=NA_method, ...)
   else if (type == "last")
-    generic_C_interface_rolling(x, tau, C_fct="sma_last", NA_method=NA_method, ...)
+    generic_C_interface_rolling(x, width, C_fct="sma_last", NA_method=NA_method, ...)
   else if (type == "linear")
-    generic_C_interface_rolling(x, tau, C_fct="sma_linear", NA_method=NA_method, ...)
+    generic_C_interface_rolling(x, width, C_fct="sma_linear", NA_method=NA_method, ...)
   else if (type == "next")
-    generic_C_interface_rolling(x, tau, C_fct="sma_next", NA_method=NA_method, ...)
+    generic_C_interface_rolling(x, width, C_fct="sma_next", NA_method=NA_method, ...)
   else
     stop("Unknown moving average calculation type")
 }
@@ -112,21 +106,21 @@ sma.uts <- function(x, tau, type="last", NA_method="ignore", ...)
 #' This function exists solely for testing the C implementation.
 #'
 #' @param x a \code{"uts"} object.
-#' @param tau a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param width a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #'
 #' @keywords internal
 #' @examples
 #' sma_equal_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), type="equal")
-sma_equal_R <- function(x, tau)
+sma_equal_R <- function(x, width)
 {
   # Argument checking and special cases
-  if (!is.duration(tau))
-    stop("The length/width of the rolling operator needs is not a 'duration' object.")
-  if (is.na(tau))
+  if (!is.duration(width))
+    stop("The length/width of the rolling operator is not a 'duration' object")
+  if (is.na(width))
     stop("The length/width of the rolling window is equal to NA")
-  if (unclass(tau) < 0)
-    stop("The length/width of the rolling operator is negative.")
-  if ((length(x) <= 1) | (unclass(tau) == 0))
+  if (unclass(width) <= 0)
+    stop("The length/width of the rolling operator is not positive")
+  if ((length(x) <= 1) | (unclass(width) == 0))
     return(x)
   
   # Prepare data for algorithm
@@ -134,11 +128,11 @@ sma_equal_R <- function(x, tau)
   n <- length(values)
   values_new <- numeric(n)
   times <- as.double(x$times)
-  tau <- unclass(tau)
+  width <- unclass(width)
   
   # Calculate moving average
   for (j in 1:n) {
-    used <- (times > times[j] - tau) & (times <= times[j])  # use half-open interval
+    used <- (times > times[j] - width) & (times <= times[j])  # use half-open interval
     values_new[j] <- mean(values[used])
   }
   uts(values_new, x$times)
@@ -150,21 +144,21 @@ sma_equal_R <- function(x, tau)
 #' This function is identical to \code{\link{sma}} with \code{type="last"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
 #'
 #' @param x a \code{"uts"} object.
-#' @param tau a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param width a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #'
 #' @keywords internal
 #' @examples
 #' sma_last_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), type="last")
-sma_last_R <- function(x, tau)
+sma_last_R <- function(x, width)
 {
   # Argument checking
-  if (!is.duration(tau))
-    stop("The length/width of the rolling operator needs is not a 'duration' object.")
-  if (is.na(tau))
+  if (!is.duration(width))
+    stop("The length/width of the rolling operator is not a 'duration' object")
+  if (is.na(width))
     stop("The length/width of the rolling window is equal to NA")
-  if (unclass(tau) < 0)
-    stop("The length/width of the rolling operator is negative.")
-  if (length(x) <= 1 | unclass(tau) == 0)
+  if (unclass(width) <= 0)
+    stop("The length/width of the rolling operator is not positive")
+  if (length(x) <= 1 | unclass(width) == 0)
     return(x)
   
   # Prepare data for algorithm
@@ -174,16 +168,16 @@ sma_last_R <- function(x, tau)
   times <- as.double(x$times)
   by <- diff(times)
   num_points <- length(values)
-  tau <- unclass(tau)
+  width <- unclass(width)
   
-  # Insert artificial observation at time point min(T(X))-tau
-  times <- c(times[1] - tau, times)
+  # Insert artificial observation at time point min(T(X))-width
+  times <- c(times[1] - width, times)
   values <- c(values[1], values)
-  by <- c(tau, by)
+  by <- c(width, by)
   
   # Initialize loop
   left <- 1
-  rollsum <- values[1] * tau
+  rollsum <- values[1] * width
   out <- numeric(num_points)
   out[1] <- values[1]
   
@@ -195,19 +189,19 @@ sma_last_R <- function(x, tau)
     rollsum <- rollsum + values[j-1] * by[j-1]
     
     # Add other half of partly included observation (on left end of interval)
-    rollsum <- rollsum + values[left] * ((t_old - tau) - times[left])
+    rollsum <- rollsum + values[left] * ((t_old - width) - times[left])
     
     # Shrink interval of left
-    while (times[left+1] <= t_new - tau) {
+    while (times[left+1] <= t_new - width) {
       rollsum <- rollsum - values[left] * by[left]
       left <- left + 1  
     }
     
     # Remove half of partly included observation (on left end of interval)
-    rollsum <- rollsum - values[left] * ((t_new - tau) - times[left])
+    rollsum <- rollsum - values[left] * ((t_new - width) - times[left])
     
     # Calculate sma value for current window
-    out[j-1] <- rollsum / tau
+    out[j-1] <- rollsum / width
   }
   x$values <- out
   x
@@ -219,21 +213,21 @@ sma_last_R <- function(x, tau)
 #' This function is identical to \code{\link{sma}} with \code{type="linear"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
 #'
 #' @param x a \code{"uts"} object.
-#' @param tau a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param width a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #'
 #' @keywords internal
 #' @examples
 #' sma_linear_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), type="linear")
-sma_linear_R <- function(x, tau)
+sma_linear_R <- function(x, width)
 {
   # Error and trivial case checking
-  if (!is.duration(tau))
-    stop("The length/width of the rolling operator needs is not a 'duration' object.")
-  if (is.na(tau))
+  if (!is.duration(width))
+    stop("The length/width of the rolling operator is not a 'duration' object")
+  if (is.na(width))
     stop("The length/width of the rolling window is equal to NA")
-  if (unclass(tau) < 0)
-    stop("The length/width of the rolling operator is negative.")
-  if (length(x) <= 1 | unclass(tau) == 0)
+  if (unclass(width) <= 0)
+    stop("The length/width of the rolling operator is not positive")
+  if (length(x) <= 1 | unclass(width) == 0)
     return(x)
   
   # Extract time points an observations times
@@ -243,24 +237,24 @@ sma_linear_R <- function(x, tau)
   times <- as.double(x$times)
   by <- diff(times)
   num_points <- length(values)
-  tau <- unclass(tau)
+  width <- unclass(width)
   
-  # Insert artificial observation at min(T(X))-tau
-  times <- c(times[1] - tau, times)
+  # Insert artificial observation at min(T(X))-width
+  times <- c(times[1] - width, times)
   values <- c(values[1], values)
-  by <- c(tau, by)
+  by <- c(width, by)
   
   # Initialize loop
   left <- 1
-  rollsum <- values[1] * tau
+  rollsum <- values[1] * width
   out <- numeric(num_points)
   out[1] <- values[1]
   
   # Calculate sma
   for (j in 3:(num_points+1)) {
     # Expand interval on right
-    t_left_new <- times[j] - tau
-    t_left_old <- times[j-1] - tau
+    t_left_new <- times[j] - width
+    t_left_old <- times[j-1] - width
     rollsum <- rollsum + (values[j-1] + values[j]) * by[j-1] / 2
     
     # Add other half of partly included observation (on left end of interval)
@@ -282,7 +276,7 @@ sma_linear_R <- function(x, tau)
     rollsum <- rollsum - gamma
     
     # Calculate sma value for current window
-    out[j-1] <- rollsum / tau
+    out[j-1] <- rollsum / width
   }
   x$values <- out
   x

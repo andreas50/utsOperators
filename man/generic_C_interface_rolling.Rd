@@ -4,17 +4,17 @@
 \alias{generic_C_interface_rolling}
 \title{Generic C interface for rolling time series operators}
 \usage{
-generic_C_interface_rolling(x, tau, ...)
+generic_C_interface_rolling(x, width, ...)
 }
 \arguments{
 \item{x}{a numeric \code{"uts"} object.}
 
-\item{tau}{a \code{\link[lubridate]{duration}} object, specifying the temporal length of the rolling time window.}
+\item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
 \item{\dots}{further arguments passed to \code{\link{generic_C_interface}}.}
 }
 \description{
-This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{tau}.
+This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{width}.
 }
 \examples{
 # Prepare sample 'uts"
@@ -22,12 +22,12 @@ x <- ex_uts()
 x$values[2] <- NA
 
 # SMA_eqqual
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal")
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="sma_equal", NA_method="omit")
+generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_equal")
+generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_equal", NA_method="omit")
 
 # EMA_last
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_last")
-generic_C_interface_rolling(x, tau=ddays(1), C_fct="ema_last", NA_method="omit")
+generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last")
+generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last", NA_method="omit")
 }
 \keyword{internal}
 
