@@ -23,7 +23,7 @@
 #'   \item \code{\link{sma_linear_R}}
 #' }
 #' 
-#' Specialized \code{\link{rolling_apply}} implementations for certain functions:
+#' Specialized \code{\link{rolling_apply}} implementations for certain functions (argument \code{FUN}):
 #' \itemize{
 #'   %\item \code{\link{rolling_max.uts}} (\code{FUN = max})
 #'   %\item \code{\link{rolling_min.uts}} (\code{FUN = min})
