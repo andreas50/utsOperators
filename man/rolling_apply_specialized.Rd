@@ -2,20 +2,40 @@
 % Please edit documentation in R/rolling_apply_specialized.R
 \name{rolling_apply_specialized}
 \alias{rolling_apply_specialized}
+\alias{rolling_apply_specialized.uts}
 \title{Apply Rolling Function (Specialized Implementation)}
 \usage{
 rolling_apply_specialized(x, ...)
+
+\method{rolling_apply_specialized}{uts}(x, width, FUN, ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
 
 \item{width}{a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
+
+\item{FUN}{a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.}
+
+\item{\ldots}{further arguments passed to or from methods.}
 }
 \description{
 This function provides a fast, specialized implementation of \code{\link{rolling_apply}} for certain choices of \code{FUN} and for \code{by=NULL} (i.e. when moving the rolling time window one observation at a time, rather than by a fixed temporal amount).
 }
 \details{
-It is usually not necessary to call this function. Instead, it is called automatically by \code{\link{rolling_apply}} whenever a specialized implementation is available.
+It is usually not necessary to call this function, because it is called automatically by \code{\link{rolling_apply}} whenever a specialized implementation is available.
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{uts}: Implementation for \code{"uts"} objects.
+}}
+\examples{
+# Rolling sum
+rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum)
+rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum) - rolling_apply(ex_uts(), ddays(1), FUN=sum)
+
+# Rolling min/max
+rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
+rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
 }
 \references{
 Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
