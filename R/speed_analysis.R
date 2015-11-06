@@ -12,10 +12,10 @@ if (0) {
   width <- ddays(100)
   by <- ddays(50)
   
-  # Move window one observation at a time: 1.23s
+  # Move window one observation at a time: 1.12s
   system.time(for (j in 1:100) rolling_apply(ts1, width=width, FUN="mean"))
   
-  # Move window in big steps: 0.62s
+  # Move window in big steps: 0.52s
   system.time(for (j in 1:200) rolling_apply(ts1, width=width, FUN="mean", by=by))
   
   # Profile implementation (move one observation at a time)
@@ -26,7 +26,7 @@ if (0) {
   summaryRprof()
   
   # Profile implementation (move window in big setps)
-  # -) 78% of time spent in mapply()
+  # -) ~80% of time spent in mapply()
   Rprof(interval=0.01)
   for (j in 1:100) rolling_apply(ts1, width=width, FUN="mean")
   Rprof(NULL)

@@ -30,14 +30,6 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
 rolling_apply_specialized.uts <- function(x, width, FUN, ...)
 {
-  # Argument checking
-  if (!is.duration(width))
-    stop("'width' is not a duration object")
-  if (as.numeric(width) <= 0)
-    stop("'width' is not positive")
-  if (!is.finite(width))
-    stop("Only finite window widths (width) are supported at the moment")
-  
   # Extract the name of the function to be called
   if (is.function(FUN)) {
     FUN <- deparse(substitute(FUN))
