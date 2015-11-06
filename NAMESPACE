@@ -10,6 +10,7 @@ import(lubridate)
 # Export generic methods
 export(ema)
 export(rolling_apply)
+export(rolling_apply_specialized)
 export(sma)
 
 
@@ -17,11 +18,8 @@ export(sma)
 S3method(ema, uts)
 S3method(rev, uts)
 S3method(rolling_apply, uts)
+S3method(rolling_apply_specialized, uts)
 S3method(sma, uts)
-
-
-# S3 methods without exported generic
-export(rolling_sum.uts)
 
 
 # Miscellaneous functions
