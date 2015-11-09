@@ -41,7 +41,7 @@ rolling_time_window <- function(start, end, width, by)
 
 #' Rolling Time Window Indices
 #' 
-#' For a sorted sequence of time points, determine the start and end indices inside a rolling time window.
+#' For a sorted sequence of time points, determine the start and end indices inside a half-open (open on the left, closed on the right) rolling time window.
 #' 
 #' @return A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window.
 #' @param times a \code{\link{POSIXct}} object of strictly increasing time points.
@@ -73,12 +73,13 @@ rolling_time_window_indices <- function(times, start_times, end_times)
   
   # Determine start and end indices
   end_index <- num_leq_sorted(end_times, times)  
-  start_index <- pmin(num_less_sorted(start_times, times) + 1, length(times))
+  #start_index <- pmin(num_less_sorted(start_times, times) + 1, length(times))
+  start_index <- num_leq_sorted(start_times, times) + 1L
   
   # Set indices to NA for windows that contain no observation
-  is_empty <- (times[start_index] > end_times) | (times[end_index] < start_times)
-  start_index[is_empty] <- NA
-  end_index[is_empty] <- NA
+  is_empty <- (times[start_index] > end_times) | (times[end_index] <= start_times)
+  start_index[is_empty] <- NA_integer_
+  end_index[is_empty] <- NA_integer_
   
   # Return indices as list
   list(start_index=start_index, end_index=end_index)
@@ -87,12 +88,12 @@ rolling_time_window_indices <- function(times, start_times, end_times)
 
 #' Apply Rolling Function (Static Version)
 #' 
-#' Apply a function to the time series values in a sequence of user-defined time windows.
+#' Apply a function to the time series values in a sequence of user-defined, half-open time windows.
 #' 
 #' @param x a numeric time series object.
 #' @param start_times a \code{\link{POSIXct}} object of strictly increasing time points, specifying the start times of the time windows.
 #' @param end_times a \code{\link{POSIXct}} object of strictly increasing time points, of same length as \code{start_times}, and with \code{start_times[i] <= end_times[i]} for each \code{1 <= i <= length(start_times)}. Specifies the end times of the time windows.
-#' @param FUN a function to be applied to the vector of observation values inside each closed time interval \code{[start_times[i], end_times[i]]}.
+#' @param FUN a function to be applied to the vector of observation values inside each half-open time interval \code{(start_times[i], end_times[i]]}.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
 #' @param interior logical. Only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
@@ -174,11 +175,11 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 
 #' Apply Rolling Function
 #' 
-#' Apply a function to the time series values in a closed rolling time window of fixed temporal width.
+#' Apply a function to the time series values in a half-open (open on the left, closed on the right) rolling time window of fixed temporal width.
 #' 
 #' @param x a numeric time series object.
 #' @param width a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
-#' @param FUN a function to be applied to the vector of observation values inside the closed rolling time window.
+#' @param FUN a function to be applied to the vector of observation values inside the half-open rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.
 #' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
@@ -231,3 +232,4 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
   # Call helper functions that does the remaining work
   rolling_apply_static(x, start_times, end_times, align=align, interior=interior, FUN=FUN, ...)
 }
+

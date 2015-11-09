@@ -17,7 +17,7 @@ rolling_time_window_indices(times, start_times, end_times)
 A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window.
 }
 \description{
-For a sorted sequence of time points, determine the start and end indices inside a rolling time window.
+For a sorted sequence of time points, determine the start and end indices inside a half-open (open on the left, closed on the right) rolling time window.
 }
 \examples{
 tmp <- rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))

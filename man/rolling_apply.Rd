@@ -15,7 +15,7 @@ rolling_apply(x, ...)
 
 \item{width}{a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
-\item{FUN}{a function to be applied to the vector of observation values inside the closed rolling time window.}
+\item{FUN}{a function to be applied to the vector of observation values inside the half-open rolling time window.}
 
 \item{by}{a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.}
 
@@ -26,7 +26,7 @@ rolling_apply(x, ...)
 \item{\dots}{arguments passed to \code{FUN}.}
 }
 \description{
-Apply a function to the time series values in a closed rolling time window of fixed temporal width.
+Apply a function to the time series values in a half-open (open on the left, closed on the right) rolling time window of fixed temporal width.
 }
 \section{Methods (by class)}{
 \itemize{

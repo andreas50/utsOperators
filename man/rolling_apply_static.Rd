@@ -14,7 +14,7 @@ rolling_apply_static(x, start_times, end_times, FUN, ..., align = "right",
 
 \item{end_times}{a \code{\link{POSIXct}} object of strictly increasing time points, of same length as \code{start_times}, and with \code{start_times[i] <= end_times[i]} for each \code{1 <= i <= length(start_times)}. Specifies the end times of the time windows.}
 
-\item{FUN}{a function to be applied to the vector of observation values inside each closed time interval \code{[start_times[i], end_times[i]]}.}
+\item{FUN}{a function to be applied to the vector of observation values inside each half-open time interval \code{(start_times[i], end_times[i]]}.}
 
 \item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.}
 
@@ -23,7 +23,7 @@ rolling_apply_static(x, start_times, end_times, FUN, ..., align = "right",
 \item{\dots}{arguments passed to \code{FUN}.}
 }
 \description{
-Apply a function to the time series values in a sequence of user-defined time windows.
+Apply a function to the time series values in a sequence of user-defined, half-open time windows.
 }
 \examples{
 start_times <- seq(as.POSIXct("2007-11-08"), as.POSIXct("2007-11-09 12:00:00"), by="12 hours")

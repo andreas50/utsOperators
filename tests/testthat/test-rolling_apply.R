@@ -11,7 +11,7 @@ test_that("rolling_time_window works",{
   # Regression tests
   expect_equal_to_reference(
     rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30)),
-    file="test-rolling_time_window"
+    file="test-rolling_time_window.rds"
   )
 })
 
@@ -30,14 +30,20 @@ test_that("rolling_time_window_indices works",{
   expect_error(rolling_time_window_indices(times, rev(start_times), end_times))
   expect_error(rolling_time_window_indices(times, start_times, rev(end_times)))
   
-  # Trivial cases
+  # Trivial case of zero-length time windows
   expect_equal(
     rolling_time_window_indices(times, times, times)$start_index,
     rolling_time_window_indices(times, times, times)$end_index
   )
   expect_equal(
     rolling_time_window_indices(times, times, times)$start_index,
-    1:length(times)
+    rep(NA_integer_, length(times))
+  )
+  
+  # Trivial case of one observation in each time window
+  expect_equal(
+    rolling_time_window_indices(times[-1], times[-length(times)], times[-1])$start_index,
+    rolling_time_window_indices(times[-1], times[-length(times)], times[-1])$end_index
   )
   
   # Windows contain no observations
@@ -47,13 +53,13 @@ test_that("rolling_time_window_indices works",{
   )
   expect_equal(
     rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$end_index,
-    rep(NA_real_, length(times))
+    rep(NA_integer_, length(times))
   )
   
   # Regression tests
   expect_equal_to_reference(
     rolling_time_window_indices(times, start_times, end_times),
-    file="test-rolling_time_window_indices"
+    file="test-rolling_time_window_indices.rds"
   )
 })
 
@@ -82,11 +88,11 @@ test_that("rolling_apply_static works",{
   # Regression tests
   expect_equal_to_reference(
     rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean),
-    file="test-rolling_apply_static_1"
+    file="test-rolling_apply_static_1.rds"
   )
   expect_equal_to_reference(
     rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, interior=TRUE),
-    file="test-rolling_apply_static_2"
+    file="test-rolling_apply_static_2.rds"
   )
 })
 
@@ -104,19 +110,19 @@ test_that("rolling_apply works",{
   # Regression tests
   expect_equal_to_reference(
     rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1)),
-    file="test-rolling_apply_1"
+    file="test-rolling_apply_1.rds"
   )
   expect_equal_to_reference(
     rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1), interior=TRUE),
-    file="test-rolling_apply_2"
+    file="test-rolling_apply_2.rds"
   )
   expect_equal_to_reference(
     rolling_apply(ex_uts(), width=ddays(1), FUN="mean"),
-    file="test-rolling_apply_3"
+    file="test-rolling_apply_3.rds"
   )
   expect_equal_to_reference(
     rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE),
-    file="test-rolling_apply_4"
+    file="test-rolling_apply_4.rds"
   )
 })
 
