@@ -11,6 +11,7 @@
 #' @param x a numeric time series object.
 #' @param width a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.
+#' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.
 #' @param \ldots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}. 
@@ -28,7 +29,7 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' # Rolling min/max
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
-rolling_apply_specialized.uts <- function(x, width, FUN, ...)
+rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...)
 {
   # Extract the name of the function to be called
   if (is.function(FUN)) {
@@ -39,14 +40,15 @@ rolling_apply_specialized.uts <- function(x, width, FUN, ...)
   
   # Call C function
   if (FUN == "length")
-    generic_C_interface_rolling(x, width, C_fct="rolling_num_obs")
+    C_fct <- "rolling_num_obs"
   else if (FUN == "min")
-    generic_C_interface_rolling(x, width, C_fct="rolling_min")
+    C_fct <- "rolling_min"
   else if (FUN == "max")
-    generic_C_interface_rolling(x, width, C_fct="rolling_max")
+    C_fct <- "rolling_max"
   else if (FUN == "sum")
-    generic_C_interface_rolling(x, width, C_fct="rolling_sum")
+    C_fct <- "rolling_sum"
   else
     stop("This function does not have a specialized rolling_apply() implementation")
+  generic_C_interface_rolling(x, width, C_fct=C_fct, NA_method=NA_method)
 }
 

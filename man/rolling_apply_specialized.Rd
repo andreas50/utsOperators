@@ -7,7 +7,8 @@
 \usage{
 rolling_apply_specialized(x, ...)
 
-\method{rolling_apply_specialized}{uts}(x, width, FUN, ...)
+\method{rolling_apply_specialized}{uts}(x, width, FUN, NA_method = "ignore",
+  ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
@@ -15,6 +16,8 @@ rolling_apply_specialized(x, ...)
 \item{width}{a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
 \item{FUN}{a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.}
+
+\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
 \item{\ldots}{further arguments passed to or from methods.}
 }

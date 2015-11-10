@@ -16,7 +16,7 @@ ema(x, ...)
 
 \item{type}{the type of the EMA. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
-\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
+\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
