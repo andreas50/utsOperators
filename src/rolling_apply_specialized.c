@@ -3,6 +3,73 @@
  * "Algorithms for Unevenly-Spaced Time Series", Eckner (2011).
  */
 
+/******************* Helper functions ********************/
+
+#ifndef swap
+#define swap(a,b) {temp=(a); (a)=(b); (b)=temp;}
+#endif
+
+
+/*
+Helper function that calculates the k-th largest (counting starts at zero)
+-) "quickselect" algorithm
+-) O(N) average case performance
+-) the input array will be rearranged
+*/
+void kth_largest(double *values, int *n, int *k, double *out)
+{
+  // values ... array of values
+  // n      ... length of array
+  // k      ... return k-th smallest element
+  // out    ... variable into which to write output
+  
+  int i, j, left, right, mid, found;
+  double pivot, temp;
+  left = 0;
+  right = *n - 1;
+  found = 0;
+  
+  while (found == 0) {
+    if (right <= left + 1) {  // Array down to 1-2 elements
+      if ((right == left + 1) && (values[right] < values[left])) {
+        swap(values[left], values[right])
+      }
+      out[0] = values[*k];
+      left = right;
+      found = 1;
+    } else {
+      // Select pivot element
+      mid = (left + right) / 2;   // integer devision
+      swap(values[mid], values[left + 1]);
+      if (values[left] > values[right])
+        swap(values[left], values[right])
+      if (values[left + 1] > values[right])
+        swap(values[left + 1], values[right])
+      if (values[left] > values[left + 1])
+        swap(values[left], values[left + 1])
+      
+      // Put smaller elements to left of pivot, larger to right
+      i = left + 1;
+      j = right;
+      pivot = values[left + 1];
+      for (;;) {
+        do i++; while (values[i] < pivot);
+        do j--; while (values[j] > pivot);
+        if (j < i) break;
+        swap(values[i], values[j])
+      }
+      values[left + 1] = values[j];
+      values[j] = pivot;
+      if (j >= *k)
+        right = j-1;
+      if (j <= *k)
+        left = i;
+    }
+  }
+}
+
+/****************** END: Helper functions ****************/
+
 
 // Rolling sum of observation values
 void rolling_sum(double values[], double times[], int *n, double values_new[], double *width)
