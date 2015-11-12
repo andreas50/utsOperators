@@ -70,7 +70,7 @@ sma <- function(x, ...) UseMethod("sma")
 sma.uts <- function(x, width, type="last", NA_method="ignore", ...)
 {
   # For forward-looking SMAs, call an appropriate SMA on the time-reversed time series
-  if (unclass(width) < 0) {
+  if (unclass(width) < 0) { # much faster than S4 method dispatch
     # Need to switch types "next" and "last"
     x_rev <- rev(x)
     if (type == "next")
@@ -118,9 +118,9 @@ sma_equal_R <- function(x, width)
     stop("The length/width of the rolling operator is not a 'duration' object")
   if (is.na(width))
     stop("The length/width of the rolling window is equal to NA")
-  if (unclass(width) <= 0)
+  if (unclass(width) <= 0) # much faster than S4 method dispatch
     stop("The length/width of the rolling operator is not positive")
-  if ((length(x) <= 1) | (unclass(width) == 0))
+  if ((length(x) <= 1) | (unclass(width) == 0)) # much faster than S4 method dispatch
     return(x)
   
   # Prepare data for algorithm
@@ -156,9 +156,9 @@ sma_last_R <- function(x, width)
     stop("The length/width of the rolling operator is not a 'duration' object")
   if (is.na(width))
     stop("The length/width of the rolling window is equal to NA")
-  if (unclass(width) <= 0)
+  if (unclass(width) <= 0) # much faster than S4 method dispatch
     stop("The length/width of the rolling operator is not positive")
-  if (length(x) <= 1 | unclass(width) == 0)
+  if (length(x) <= 1 | unclass(width) == 0) # much faster than S4 method dispatch
     return(x)
   
   # Prepare data for algorithm
@@ -225,9 +225,9 @@ sma_linear_R <- function(x, width)
     stop("The length/width of the rolling operator is not a 'duration' object")
   if (is.na(width))
     stop("The length/width of the rolling window is equal to NA")
-  if (unclass(width) <= 0)
+  if (unclass(width) <= 0) # much faster than S4 method dispatch
     stop("The length/width of the rolling operator is not positive")
-  if (length(x) <= 1 | unclass(width) == 0)
+  if (length(x) <= 1 | unclass(width) == 0) # much faster than S4 method dispatch
     return(x)
   
   # Extract time points an observations times

@@ -62,11 +62,11 @@ ema.uts <- function(x, tau, type="last", NA_method="ignore", ...)
   # Argument checking and special case (not handled by C code)
   if (!is.duration(tau))
     stop("'tau' is not a duration object")
-  if (unclass(tau) == 0)
+  if (unclass(tau) == 0)  # much faster than S4 method dispatch
     return(x)
 
   # For forward-looking EMAs, call an appropriate EMA on the time-reversed time series
-  if (unclass(tau) < 0) {
+  if (unclass(tau) < 0) { # much faster than S4 method dispatch
     # Need to switch types "next" and "last"
     x_rev <- rev(x)
     if (type == "next")

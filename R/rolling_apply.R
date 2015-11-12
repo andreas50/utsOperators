@@ -20,11 +20,11 @@ rolling_time_window <- function(start, end, width, by)
   # Argument checking
   if (!is.duration(width))
     stop("'width' is not a duration object")
-  if (unclass(width) < 0)
+  if (unclass(width) < 0) # much faster than S4 method dispatch
     stop("'width' is negative")
   if (!is.duration(by))
     stop("'by' is not a duration object")
-  if (unclass(by) <= 0)
+  if (unclass(by) <= 0) # much faster than S4 method dispatch
     stop("'by' is not positive")
   if (!is.POSIXct(start))
     start <- as.POSIXct(start)
@@ -198,12 +198,12 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
   # Argument checking
   if (!is.duration(width))
     stop("'width' is not a duration object")
-  if (unclass(width) <= 0)
+  if (unclass(width) <= 0) # much faster than S4 method dispatch
     stop("'width' is not negative")
   if (!is.null(by)) {
     if (!is.duration(by))
       stop("'by' is not a duration object")
-    if (unclass(by) <= 0)
+    if (unclass(by) <= 0) # much faster than S4 method dispatch
       stop("'by' is not positive")
   }
   if (!is.finite(width))

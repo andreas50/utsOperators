@@ -122,7 +122,7 @@ generic_C_interface_rolling <- function(x, width, ...)
     stop("The rolling window width is not a 'duration' object")
   if (is.na(width))
     stop("The rolling window width is NA")
-  if (unclass(width) <= 0)
+  if (unclass(width) <= 0) # much faster than S4 method dispatch
     stop("The rolling window width is not positive")
   if (!is.finite(width))
     stop("The rolling window width is not finite")
