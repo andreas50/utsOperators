@@ -166,7 +166,7 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
     // Add truncated area on left end
     // Inline trapezoid() functionality to avoid function call overhead
     truncated_width = times[left] - t_left_new;
-    if ((left == 0) | (truncated_width == 0))
+    if ((left == 0) || (truncated_width == 0))
       left_area = truncated_width * values[0];
     else {
       weight = truncated_width / (times[left] - times[left-1]);
