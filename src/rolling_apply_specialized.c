@@ -3,44 +3,60 @@
  * "Algorithms for Unevenly-Spaced Time Series", Eckner (2011).
  */
 
-/******************* Helper functions ********************/
+#include <stdlib.h>
 
 #ifndef swap
 #define swap(a,b) {temp=(a); (a)=(b); (b)=temp;}
 #endif
 
 
+/******************* Helper functions ********************/
+
+
+// Return smallest element of an array
+double array_min(double values[], int n)
+{
+  // values ... array of values
+  // n      ... length of array
+  
+  double min_value = values[0];    
+  
+  for (int i = 1; i < n; i++) {
+    if (values[i] < min_value)
+      min_value = values[i];
+  }
+  return min_value;
+}
+
+
 /*
-Helper function that calculates the k-th largest (counting starts at zero)
--) "quickselect" algorithm
+Find the k-th largest (counting starts at zero) of an array using the "quickselect" algorithm
 -) O(N) average case performance
 -) the input array will be rearranged
 */
-void kth_largest(double *values, int *n, int *k, double *out)
+double quickselect(double *values, int n, int k)
 {
   // values ... array of values
   // n      ... length of array
   // k      ... return k-th smallest element
-  // out    ... variable into which to write output
   
-  int i, j, left, right, mid, found;
+  int i, j, left, right, mid;
   double pivot, temp;
   left = 0;
-  right = *n - 1;
-  found = 0;
+  right = n - 1;
   
-  while (found == 0) {
-    if (right <= left + 1) {  // Array down to 1-2 elements
-      if ((right == left + 1) && (values[right] < values[left])) {
+  while (1 > 0) {
+    if (right <= left + 1) {
+      // Array down to 1-2 elements
+      if ((right == left + 1) && (values[right] < values[left]))
         swap(values[left], values[right])
-      }
-      out[0] = values[*k];
-      left = right;
-      found = 1;
+      return values[k];
     } else {
       // Select pivot element
       mid = (left + right) / 2;   // integer devision
       swap(values[mid], values[left + 1]);
+      
+      // Put pivot element and the elements at the left and right boundary in the correct relative order
       if (values[left] > values[right])
         swap(values[left], values[right])
       if (values[left + 1] > values[right])
@@ -55,18 +71,43 @@ void kth_largest(double *values, int *n, int *k, double *out)
       for (;;) {
         do i++; while (values[i] < pivot);
         do j--; while (values[j] > pivot);
-        if (j < i) break;
+        if (j < i)
+          break;
         swap(values[i], values[j])
       }
       values[left + 1] = values[j];
       values[j] = pivot;
-      if (j >= *k)
+      if (j >= k)
         right = j-1;
-      if (j <= *k)
+      if (j <= k)
         left = i;
     }
   }
 }
+
+
+// Find the median value of an array (which gets scrambled)
+double median(double *values, int n)
+{
+  // values ... array of values
+  // n      ... length of array
+
+  double value_low, value_high;
+  
+  // Determine the mid points of the array
+  int mid_low = (n - 1) / 2;
+  int mid_high = n - mid_low - 1;
+  value_low = quickselect(values, n, mid_low);
+  
+  if (mid_low < mid_high) {   // even number of elements -> two mid points
+    // Get the smallest element to the right of lowest mid-point
+    value_high = array_min(values + mid_high, n - mid_high);
+    return (value_low + value_high) / 2; 
+  } else
+    return value_low;
+}
+
+
 
 /****************** END: Helper functions ****************/
 
@@ -190,3 +231,34 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
   }
 }
 
+
+
+// Rolling median
+void rolling_median(double values[], double times[], int *n, double values_new[], double *width)
+{
+  // values     ... array of time series values
+  // times      ... array of observation times matching time series values
+  // n          ... length of 'values'
+  // values_new ... array (of same length as 'values') used to store output
+  // width      ... (positive) width of the rolling window
+  
+  int j, window_length, k_low, k_high, left = 0;
+  double *values2, val_low, val_high;
+  
+  // Allocate memory for temporary array (because quickselect scrambles the data)   
+  values2 = malloc((*n + 1) * sizeof(double));
+  
+  for (int i = 0; i < *n; i++) {   
+    // Shrink window on the left end
+    while (times[left] <= times[i] - *width)
+      left++;
+    
+    // Copy data in rolling window to temporary array, and calculate the median
+    // -) NEXT: check if memcpy is faster?
+    window_length = i - left + 1;
+    for (j = 0; j < window_length; j++)
+      values2[j] = values[left + j];
+    values_new[i] = median(values2, window_length);
+  }
+  free(values2);
+}

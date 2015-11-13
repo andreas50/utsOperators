@@ -32,6 +32,12 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply(ex_uts(), width=ddays(1), FUN=max)
   )
   
+  # FUN = median
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=median),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=median)
+  )
+  
   # FUN = sum
   expect_equal(
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum),
