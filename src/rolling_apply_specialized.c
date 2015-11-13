@@ -34,7 +34,7 @@ Find the k-th largest (counting starts at zero) of an array using the "quicksele
 -) O(N) average case performance
 -) the input array will be rearranged
 */
-double quickselect(double *values, int n, int k)
+double quickselect(double values[], int n, int k)
 {
   // values ... array of values
   // n      ... length of array
@@ -87,7 +87,7 @@ double quickselect(double *values, int n, int k)
 
 
 // Find the median value of an array (which gets scrambled)
-double median(double *values, int n)
+double median(double values[], int n)
 {
   // values ... array of values
   // n      ... length of array
@@ -106,7 +106,6 @@ double median(double *values, int n)
   } else
     return value_low;
 }
-
 
 
 /****************** END: Helper functions ****************/
@@ -163,7 +162,7 @@ void rolling_num_obs(double values[], double times[], int *n, double values_new[
 
 
 // Rolling maximum of observation values
-void rolling_max(double *values, double times[], int *n, double values_new[], double *width)
+void rolling_max(double values[], double times[], int *n, double values_new[], double *width)
 {
   // values     ... array of time series values
   // times      ... array of observation times matching time series values
@@ -206,7 +205,7 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
   // values_new ... array (of same length as 'values') used to store output
   // width      ... (positive) width of rolling window
   
-  int i, j, left = 0, min_pos=0;
+  int i, j, left = 0, min_pos = 0;
   
   for (i = 0; i < *n; i++) {   
     // Expand window on the right
@@ -218,7 +217,7 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
       left++;      
     
     // Recalculate position of minimum if old minimum dropped out
-    // Inline functionality of min_index() to avoid function call overhead
+    // Inline the calculation of the minimum position to avoid any function call overhead
     if (min_pos < left) {
       min_pos = left;
       for (j = left+1; j <= i; j++)
@@ -232,7 +231,6 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
 }
 
 
-
 // Rolling median
 void rolling_median(double values[], double times[], int *n, double values_new[], double *width)
 {
@@ -242,23 +240,19 @@ void rolling_median(double values[], double times[], int *n, double values_new[]
   // values_new ... array (of same length as 'values') used to store output
   // width      ... (positive) width of the rolling window
   
-  int j, window_length, k_low, k_high, left = 0;
-  double *values2, val_low, val_high;
-  
-  // Allocate memory for temporary array (because quickselect scrambles the data)   
-  values2 = malloc((*n + 1) * sizeof(double));
-  
+  int j, window_length, left=0;
+  double values_tmp[*n];      // temporary array for median(), which shuffles the input data 
+
   for (int i = 0; i < *n; i++) {   
     // Shrink window on the left end
     while (times[left] <= times[i] - *width)
       left++;
     
     // Copy data in rolling window to temporary array, and calculate the median
-    // -) NEXT: check if memcpy is faster?
     window_length = i - left + 1;
     for (j = 0; j < window_length; j++)
-      values2[j] = values[left + j];
-    values_new[i] = median(values2, window_length);
+      values_tmp[j] = values[left + j];
+    values_new[i] = median(values_tmp, window_length);
   }
-  free(values2);
 }
+
