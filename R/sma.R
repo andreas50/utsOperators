@@ -24,7 +24,7 @@
 #' 
 #' @param x a numeric time series object.
 #' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
-#' @param interpolation the sample path interpolation method Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
+#' @param interpolation the sample path interpolation method Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
 #' 

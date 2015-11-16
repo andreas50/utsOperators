@@ -15,7 +15,7 @@ sma(x, ...)
 
 \item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
 
-\item{interpolation}{the sample path interpolation method Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
+\item{interpolation}{the sample path interpolation method Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 

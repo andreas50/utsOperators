@@ -5,21 +5,10 @@
 # Hardware: i7-2600, 32GB RAM
 # Software: Windows 7 Pro 64bit, R 3.2.0, gcc-4.6.3
 
-### sma(..., interpolation="equal") vs. rolling_apply(..., FUN="mean")
-# -) the specialized implementation is ~160 times faster
-if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
-  width <- ddays(100)
-  
-  # generic vs. specialized: 2.37s vs. 1.49s
-  system.time(for (j in 1:200) rolling_apply(ts1, width, FUN=mean))
-  system.time(for (j in 1:20000) sma(ts1, width, interpolation="equal"))
-}
-
 
 ### rolling_apply_specialized vs. rolling_apply for FUN=sum
 # -) the specialized implementation is ~70 times faster
+# -) the results for FUN=mean are very similar, because the implementations are almost identical
 if (0) {
   set.seed(1)
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
