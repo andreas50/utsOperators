@@ -5,7 +5,7 @@
 # Hardware: i7-2600, 32GB RAM
 # Software: Windows 7 Pro 64bit, R 3.2.0, gcc-4.6.3
 
-### sma(..., type="equal") vs. rolling_apply(..., FUN="mean")
+### sma(..., interpolation="equal") vs. rolling_apply(..., FUN="mean")
 # -) the specialized implementation is ~160 times faster
 if (0) {
   set.seed(1)
@@ -14,7 +14,7 @@ if (0) {
   
   # generic vs. specialized: 2.37s vs. 1.49s
   system.time(for (j in 1:200) rolling_apply(ts1, width, FUN=mean))
-  system.time(for (j in 1:20000) sma(ts1, width, type="equal"))
+  system.time(for (j in 1:20000) sma(ts1, width, interpolation="equal"))
 }
 
 

@@ -5,7 +5,7 @@
 # Hardware: i7-2600, 32GB RAM
 # Software: Windows 7 Pro 64bit, R 3.2.0, gcc-4.6.3
 
-### sma(..., type="last")
+### sma(..., interpolation="last")
 # -) for a moderate-length time series, the C implementation is ~140 times faster
 if (0) {
   set.seed(1)
@@ -14,19 +14,19 @@ if (0) {
   
   # R vs. C: 1.92s vs. 1.4s
   system.time(for (j in 1:200) sma_last_R(ts1, width))
-  system.time(for (j in 1:20000) sma(ts1, width, type="last"))
+  system.time(for (j in 1:20000) sma(ts1, width, interpolation="last"))
   
   # Profile C implementation
   # -) ~15% of time spent in C implementation
   # -) argument checking takes up most of the time
   Rprof(interval=0.01)
-  for (j in 1:2e4) sma(ts1, width, type="last")
+  for (j in 1:2e4) sma(ts1, width, interpolation="last")
   Rprof(NULL)
   summaryRprof()
 }
 
 
-### sma(..., type="linear")
+### sma(..., interpolation="linear")
 # -) for a moderate-length time series, the C implementation is ~230 times faster
 if (0) {
   set.seed(1)
@@ -35,13 +35,13 @@ if (0) {
   
   # R vs. C: 3.28s vs. 1.42s
   system.time(for (j in 1:200) sma_linear_R(ts1, width))
-  system.time(for (j in 1:20000) sma(ts1, width, type="linear"))
+  system.time(for (j in 1:20000) sma(ts1, width, interpolation="linear"))
   
   # Profile C implementation
   # -) ~20% of time spent in C implementation
   # -) argument checking takes up most of the time
   Rprof(interval=0.01)
-  for (j in 1:2e4) sma(ts1, width, type="linear")
+  for (j in 1:2e4) sma(ts1, width, interpolation="linear")
   Rprof(NULL)
   summaryRprof()
 }

@@ -7,14 +7,14 @@
 \usage{
 ema(x, ...)
 
-\method{ema}{uts}(x, tau, type = "last", NA_method = "ignore", ...)
+\method{ema}{uts}(x, tau, interpolation = "last", NA_method = "ignore", ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
 
 \item{tau}{a finite \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.}
 
-\item{type}{the type of the EMA. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
+\item{interpolation}{the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
@@ -24,15 +24,15 @@ ema(x, ...)
 Calculate an exponential moving average (EMA) of a time series by applying an exponential kernel to the time series sample path.
 }
 \details{
-Four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values: \itemize{
-  \item \code{last}: Apply the exponential moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained unchanged.
-  \item \code{next}: Apply the exponential moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained the next (i.e. upcming) observation. For equally spaced time series this method coincides with the usual definition used for such time series, see Proposition 8.8 in Eckner, A. (2014).
-  \item \code{linear}: Apply the exponential moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
+Three different time series sample path interpolation schemes are supported for \code{"uts"} objects. Each method implicitly puts different weights on past observation values: \itemize{
+  \item \code{last}: Use \emph{last}-point interpolation for the time series sample path.. Equivalently, each observation value is weighted proportionally by how long it remained unchanged.
+  \item \code{next}: Use \emph{next}-point interpolation for the time series sample path. Equivalently, each observation value is weighted proportionally by how long it remained the next (i.e. upcoming) observation. For equally spaced time series this method coincides with the usual definition used for such time series, see Proposition 8.8 in Eckner, A. (2014).
+  \item \code{linear}: Use \emph{linear} interpolation of the time series sample path. The behavior is approximately halfway in-between last-point and next-point interpolation.
 }
 See the first reference below for precise mathematical definitions.
 
-\subsection{Which EMA \code{type} to use?}{
-Depending on the application, one interpolation type will often be preferable. See the corresponding discussion for \code{\link[=sma]{simple moving averages}}.
+\subsection{Which sample path interpolation method to use?}{
+Depending on the application, one sample path interpolation method will often be preferable. See the corresponding discussion for \code{\link[=sma]{simple moving averages}}.
 }
 }
 \section{Methods (by class)}{
@@ -41,8 +41,8 @@ Depending on the application, one interpolation type will often be preferable. S
 }}
 \examples{
 ema(ex_uts(), ddays(1))
-ema(ex_uts(), ddays(1), type="linear")
-ema(ex_uts(), ddays(1), type="next")
+ema(ex_uts(), ddays(1), interpolation="linear")
+ema(ex_uts(), ddays(1), interpolation="next")
 
 # Plot a monotonically increasing time series 'x', together with
 # a backward-looking and forward-looking EMA.
@@ -61,9 +61,9 @@ ema(ex_uts(), ddays(1), type="next")
 \dontrun{
   x <- uts(0:8, Sys.time() + dhours(0:8))
   par(mfrow=c(1, 3))
-  plot(ema(x, dhours(10), type="last"), ylim=c(0, 3), main="Last-point interpolation")
-  plot(ema(x, dhours(10), type="linear"), ylim=c(0, 3), main="Linear interpolation")
-  plot(ema(x, dhours(10), type="next"), ylim=c(0, 3), main="Next-point interpolation")
+  plot(ema(x, dhours(10), interpolation="last"), ylim=c(0, 3), main="Last-point interpolation")
+  plot(ema(x, dhours(10), interpolation="linear"), ylim=c(0, 3), main="Linear interpolation")
+  plot(ema(x, dhours(10), interpolation="next"), ylim=c(0, 3), main="Next-point interpolation")
 }
 }
 \references{

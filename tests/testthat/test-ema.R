@@ -4,7 +4,7 @@ test_that("argument checking and trivial cases work",{
   # Argument checking
   expect_error(ema(ex_uts(), 123))
   expect_error(ema(ex_uts()))
-  expect_error(ema(ex_uts(), ddays(1), type="abc"))
+  expect_error(ema(ex_uts(), ddays(1), interpolation="abc"))
   expect_error(ema(ex_uts(), ddays(Inf)))
   
   # "uts" with <= 1 observations
@@ -44,15 +44,15 @@ test_that("an extremely long EMA gives a flat output",{
   exptected_ema_values <- rep(first(x), length(x))
   
   expect_equal(
-    ema(x, tau, type="last")$values,
+    ema(x, tau, interpolation="last")$values,
     exptected_ema_values <- rep(first(x), length(x))
   )
   expect_equal(
-    ema(x, tau, type="next")$values,
+    ema(x, tau, interpolation="next")$values,
     exptected_ema_values <- rep(first(x), length(x))
   )
   expect_equal(
-    ema(x, tau, type="linear")$values,
+    ema(x, tau, interpolation="linear")$values,
     exptected_ema_values <- rep(first(x), length(x))
   )
 })
@@ -64,11 +64,11 @@ test_that("an extremely long EMA gives a flat output",{
 test_that("ema_linear works",{
   # Regressions tests
   expect_equal_to_reference(
-    ema(ex_uts(), ddays(1), type="linear"),
+    ema(ex_uts(), ddays(1), interpolation="linear"),
     file="test-ema_linear_1.rds"
   )
   expect_equal_to_reference(
-    ema(ex_uts(), ddays(-1), type="linear"),
+    ema(ex_uts(), ddays(-1), interpolation="linear"),
     file="test-ema_linear_2.rds"
   )
 })
@@ -80,11 +80,11 @@ test_that("ema_linear works",{
 test_that("ema_last works",{
   # Regressions tests
   expect_equal_to_reference(
-    ema(ex_uts(), ddays(1), type="last"),
+    ema(ex_uts(), ddays(1), interpolation="last"),
     file="test-ema_last_1.rds"
   )
   expect_equal_to_reference(
-    ema(ex_uts(), ddays(-1), type="last"),
+    ema(ex_uts(), ddays(-1), interpolation="last"),
     file="test-ema_last_2.rds"
   )
 })
@@ -96,11 +96,11 @@ test_that("ema_last works",{
 test_that("ema_next works",{
   # Regressions tests
   expect_equal_to_reference(
-    ema(ex_uts(), ddays(1), type="next"),
+    ema(ex_uts(), ddays(1), interpolation="next"),
     file="test-ema_next_1.rds"
   )
   expect_equal_to_reference(
-    ema(ex_uts(), ddays(-1), type="next"),
+    ema(ex_uts(), ddays(-1), interpolation="next"),
     file="test-ema_next_2.rds"
   )
 })

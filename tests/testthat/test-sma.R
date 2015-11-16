@@ -3,7 +3,7 @@ context("sma")
 test_that("argument checking and trivial cases work",{
   # Argument checking
   expect_error(sma(ex_uts(), 123))
-  expect_error(sma(ex_uts(), ddays(1), type="abc"))
+  expect_error(sma(ex_uts(), ddays(1), interpolation="abc"))
   expect_error(sma(ex_uts(), ddays(0)))
   expect_error(sma(ex_uts(), ddays(Inf)))
   
@@ -32,21 +32,21 @@ test_that("argument checking and trivial cases work",{
 })
 
 
-test_that("an extremely long SMA gives a flat output for type 'last', 'next' and 'linear'",{
+test_that("an extremely long SMA gives a flat output for all interpolation methods",{
   x <- ex_uts()
   width <- ddays(1e20)
   exptected_sma_values <- rep(first(x), length(x))
   
   expect_equal(
-    sma(x, width, type="last")$values,
+    sma(x, width, interpolation="last")$values,
     exptected_sma_values
   )
   expect_equal(
-    sma(x, width, type="next")$values,
+    sma(x, width, interpolation="next")$values,
     exptected_sma_values
   )
   expect_equal(
-    sma(x, width, type="linear")$values,
+    sma(x, width, interpolation="linear")$values,
     exptected_sma_values
   )
 })
@@ -58,26 +58,26 @@ test_that("an extremely long SMA gives a flat output for type 'last', 'next' and
 test_that("sma_linear works",{
   # Regressions tests
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(1), type="linear"),
+    sma(ex_uts(), ddays(1), interpolation="linear"),
     file="test-sma_linear_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), type="linear"),
+    sma(ex_uts(), ddays(-1), interpolation="linear"),
     file="test-sma_linear_2.rds"
   )
 })
 
 test_that("sma_linear and sma_linear_R give the same result",{
   expect_equal(
-    sma(ex_uts(), ddays(1), type="linear"),
+    sma(ex_uts(), ddays(1), interpolation="linear"),
     sma_linear_R(ex_uts(), ddays(1))
   )
   expect_equal(
-    sma(ex_uts(), dseconds(1), type="linear"),
+    sma(ex_uts(), dseconds(1), interpolation="linear"),
     sma_linear_R(ex_uts(), dseconds(1))
   )
   expect_equal(
-    sma(ex_uts(), ddays(1000), type="linear"),
+    sma(ex_uts(), ddays(1000), interpolation="linear"),
     sma_linear_R(ex_uts(), ddays(1000))
   )
 })
@@ -92,7 +92,7 @@ test_that("sma_last special cases work",{
   x <- ex_uts()
   width <- as.duration(min(diff(x$times))) / 2
   expect_identical(
-    head(sma(x, width, type="last"), -1),
+    head(sma(x, width, interpolation="last"), -1),
     lag(x)
   )
 })
@@ -100,26 +100,26 @@ test_that("sma_last special cases work",{
 test_that("sma_last works",{
   # Regressions tests
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(1), type="last"),
+    sma(ex_uts(), ddays(1), interpolation="last"),
     file="test-sma_last_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), type="last"),
+    sma(ex_uts(), ddays(-1), interpolation="last"),
     file="test-sma_last_2.rds"
   )
 })
 
 test_that("sma_last and sma_last_R give the same result",{
   expect_equal(
-    sma(ex_uts(), ddays(1), type="last"),
+    sma(ex_uts(), ddays(1), interpolation="last"),
     sma_last_R(ex_uts(), ddays(1))
   )
   expect_equal(
-    sma(ex_uts(), dseconds(1), type="last"),
+    sma(ex_uts(), dseconds(1), interpolation="last"),
     sma_last_R(ex_uts(), dseconds(1))
   )
   expect_equal(
-    sma(ex_uts(), ddays(1000), type="last"),
+    sma(ex_uts(), ddays(1000), interpolation="last"),
     sma_last_R(ex_uts(), ddays(1000))
   )
 })
@@ -131,11 +131,11 @@ test_that("sma_last and sma_last_R give the same result",{
 test_that("sma_next works",{
   # Regressions tests
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(1), type="next"),
+    sma(ex_uts(), ddays(1), interpolation="next"),
     file="test-sma_next_1.rds"
   )
   expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), type="next"),
+    sma(ex_uts(), ddays(-1), interpolation="next"),
     file="test-sma_next_2.rds"
   )
 })
@@ -149,13 +149,13 @@ test_that("sma_next equal to sma_last with shifted observations",{
   # Calculate SMA last with shifted observations
   x_shifted <- uts(values = c(x$values, last(x)),
             times = c(start(x) - days(1), x$times))
-  out <- sma(x_shifted, width, type="last")
+  out <- sma(x_shifted, width, interpolation="last")
   res1 <- head(out, -1)
   
   # Cannot use expect_identical(), because using c() for "POSIXct" objects drops any "tzone" attribute
   expect_equal(
     res1,
-    sma(x, width, type="next")
+    sma(x, width, interpolation="next")
   )
 })
 

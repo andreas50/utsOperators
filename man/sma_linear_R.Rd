@@ -2,7 +2,7 @@
 % Please edit documentation in R/sma.R
 \name{sma_linear_R}
 \alias{sma_linear_R}
-\title{R implementation of sma(..., type="linear")}
+\title{R implementation of sma(..., interpolation="linear")}
 \usage{
 sma_linear_R(x, width)
 }
@@ -12,10 +12,10 @@ sma_linear_R(x, width)
 \item{width}{a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 }
 \description{
-This function is identical to \code{\link{sma}} with \code{type="linear"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
+This function is identical to \code{\link{sma}} with \code{interpolation="linear"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
 }
 \examples{
-sma_linear_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), type="linear")
+sma_linear_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), interpolation="linear")
 }
 \keyword{internal}
 

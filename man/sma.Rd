@@ -7,14 +7,15 @@
 \usage{
 sma(x, ...)
 
-\method{sma}{uts}(x, width, type = "last", NA_method = "ignore", ...)
+\method{sma}{uts}(x, width, interpolation = "last", NA_method = "ignore",
+  ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
 
 \item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
 
-\item{type}{the sample path interpolation type. Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
+\item{interpolation}{the sample path interpolation method Either \code{"equal"}, \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
@@ -24,17 +25,17 @@ sma(x, ...)
 Calculate a simple moving average (SMA) of a time series by applying a moving average kernel to the sample path.
 }
 \details{
-Three different time series sample path interpolation schemes are supported for \code{"uts"} objects. Each type implicitly puts different weights on the observation values inside the rolling time window: \itemize{
+Three different time series sample path interpolation schemes are supported for \code{"uts"} objects. Each method implicitly puts different weights on the observation values inside the rolling time window: \itemize{
   \item \code{last}: Use \emph{last}-point interpolation for the time series sample path. Equivalently, each observation value is weighted by how long it remained unchanged.
   \item \code{next}: Use \emph{next}-point interpolation for the time series sample path. Equivalently, each observation value is weighted by how long it remained the next (i.e. upcoming) observation.
   \item \code{linear}: Use \emph{linear} interpolation of the time series sample path. The behavior is approximately halfway in-between last-point and next-point interpolation.
 }
 See the first reference below for precise mathematical definitions.
 
-\subsection{Which SMA \code{type} to use?}{
-Depending on the application, one sample path interpolation type will often be preferable.
-For example, to calculate the average FED funds target rate over the past three years, it is desirable to weight each observation value by the amount of time it remained unchanged, which is achieved by using type \code{"last"}.
-On the other hand, type \code{"linear"} can be used to estimate the rolling average value of a discretely-observed continuous-time stochastic processes (see the second reference below for a precise mathematical statement).
+\subsection{Which sample path interpolation method to use?}{
+Depending on the application, one sample path interpolation method will often be preferable.
+For example, to calculate the average FED funds target rate over the past three years, it is desirable to weight each observation value by the amount of time it remained unchanged, which is achieved by using method \code{"last"}.
+On the other hand, method \code{"linear"} can be used to estimate the rolling average value of a discretely-observed continuous-time stochastic processes (see the second reference below for a precise mathematical statement).
 
 However, these SMAs are usually not ideally suited for analyzing discrete events, such as for calculating the average insurance loss per hurricane over the past twelve months, or for determining the average number of IBM common shares traded on the NYSE per executed order during the past 30 minutes.
 These quantities are \emph{unweighted} averages of the observation values inside a rolling time window, and they can be calculated using \code{rolling_apply} using argument \code{FUN=mean}.
@@ -46,8 +47,8 @@ These quantities are \emph{unweighted} averages of the observation values inside
 }}
 \examples{
 sma(ex_uts(), ddays(1))
-sma(ex_uts(), ddays(1), type="linear")
-sma(ex_uts(), ddays(1), type="next")
+sma(ex_uts(), ddays(1), interpolation="linear")
+sma(ex_uts(), ddays(1), interpolation="next")
 
 # Plot a monotonically increasing time series 'x' together with
 # a backward-looking and forward-looking SMA.
@@ -66,9 +67,9 @@ sma(ex_uts(), ddays(1), type="next")
 \dontrun{
   x <- uts(0:8, Sys.time() + dhours(0:8))
   par(mfrow=c(1, 3))
-  plot(sma(x, dhours(10), type="last"), ylim=c(0, 4), main="Last-point interpolation")
-  plot(sma(x, dhours(10), type="linear"), ylim=c(0, 4), main="Linear interpolation")
-  plot(sma(x, dhours(10), type="next"), ylim=c(0, 4), main="Next-point interpolation")
+  plot(sma(x, dhours(10), interpolation="last"), ylim=c(0, 4), main="Last-point interpolation")
+  plot(sma(x, dhours(10), interpolation="linear"), ylim=c(0, 4), main="Linear interpolation")
+  plot(sma(x, dhours(10), interpolation="next"), ylim=c(0, 4), main="Next-point interpolation")
 }
 }
 \references{
