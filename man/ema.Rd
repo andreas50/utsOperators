@@ -21,12 +21,12 @@ ema(x, ...)
 \item{\dots}{further arguments passed to or from methods.}
 }
 \description{
-Calculate an exponential moving average (EMA) of a time series.
+Calculate an exponential moving average (EMA) of a time series by applying an exponential kernel to the time series sample path.
 }
 \details{
 Four different EMAs types are supported for \code{"uts"} objects. Each type puts different weights on past observation values: \itemize{
   \item \code{last}: Apply the exponential moving average kernel to the time series sample path with \emph{last}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained unchanged.
-  \item \code{next}: Apply the exponential moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained the next (i.e. upcomming) observation. For equally spaced time series this method coincides with the usual definition used for such time series, see Proposition 8.8 in Eckner, A. (2014).
+  \item \code{next}: Apply the exponential moving average kernel to the time series sample path with \emph{next}-point interpolation. Equivalently, each observation value is weighted proportionally by how long it remained the next (i.e. upcming) observation. For equally spaced time series this method coincides with the usual definition used for such time series, see Proposition 8.8 in Eckner, A. (2014).
   \item \code{linear}: Apply the exponential moving average kernel to the time series sample path with \emph{linear} interpolation. The behavior is approximately halfway in-between last-point and next-point interpolation.
 }
 See the first reference below for precise mathematical definitions.

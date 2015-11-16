@@ -8,34 +8,6 @@
 #endif
 
 
-// SMA_equal(X, width)
-void sma_equal(double values[], double times[], int *n, double values_new[], double *width)
-{
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
-  // width      ... (positive) width of rolling window
-   
-  int i, left = 0;
-  double roll_sum = 0;
-  
-  for (i = 0; i < *n; i++) {
-    // Expand window on the right
-    roll_sum = roll_sum + values[i];
-    
-    // Shrink window on the left to get half-open interval
-    while (times[left] <= times[i] - *width) {
-      roll_sum = roll_sum - values[left];
-      left++;
-    }
-   
-    // Calculate mean of values in rolling window
-    values_new[i] = roll_sum / (i - left + 1);
-  }
-}
-
-
 // SMA_last(X, width)
 void sma_last(double values[], double times[], int *n, double values_new[], double *width)
 {

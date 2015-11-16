@@ -52,49 +52,6 @@ test_that("an extremely long SMA gives a flat output for type 'last', 'next' and
 })
 
 
-### SMA_equal ###
-
-test_that("sma_equal works",{
-  # Very short time window
-  expect_equal(
-    sma(ex_uts(), dseconds(1), type="equal"),
-    ex_uts()
-  )
-  
-  # Regressions tests
-  expect_equal_to_reference(
-    sma(ex_uts(), ddays(1), type="equal"),
-    file="test-sma_equal_1.rds"
-  )
-  expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), type="equal"),
-    file="test-sma_equal_2.rds"
-  )
-})
-
-test_that("sma_equal and sma_equal_R give the same result",{
-  expect_equal(
-    sma(ex_uts(), ddays(1), type="equal"),
-    sma_equal_R(ex_uts(), ddays(1))
-  )
-  expect_equal(
-    sma(ex_uts(), dseconds(1), type="equal"),
-    sma_equal_R(ex_uts(), dseconds(1))
-  )
-  expect_equal(
-    sma(ex_uts(), ddays(1000), type="equal"),
-    sma_equal_R(ex_uts(), ddays(1000))
-  )
-})
-
-test_that("sma_equal and rolling_apply give the same result",{
-  expect_equal(
-    sma(ex_uts(), ddays(1), type="equal"),
-    rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
-  )
-})
-
-
 
 ### SMA_linear ###
 
@@ -129,7 +86,7 @@ test_that("sma_linear and sma_linear_R give the same result",{
 
 ### SMA_last ###
 
-test_that("sma_equal special cases work",{
+test_that("sma_last special cases work",{
   # If the time window is shorter than the smallest observation time difference,
   # then SMA_last is equal to backshifted time series (apart from the first observation)
   x <- ex_uts()

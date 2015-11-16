@@ -22,8 +22,8 @@ x <- ex_uts()
 x$values[2] <- NA
 
 # SMA_eqqual
-generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_equal")
-generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_equal", NA_method="omit")
+generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_last")
+generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_last", NA_method="omit")
 
 # EMA_last
 generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last")

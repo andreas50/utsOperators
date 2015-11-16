@@ -2,7 +2,7 @@
 # Examine numerical noise across implementations #
 ##################################################
 
-# SMA_equal R vs. C implementation
+# rolling_mean R vs. C implementation
 # -) the R implementations is free of numerical noise, because each SMA value is calculated from scratch
 if (0) {
   set.seed(1)
@@ -11,7 +11,7 @@ if (0) {
   
   # The R & C implementation diverge over time.
   # -) the problem becomes more serious for longer, heavily skewed time series
-  plot(sma(x, width, type="equal") - sma_equal_R(x, width))
+  plot(rolling_apply(x, width, FUN=mean) - rolling_apply_specialized(x, width, FUN=mean))
 }
 
 

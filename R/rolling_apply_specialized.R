@@ -45,6 +45,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...
     C_fct <- "rolling_min"
   else if (FUN == "max")
     C_fct <- "rolling_max"
+  else if (FUN == "mean")
+    C_fct <- "rolling_mean"
   else if (FUN == "median")
     C_fct <- "rolling_median"
   else if (FUN == "sum")
