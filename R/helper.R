@@ -29,22 +29,25 @@ rev.uts <- function(x)
 #' This helper functions checks if a given window width is valid. It allows to streamline the argument checking inside of \code{\link{generic_C_interface}}, \code{\link{rolling_apply}}, and similar functions.
 #' 
 #' @return This function does not return a value. It executes successfully if its argument is a valid window width, and stops with an error message otherwise.
-#' @param width a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of a rolling time window.
-#' @param require_positive logical. Whether \code{width} is required to be positive.
+#' @param width a non-negative, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of a rolling time window.
+#' @param des a description of the argument that is being checked.
+#' @param require_positive logical. Whether \code{width} is required to be positive instead of only non-negative.
 #' 
 #' @keywords internal
 #' @examples
 #' check_window_width(ddays(1))
-check_window_width <- function(width, require_positive=TRUE)
+check_window_width <- function(width, des="rolling window width", require_positive=TRUE)
 {
   if (!is.duration(width))
-    stop("The rolling window width is not a 'duration' object")
+    stop("The ", des, " is not a 'duration' object")
   if (is.na(width))
-    stop("The rolling window width is NA")
+    stop("The ", des, " is NA")
   if (!is.finite(width))
-    stop("The rolling window width is not finite")
+    stop("The ", des, " is not finite")
   
   # Optional additional checks
   if (require_positive && (unclass(width) <= 0)) # much faster than S4 method dispatch
-    stop("The rolling window width is not positive")
+    stop("The ", des, " is not positive")
+  else if (unclass(width) < 0)
+    stop("The ", des, " is negative")
 }
