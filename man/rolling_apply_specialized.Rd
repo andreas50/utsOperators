@@ -8,7 +8,7 @@
 rolling_apply_specialized(x, ...)
 
 \method{rolling_apply_specialized}{uts}(x, width, FUN, NA_method = "ignore",
-  ...)
+  align = "right", interior = FALSE, ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
@@ -18,6 +18,10 @@ rolling_apply_specialized(x, ...)
 \item{FUN}{a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.}
 
 \item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
+
+\item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
+
+\item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
 
 \item{\ldots}{further arguments passed to or from methods.}
 }
@@ -32,6 +36,9 @@ It is usually not necessary to call this function, because it is called automati
 \item \code{uts}: Implementation for \code{"uts"} objects.
 }}
 \examples{
+rolling_apply_specialized(ex_uts(), ddays(1), FUN=length)
+rolling_apply_specialized(ex_uts(), ddays(1), FUN=length, align="center")
+
 # Rolling sum
 rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum)
 rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum) - rolling_apply(ex_uts(), ddays(1), FUN=sum)

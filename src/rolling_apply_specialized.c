@@ -133,9 +133,9 @@ void rolling_num_obs(double values[], double times[], int *n, double values_new[
 }
 
 
-// Rolling number of observation values in two-sided window
-void rolling_num_obs2(double values[], double times[], int *n, double values_new[],
-                      double *width_before, double *width_after)
+// Same, but with support for two-sided window
+void rolling_num_obs_two_sided(double values[], double times[], int *n, double values_new[],
+  double *width_before, double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times

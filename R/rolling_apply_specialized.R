@@ -12,6 +12,8 @@
 #' @param width a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.
 #' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.
+#' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
+#' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 #' @param \ldots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}. 
@@ -22,6 +24,10 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' @describeIn rolling_apply_specialized Implementation for \code{"uts"} objects.
 #' 
 #' @examples
+#' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
+#' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="center")
+#' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="left")
+#' 
 #' # Rolling sum
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum) - rolling_apply(ex_uts(), ddays(1), FUN=sum)
@@ -29,7 +35,7 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' # Rolling min/max
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
-rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...)
+rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", align="right", interior=FALSE, ...)
 {
   # Extract the name of the function to be called
   if (is.function(FUN)) {
@@ -40,7 +46,7 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...
   
   # Select C function
   if (FUN == "length")
-    C_fct <- "rolling_num_obs"
+    C_fct <- "rolling_num_obs_two_sided"
   else if (FUN == "min")
     C_fct <- "rolling_min"
   else if (FUN == "max")
@@ -54,8 +60,28 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...
   else
     stop("This function does not have a specialized rolling_apply() implementation")
   
-  # Call C function 
+  # Determine the window width before and after the current output time, depending on the chosen alignment
   check_window_width(width)
-  generic_C_interface(x, width, C_fct=C_fct, NA_method=NA_method)
+  if (align == "right") {
+    width_before <- width
+    width_after <- ddays(0)
+  } else if (align == "left") {
+    width_before <- ddays(0)
+    width_after <- width
+  } else if (align == "center") {
+    width_before <- width / 2
+    width_after <- width / 2
+  } else
+    stop("'align' has to be either 'left', 'right', or 'center")
+    
+  
+  # Call C function 
+  out <- generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct=C_fct, NA_method=NA_method)
+  
+  # Optionally, drop output times for which the corresponding time window is not completely inside the temporal support of x
+  if (interior) {
+    
+  }
+  out
 }
 
