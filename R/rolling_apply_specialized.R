@@ -28,6 +28,9 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="center")
 #' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="left")
 #' 
+#' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
+#' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, interior=TRUE)
+#' 
 #' # Rolling sum
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum) - rolling_apply(ex_uts(), ddays(1), FUN=sum)
@@ -79,9 +82,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ali
   out <- generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct=C_fct, NA_method=NA_method)
   
   # Optionally, drop output times for which the corresponding time window is not completely inside the temporal support of x
-  if (interior) {
-    
-  }
+  if (interior)
+    out <- window(out, start=start(out) + width_before, end(out) - width_after)
   out
 }
 

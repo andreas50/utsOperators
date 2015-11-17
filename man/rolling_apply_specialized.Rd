@@ -36,8 +36,12 @@ It is usually not necessary to call this function, because it is called automati
 \item \code{uts}: Implementation for \code{"uts"} objects.
 }}
 \examples{
-rolling_apply_specialized(ex_uts(), ddays(1), FUN=length)
-rolling_apply_specialized(ex_uts(), ddays(1), FUN=length, align="center")
+rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
+rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="center")
+rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="left")
+
+rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
+rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, interior=TRUE)
 
 # Rolling sum
 rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum)
