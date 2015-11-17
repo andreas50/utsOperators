@@ -111,6 +111,56 @@ double median(double values[], int n)
 /****************** END: Helper functions ****************/
 
 
+// Rolling number of observation values
+void rolling_num_obs(double values[], double times[], int *n, double values_new[], double *width)
+{
+  // values     ... array of time series values
+  // times      ... array of observation times
+  // n          ... number of observations, i.e. length of 'values' and 'times'
+  // values_new ... array of length *n to store output time series values
+  // width      ... (positive) width of rolling window
+  
+  int left = 0;
+  
+  for (int i = 0; i < *n; i++) {   
+    // Shrink window on the left
+    while (times[left] <= times[i] - *width)
+      left++;
+    
+    // Number of observations is equal to length of window
+    values_new[i] = i - left + 1;
+  }
+}
+
+
+// Rolling number of observation values in two-sided window
+void rolling_num_obs2(double values[], double times[], int *n, double values_new[],
+                      double *width_before, double *width_after)
+{
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (positive) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
+  
+  int left = 0, right = 0;
+  
+  for (int i = 0; i < *n; i++) {   
+    // Shrink window on the left
+    while (times[left] <= times[i] - *width_before)
+      left++;
+    
+    // Expand window on the right
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after))
+      right++;
+    
+    // Number of observations is equal to length of window
+    values_new[i] = right - left + 1;
+  }
+}
+
+
 // Rolling sum of observation values
 void rolling_sum(double values[], double times[], int *n, double values_new[], double *width)
 {
@@ -163,29 +213,6 @@ void rolling_mean(double values[], double times[], int *n, double values_new[], 
     
     // Calculate mean of values in rolling window
     values_new[i] = roll_sum / (i - left + 1);
-  }
-}
-
-
-
-// Rolling number of observation values
-void rolling_num_obs(double values[], double times[], int *n, double values_new[], double *width)
-{
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
-  // width      ... (positive) width of rolling window
-  
-  int i, left = 0;
-
-  for (i = 0; i < *n; i++) {   
-    // Shrink window on the left
-    while (times[left] <= times[i] - *width)
-      left++;
-    
-    // Number of observations is equal to length of window
-    values_new[i] = i - left + 1;
   }
 }
 

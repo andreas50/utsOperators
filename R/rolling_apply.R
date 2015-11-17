@@ -18,10 +18,7 @@
 rolling_time_window <- function(start, end, width, by)
 {
   # Argument checking
-  if (!is.duration(width))
-    stop("'width' is not a duration object")
-  if (unclass(width) < 0) # much faster than S4 method dispatch
-    stop("'width' is negative")
+  check_window_width(width, require_positive=FALSE)
   if (!is.duration(by))
     stop("'by' is not a duration object")
   if (unclass(by) <= 0) # much faster than S4 method dispatch
@@ -196,19 +193,14 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE)
 {
   # Argument checking
-  if (!is.duration(width))
-    stop("'width' is not a duration object")
-  if (unclass(width) <= 0) # much faster than S4 method dispatch
-    stop("'width' is not negative")
+  check_window_width(width)
   if (!is.null(by)) {
     if (!is.duration(by))
       stop("'by' is not a duration object")
     if (unclass(by) <= 0) # much faster than S4 method dispatch
       stop("'by' is not positive")
   }
-  if (!is.finite(width))
-    stop("Only finite window widths (width) are supported at the moment")
-  
+
   # For each time window, determine the output time adjustment relative to 'start'
   if (align == "left")
     adj <- ddays(0)

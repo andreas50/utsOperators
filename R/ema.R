@@ -82,12 +82,13 @@ ema.uts <- function(x, tau, interpolation="last", NA_method="ignore", ...)
   }
   
   # Call generic C interface for rolling operators
+  check_window_width(tau, des="EMA half-life")
   if (interpolation == "next")
-    generic_C_interface_rolling(x, tau, C_fct="ema_next", NA_method=NA_method, ...)
+    generic_C_interface(x, tau, C_fct="ema_next", NA_method=NA_method, ...)
   else if (interpolation == "last")
-    generic_C_interface_rolling(x, tau, C_fct="ema_last", NA_method=NA_method, ...)
+    generic_C_interface(x, tau, C_fct="ema_last", NA_method=NA_method, ...)
   else if (interpolation == "linear")
-    generic_C_interface_rolling(x, tau, C_fct="ema_linear", NA_method=NA_method, ...)
+    generic_C_interface(x, tau, C_fct="ema_linear", NA_method=NA_method, ...)
   else
     stop("Unknown sample path interpolation method")
 }

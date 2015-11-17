@@ -4,12 +4,15 @@
 \alias{check_window_width}
 \title{Check Window Width}
 \usage{
-check_window_width(width, require_positive = TRUE)
+check_window_width(width, des = "rolling window width",
+  require_positive = TRUE)
 }
 \arguments{
-\item{width}{a finite \code{\link[lubridate]{duration}} object, specifying the temporal width of a rolling time window.}
+\item{width}{a non-negative, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of a rolling time window.}
 
-\item{require_positive}{logical. Whether \code{width} is required to be positive.}
+\item{des}{a description of the argument that is being checked.}
+
+\item{require_positive}{logical. Whether \code{width} is required to be positive instead of only non-negative.}
 }
 \value{
 This function does not return a value. It executes successfully if its argument is a valid window width, and stops with an error message otherwise.

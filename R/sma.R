@@ -81,12 +81,13 @@ sma.uts <- function(x, width, interpolation="last", NA_method="ignore", ...)
   }
   
   # Call generic C interface for rolling operators
+  check_window_width(width)
   if (interpolation == "last")
-    generic_C_interface_rolling(x, width, C_fct="sma_last", NA_method=NA_method, ...)
+    generic_C_interface(x, width, C_fct="sma_last", NA_method=NA_method, ...)
   else if (interpolation == "linear")
-    generic_C_interface_rolling(x, width, C_fct="sma_linear", NA_method=NA_method, ...)
+    generic_C_interface(x, width, C_fct="sma_linear", NA_method=NA_method, ...)
   else if (interpolation == "next")
-    generic_C_interface_rolling(x, width, C_fct="sma_next", NA_method=NA_method, ...)
+    generic_C_interface(x, width, C_fct="sma_next", NA_method=NA_method, ...)
   else
     stop("Unknown sample path interpolation methods")
 }
@@ -105,13 +106,8 @@ sma.uts <- function(x, width, interpolation="last", NA_method="ignore", ...)
 sma_last_R <- function(x, width)
 {
   # Argument checking
-  if (!is.duration(width))
-    stop("The length/width of the rolling operator is not a 'duration' object")
-  if (is.na(width))
-    stop("The length/width of the rolling window is equal to NA")
-  if (unclass(width) <= 0) # much faster than S4 method dispatch
-    stop("The length/width of the rolling operator is not positive")
-  if (length(x) <= 1 || unclass(width) == 0) # much faster than S4 method dispatch
+  check_window_width(width)
+  if (length(x) <= 1)
     return(x)
   
   # Prepare data for algorithm
@@ -174,13 +170,8 @@ sma_last_R <- function(x, width)
 sma_linear_R <- function(x, width)
 {
   # Error and trivial case checking
-  if (!is.duration(width))
-    stop("The length/width of the rolling operator is not a 'duration' object")
-  if (is.na(width))
-    stop("The length/width of the rolling window is equal to NA")
-  if (unclass(width) <= 0) # much faster than S4 method dispatch
-    stop("The length/width of the rolling operator is not positive")
-  if (length(x) <= 1 || unclass(width) == 0) # much faster than S4 method dispatch
+  check_window_width(width)
+  if (length(x) <= 1)
     return(x)
   
   # Extract time points an observations times

@@ -38,7 +38,7 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...
       stop("Custom functions (FUN) are not supported")
   }
   
-  # Call C function
+  # Select C function
   if (FUN == "length")
     C_fct <- "rolling_num_obs"
   else if (FUN == "min")
@@ -53,6 +53,9 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ...
     C_fct <- "rolling_sum"
   else
     stop("This function does not have a specialized rolling_apply() implementation")
-  generic_C_interface_rolling(x, width, C_fct=C_fct, NA_method=NA_method)
+  
+  # Call C function 
+  check_window_width(width)
+  generic_C_interface(x, width, C_fct=C_fct, NA_method=NA_method)
 }
 
