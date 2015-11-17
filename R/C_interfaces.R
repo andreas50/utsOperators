@@ -20,6 +20,11 @@
 #' # SMA_last
 #' generic_C_interface(x, "sma_last", width=ddays(1))
 #' generic_C_interface(x, "sma_last", width=ddays(1), NA_method="omit")
+#' 
+#' generic_C_interface(ex_uts(), "rolling_num_obs", width=dhours(6))
+#' generic_C_interface(ex_uts(), "rolling_num_obs2", width_before=dhours(6), width_after=dhours(0))
+#' 
+#' generic_C_interface(ex_uts(), "rolling_num_obs2", width_before=dhours(6), width_after=dhours(6))
 generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 {
   # Argument checking
@@ -64,65 +69,3 @@ generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 }
 
 
-#' Reverse Observations
-#'
-#' Reverse the observation values and times inside the time window bounded by the first and last observation time.
-#'
-#' @param x a \code{"uts"} object.
-#'
-#' @keywords internal
-#' @examples
-#' rev(ex_uts())
-#' 
-#' # Reversing a "uts" reverses the vector of observation values
-#' ex_uts()$values
-#' rev(ex_uts())$values
-#'
-#' # Reversing a "uts" reverses the vector of observation time differences
-#' diff(ex_uts()$times)
-#' diff(rev(ex_uts())$times)
-rev.uts <- function(x)
-{
-  # Remark: as.duration() cast needed to preserve "tzone" attribute
-  x$values <- rev(x$values)
-  x$times <- start(x) + as.duration((end(x) - rev(x$times)))
-  x
-}
-
-
-#' Generic C interface for rolling time series operators
-#' 
-#' This function is a convenience wrapper around \code{\link{generic_C_interface}} that adds argument checking of the rolling window width \code{width}.
-#' 
-#' @param x a numeric \code{"uts"} object.
-#' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
-#' @param \dots further arguments passed to \code{\link{generic_C_interface}}.
-#' 
-#' @keywords internal
-#' @examples
-#' # Prepare sample 'uts"
-#' x <- ex_uts()
-#' x$values[2] <- NA
-#' 
-#' # SMA_eqqual
-#' generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_last")
-#' generic_C_interface_rolling(x, width=ddays(1), C_fct="sma_last", NA_method="omit")
-#' 
-#' # EMA_last
-#' generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last")
-#' generic_C_interface_rolling(x, width=ddays(1), C_fct="ema_last", NA_method="omit")
-generic_C_interface_rolling <- function(x, width, ...)
-{
-  # Argument checking
-  if (!is.duration(width))
-    stop("The rolling window width is not a 'duration' object")
-  if (is.na(width))
-    stop("The rolling window width is NA")
-  if (unclass(width) <= 0) # much faster than S4 method dispatch
-    stop("The rolling window width is not positive")
-  if (!is.finite(width))
-    stop("The rolling window width is not finite")
-  
-  # Call standardized C-interface
-  generic_C_interface(x, width=width, ...)
-}

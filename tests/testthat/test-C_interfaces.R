@@ -34,31 +34,3 @@ test_that("generic_C_interface works",{
   )
 })
 
-
-test_that("generic_C_interface_rolling works",{
-  # Argument checking
-  expect_error(generic_C_interface_rolling(uts(), width=5))
-  expect_error(generic_C_interface_rolling(uts(), width=as.duration(NA)))
-  expect_error(generic_C_interface_rolling(uts(), width=ddays(-1)))
-  expect_error(generic_C_interface_rolling(uts(), width=ddays(-Inf)))
-})
-
-
-test_that("rev works",{
-  expect_identical(
-    rev(uts()),
-    uts()
-  )
-  expect_identical(
-    rev(rev(ex_uts())),
-    ex_uts()
-  )
-  expect_identical(
-    rev(ex_uts())$values,
-    rev(ex_uts()$values)
-  )
-  expect_identical(
-    rev(diff(ex_uts()$times)),
-    diff(rev(ex_uts())$times)
-  )
-})

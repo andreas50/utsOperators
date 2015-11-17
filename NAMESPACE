@@ -23,8 +23,8 @@ S3method(sma, uts)
 
 
 # Miscellaneous functions
+export(check_window_width)
 export(generic_C_interface)
-export(generic_C_interface_rolling)
 export(rolling_apply_static)
 export(rolling_time_window)
 export(rolling_time_window_indices)

@@ -26,6 +26,11 @@ x$values[2] <- NA
 # SMA_last
 generic_C_interface(x, "sma_last", width=ddays(1))
 generic_C_interface(x, "sma_last", width=ddays(1), NA_method="omit")
+
+generic_C_interface(ex_uts(), "rolling_num_obs", width=dhours(6))
+generic_C_interface(ex_uts(), "rolling_num_obs2", width_before=dhours(6), width_after=dhours(0))
+
+generic_C_interface(ex_uts(), "rolling_num_obs2", width_before=dhours(6), width_after=dhours(6))
 }
 \keyword{internal}
 

@@ -5,11 +5,11 @@
 #' C interfaces:
 #' \itemize{
 #'   \item \code{\link{generic_C_interface}}
-#'   \item \code{\link{generic_C_interface_rolling}}
 #' }
 #' 
 #' Helper functions:
 #' \itemize{
+#'   \item \code{\link{check_window_width}}
 #'   \item \code{\link{rolling_apply_specialized}}
 #'   \item \code{\link{rolling_time_window}}
 #'   \item \code{\link{rolling_time_window_indices}}
