@@ -69,6 +69,7 @@ if (0) {
 
 
 ### rolling_num_obs vs. rolling_num_obs_two_sided
+# -) CONCLUSION: negligible difference -> removed one-sided version -> code does not run any more
 if (0) {
   set.seed(1)
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
@@ -76,7 +77,7 @@ if (0) {
   width2 <- ddays(0)
   
   # one sided vs. two-sided implementation with same  window
-  # -) 2.19s vs. 2.29s -> negligible difference
+  # -) 2.19s vs. 2.29s
   system.time(for (j in 1:50000) generic_C_interface(ts1, "rolling_num_obs", width=width))
   system.time(for (j in 1:50000) generic_C_interface(ts1, "rolling_num_obs_two_sided", width_before=width, width_after=width2))
 }

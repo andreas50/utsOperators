@@ -21,10 +21,8 @@
 #' generic_C_interface(x, "sma_last", width=ddays(1))
 #' generic_C_interface(x, "sma_last", width=ddays(1), NA_method="omit")
 #' 
-#' generic_C_interface(ex_uts(), "rolling_num_obs", width=dhours(6))
-#' generic_C_interface(ex_uts(), "rolling_num_obs_two_sided", width_before=dhours(6), width_after=dhours(0))
-#' 
-#' generic_C_interface(ex_uts(), "rolling_num_obs_two_sided", width_before=dhours(6), width_after=dhours(6))
+#' generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_after=dhours(0))
+#' generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_after=dhours(6))
 generic_C_interface <- function(x, C_fct, NA_method="ignore", ...)
 {
   # Argument checking

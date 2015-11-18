@@ -49,7 +49,7 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ali
   
   # Select C function
   if (FUN == "length")
-    C_fct <- "rolling_num_obs_two_sided"
+    C_fct <- "rolling_num_obs"
   else if (FUN == "min")
     C_fct <- "rolling_min"
   else if (FUN == "max")

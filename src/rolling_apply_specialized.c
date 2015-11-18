@@ -112,39 +112,17 @@ double median(double values[], int n)
 
 
 // Rolling number of observation values
-void rolling_num_obs(double values[], double times[], int *n, double values_new[], double *width)
-{
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
-  // width      ... (positive) width of rolling window
-  
-  int left = 0;
-  
-  for (int i = 0; i < *n; i++) {   
-    // Shrink window on the left
-    while (times[left] <= times[i] - *width)
-      left++;
-    
-    // Number of observations is equal to length of window
-    values_new[i] = i - left + 1;
-  }
-}
-
-
-// Same, but with support for two-sided window
-void rolling_num_obs_two_sided(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_num_obs(double values[], double times[], int *n, double values_new[],
+                     double *width_before, double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
   // n            ... number of observations, i.e. length of 'values' and 'times'
   // values_new   ... array of length *n to store output time series values
-  // width_before ... (positive) width of rolling window before t_i
+  // width_before ... (non-negative) width of rolling window before t_i
   // width_after  ... (non-negative) width of rolling window after t_i
   
-  int left = 0, right = 0;
+  int left = 0, right = -1;
   
   for (int i = 0; i < *n; i++) {   
     // Shrink window on the left
@@ -162,23 +140,28 @@ void rolling_num_obs_two_sided(double values[], double times[], int *n, double v
 
 
 // Rolling sum of observation values
-void rolling_sum(double values[], double times[], int *n, double values_new[], double *width)
+void rolling_sum(double values[], double times[], int *n, double values_new[],
+                 double *width_before, double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
-  // width      ... (positive) width of rolling window
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
   
-  int left = 0;
+  int left = 0, right = -1;
   double roll_sum = 0;
   
   for (int i = 0; i < *n; i++) {
     // Expand window on the right
-    roll_sum = roll_sum + values[i];
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after)) {
+      right++;
+      roll_sum = roll_sum + values[right];
+    }
     
     // Shrink window on the left
-    while (times[left] <= times[i] - *width) {
+    while (times[left] <= times[i] - *width_before) {
       roll_sum = roll_sum - values[left];
       left++;
     }
@@ -190,51 +173,61 @@ void rolling_sum(double values[], double times[], int *n, double values_new[], d
 
 
 // Rolling average of observation values
-void rolling_mean(double values[], double times[], int *n, double values_new[], double *width)
+void rolling_mean(double values[], double times[], int *n, double values_new[],
+                  double *width_before, double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
-  // width      ... (positive) width of rolling window
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
   
-  int left = 0;
+  int left = 0, right = -1;
   double roll_sum = 0;
   
   for (int i = 0; i < *n; i++) {
     // Expand window on the right
-    roll_sum = roll_sum + values[i];
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after)) {
+      right++;
+      roll_sum = roll_sum + values[right];
+    }
     
     // Shrink window on the left to get half-open interval
-    while (times[left] <= times[i] - *width) {
+    while (times[left] <= times[i] - *width_before) {
       roll_sum = roll_sum - values[left];
       left++;
     }
     
     // Calculate mean of values in rolling window
-    values_new[i] = roll_sum / (i - left + 1);
+    values_new[i] = roll_sum / (right - left + 1);
   }
 }
 
 
 // Rolling maximum of observation values
-void rolling_max(double values[], double times[], int *n, double values_new[], double *width)
+void rolling_max(double values[], double times[], int *n, double values_new[],
+                 double *width_before, double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times matching time series values
-  // n          ... length of 'values'
-  // values_new ... array (of same length as 'values') used to store output
-  // width      ... (positive) width of rolling window
+  // values       ... array of time series values
+  // times        ... array of observation times matching time series values
+  // n            ... length of 'values'
+  // values_new   ... array (of same length as 'values') used to store output
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
   
-  int j, left = 0, max_pos = 0;
+  int j, left = 0, right = -1, max_pos = 0;
   
-  for (int i = 0; i < *n; i++) {   
+  for (int i = 0; i < *n; i++) {
     // Expand window on the right
-    if (values[i] >= values[max_pos])
-      max_pos = i;
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after)) {
+      right++;
+      if (values[right] >= values[max_pos])
+        max_pos = right;
+    }
     
     // Shrink window on the left to get half-open interval
-    while (times[left] <= times[i] - *width)
+    while (times[left] <= times[i] - *width_before)
       left++;      
     
     // Recalculate position of maximum if old maximum dropped out
@@ -253,23 +246,28 @@ void rolling_max(double values[], double times[], int *n, double values_new[], d
 
 
 // Rolling minimum of observation values
-void rolling_min(double values[], double times[], int *n, double values_new[], double *width)
+void rolling_min(double values[], double times[], int *n, double values_new[],
+                 double *width_before, double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times matching time series values
-  // n          ... length of 'values'
-  // values_new ... array (of same length as 'values') used to store output
-  // width      ... (positive) width of rolling window
+  // values       ... array of time series values
+  // times        ... array of observation times matching time series values
+  // n            ... length of 'values'
+  // values_new   ... array (of same length as 'values') used to store output
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
   
-  int j, left = 0, min_pos = 0;
+  int j, left = 0, right = -1, min_pos = 0;
   
   for (int i = 0; i < *n; i++) {   
     // Expand window on the right
-    if (values[i] <= values[min_pos])
-      min_pos = i;
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after)) {
+      right++;
+      if (values[right] <= values[min_pos])
+        min_pos = right;
+    }
     
     // Shrink window on the left to get half-open interval
-    while (times[left] <= times[i] - *width)
+    while (times[left] <= times[i] - *width_before)
       left++;      
     
     // Recalculate position of minimum if old minimum dropped out
@@ -288,24 +286,30 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
 
 
 // Rolling median
-void rolling_median(double values[], double times[], int *n, double values_new[], double *width)
+void rolling_median(double values[], double times[], int *n, double values_new[],
+                    double *width_before, double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times matching time series values
-  // n          ... length of 'values'
-  // values_new ... array (of same length as 'values') used to store output
-  // width      ... (positive) width of the rolling window
+  // values       ... array of time series values
+  // times        ... array of observation times matching time series values
+  // n            ... length of 'values'
+  // values_new   ... array (of same length as 'values') used to store output
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
   
-  int j, window_length, left = 0;
+  int j, window_length, left = 0, right = -1;
   double values_tmp[*n];      // temporary array for median(), which shuffles the input data 
 
-  for (int i = 0; i < *n; i++) {   
+  for (int i = 0; i < *n; i++) {
+    // Expand window on the right
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after))
+      right++;
+    
     // Shrink window on the left end
-    while (times[left] <= times[i] - *width)
+    while (times[left] <= times[i] - *width_before)
       left++;
     
     // Copy data in rolling window to temporary array, and calculate the median
-    window_length = i - left + 1;
+    window_length = right - left + 1;
     for (j = 0; j < window_length; j++)
       values_tmp[j] = values[left + j];
     values_new[i] = median(values_tmp, window_length);
