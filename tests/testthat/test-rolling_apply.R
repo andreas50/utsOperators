@@ -32,28 +32,24 @@ test_that("rolling_time_window_indices works",{
   
   # Trivial case of zero-length time windows
   expect_equal(
-    rolling_time_window_indices(times, times, times)$start_index,
+    rolling_time_window_indices(times, times, times)$start_index - 1,
     rolling_time_window_indices(times, times, times)$end_index
   )
+  
+  # Windows contain no observations
   expect_equal(
-    rolling_time_window_indices(times, times, times)$start_index,
-    rep(NA_integer_, length(times))
+    rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$start_index,
+    2L:(length(times) + 1)
+  )
+  expect_equal(
+    rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$end_index,
+    1:length(times)
   )
   
   # Trivial case of one observation in each time window
   expect_equal(
     rolling_time_window_indices(times[-1], times[-length(times)], times[-1])$start_index,
     rolling_time_window_indices(times[-1], times[-length(times)], times[-1])$end_index
-  )
-  
-  # Windows contain no observations
-  expect_equal(
-    rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$start_index,
-    rep(NA_real_, length(times))
-  )
-  expect_equal(
-    rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$end_index,
-    rep(NA_integer_, length(times))
   )
   
   # Regression tests

@@ -40,7 +40,7 @@ rolling_time_window <- function(start, end, width, by)
 #' 
 #' For a sorted sequence of time points, determine the start and end indices inside a half-open (open on the left, closed on the right) rolling time window.
 #' 
-#' @return A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window.
+#' @return A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window. If the start index is larger than the end index, that means that no observation lies in the corresponding time window.
 #' @param times a \code{\link{POSIXct}} object of strictly increasing time points.
 #' @param start_times a strictly increasing \code{\link{POSIXct}} object, specifying the start times of the time windows.
 #' @param end_times a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.
@@ -72,11 +72,6 @@ rolling_time_window_indices <- function(times, start_times, end_times)
   end_index <- num_leq_sorted(end_times, times)  
   #start_index <- pmin(num_less_sorted(start_times, times) + 1, length(times))
   start_index <- num_leq_sorted(start_times, times) + 1L
-  
-  # Set indices to NA for windows that contain no observation
-  is_empty <- (times[start_index] > end_times) | (times[end_index] <= start_times)
-  start_index[is_empty] <- NA_integer_
-  end_index[is_empty] <- NA_integer_
   
   # Return indices as list
   list(start_index=start_index, end_index=end_index)
@@ -143,7 +138,8 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
     args <- c(list(c()), list(...))
     values_new <- rep(NA_real_, length(start_times))
     for (j in which(!is.na(start_index))) {
-      args[[1]] <- values[start_index[j]:end_index[j]]
+      pos_used <- seq(start_index[j], length.out = end_index[j] - start_index[j] + 1)
+      args[[1]] <- values[pos_used]
       values_new[j] <- do.call(FUN, args)
     }
   } else {
@@ -151,8 +147,10 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
     helper <- function(start, end) {
       if (is.na(start))
         NA_real_
-      else
-        FUN(values[start:end], ...)
+      else {
+        pos_used <- seq(start, length.out = end - start + 1)
+        FUN(values[pos_used], ...)
+      }
     }
     values_new <- as.numeric(mapply(helper, start_index, end_index))
   }

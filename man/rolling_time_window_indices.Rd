@@ -14,7 +14,7 @@ rolling_time_window_indices(times, start_times, end_times)
 \item{end_times}{a strictly increasing \code{\link{POSIXct}} object of same length as \code{start}, and with \code{start[i] <= end[i]} for each \code{1 <= i <= length(start)}. Specifies the end times of the time windows.}
 }
 \value{
-A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window.
+A list with two integer vectors of equal length, specifying the start and end index in \code{times} of each rolling time window. If the start index is larger than the end index, that means that no observation lies in the corresponding time window.
 }
 \description{
 For a sorted sequence of time points, determine the start and end indices inside a half-open (open on the left, closed on the right) rolling time window.
