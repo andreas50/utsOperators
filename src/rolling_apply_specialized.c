@@ -170,10 +170,10 @@ void rolling_sum(double values[], double times[], int *n, double values_new[], d
   // values_new ... array of length *n to store output time series values
   // width      ... (positive) width of rolling window
   
-  int i, left = 0;
+  int left = 0;
   double roll_sum = 0;
   
-  for (i = 0; i < *n; i++) {
+  for (int i = 0; i < *n; i++) {
     // Expand window on the right
     roll_sum = roll_sum + values[i];
     
@@ -198,10 +198,10 @@ void rolling_mean(double values[], double times[], int *n, double values_new[], 
   // values_new ... array of length *n to store output time series values
   // width      ... (positive) width of rolling window
   
-  int i, left = 0;
+  int left = 0;
   double roll_sum = 0;
   
-  for (i = 0; i < *n; i++) {
+  for (int i = 0; i < *n; i++) {
     // Expand window on the right
     roll_sum = roll_sum + values[i];
     
@@ -226,9 +226,9 @@ void rolling_max(double values[], double times[], int *n, double values_new[], d
   // values_new ... array (of same length as 'values') used to store output
   // width      ... (positive) width of rolling window
   
-  int i, j, left = 0, max_pos = 0;
+  int j, left = 0, max_pos = 0;
   
-  for (i = 0; i < *n; i++) {   
+  for (int i = 0; i < *n; i++) {   
     // Expand window on the right
     if (values[i] >= values[max_pos])
       max_pos = i;
@@ -261,9 +261,9 @@ void rolling_min(double values[], double times[], int *n, double values_new[], d
   // values_new ... array (of same length as 'values') used to store output
   // width      ... (positive) width of rolling window
   
-  int i, j, left = 0, min_pos = 0;
+  int j, left = 0, min_pos = 0;
   
-  for (i = 0; i < *n; i++) {   
+  for (int i = 0; i < *n; i++) {   
     // Expand window on the right
     if (values[i] <= values[min_pos])
       min_pos = i;
@@ -296,7 +296,7 @@ void rolling_median(double values[], double times[], int *n, double values_new[]
   // values_new ... array (of same length as 'values') used to store output
   // width      ... (positive) width of the rolling window
   
-  int j, window_length, left=0;
+  int j, window_length, left = 0;
   double values_tmp[*n];      // temporary array for median(), which shuffles the input data 
 
   for (int i = 0; i < *n; i++) {   

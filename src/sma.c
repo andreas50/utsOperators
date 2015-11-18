@@ -17,7 +17,7 @@ void sma_last(double values[], double times[], int *n, double values_new[], doub
   // values_new ... array of length *n to store output time series values
   // width      ... (positive) width of rolling window
   
-  int i, left = 0;
+  int left = 0;
   double t_left_new, roll_area, left_area;
   
   // Trivial case
@@ -29,7 +29,7 @@ void sma_last(double values[], double times[], int *n, double values_new[], doub
   roll_area = left_area = values[0] * (*width);
   
   // Apply rolling window
-  for (i = 1; i < *n; i++) {
+  for (int i = 1; i < *n; i++) {
     // Expand interval on right end
     roll_area += values[i-1] * (times[i] - times[i-1]);
     
@@ -62,7 +62,7 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
   // values_new ... array of length *n to store output time series values
   // width      ... (positive) width of rolling window
   
-  int i, left = 0;
+  int left = 0;
   double t_left_new, roll_area, left_area;
   
   // Trivial case
@@ -74,7 +74,7 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
   roll_area = left_area = values[0] * (*width);
   
   // Apply rolling window
-  for (i = 1; i < *n; i++) {
+  for (int i = 1; i < *n; i++) {
     // Expand interval on right end
     roll_area += values[i] * (times[i] - times[i-1]);
     
@@ -108,7 +108,7 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
   // values_new ... array of length *n to store output time series values
   // width      ... (positive) width of rolling window
   
-  int i, left = 0;
+  int left = 0;
   double t_left_new, roll_area, left_area, truncated_width, weight, y2;
   
   // Trivial case
@@ -120,7 +120,7 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
   roll_area = left_area = values[0] * (*width);
   
   // Apply rolling window
-  for (i = 1; i < *n; i++) {   
+  for (int i = 1; i < *n; i++) {   
     // Expand interval on right end
     roll_area += (values[i] + values[i-1]) / 2 * (times[i] - times[i-1]);
     

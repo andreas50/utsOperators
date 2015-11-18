@@ -15,7 +15,6 @@ void ema_next(double values[], double times[], int *n, double values_new[], doub
   // values_new ... array of length *n to store output time series values
   // tau        ... (positive) half-life of EMA kernel
   
-  int i;
   double w;
   
   // Trivial case
@@ -24,8 +23,8 @@ void ema_next(double values[], double times[], int *n, double values_new[], doub
   
   // Calculate ema recursively
   values_new[0] = values[0];
-  for (i = 1; i < *n; i++) {
-    w = exp(-(times[i]-times[i-1]) / *tau);
+  for (int i = 1; i < *n; i++) {
+    w = exp(-(times[i] - times[i-1]) / *tau);
     values_new[i] = values_new[i-1] * w + values[i] * (1-w);
   }
 }
@@ -40,7 +39,6 @@ void ema_last(double values[], double times[], int *n, double values_new[], doub
   // values_new ... array of length *n to store output time series values
   // tau        ... (positive) half-life of EMA kernel
   
-  int i;
   double w;
   
   // Trivial case
@@ -49,8 +47,8 @@ void ema_last(double values[], double times[], int *n, double values_new[], doub
   
   // Calculate ema recursively   
   values_new[0] = values[0];
-  for (i = 1; i < *n; i++) {
-    w = exp(-(times[i]-times[i-1]) / *tau);
+  for (int i = 1; i < *n; i++) {
+    w = exp(-(times[i] - times[i-1]) / *tau);
     values_new[i] = values_new[i-1] * w + values[i-1] * (1-w);
   }
   
@@ -66,7 +64,6 @@ void ema_linear(double values[], double times[], int *n, double values_new[], do
   // values_new ... array of length *n to store output time series values
   // tau        ... (positive) half-life of EMA kernel
   
-  int i;
   double w, w2, tmp;
   
   // Trivial case
@@ -75,7 +72,7 @@ void ema_linear(double values[], double times[], int *n, double values_new[], do
   
   // Calculate ema recursively   
   values_new[0] = values[0];   
-  for (i = 1; i < *n; i++) {
+  for (int i = 1; i < *n; i++) {
     tmp = (times[i] - times[i-1]) / *tau;
     w = exp(-tmp);
     if (tmp > 1e-6)
