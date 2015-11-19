@@ -105,19 +105,19 @@ test_that("rolling_apply works",{
   
   # Regression tests
   expect_equal_to_reference(
-    rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1)),
+    rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1), use_specialized=FALSE),
     file="test-rolling_apply_1.rds"
   )
   expect_equal_to_reference(
-    rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1), interior=TRUE),
+    rolling_apply(ex_uts(), width=ddays(0.1), FUN="mean", by=ddays(0.1), interior=TRUE, use_specialized=FALSE),
     file="test-rolling_apply_2.rds"
   )
   expect_equal_to_reference(
-    rolling_apply(ex_uts(), width=ddays(1), FUN="mean"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE),
     file="test-rolling_apply_3.rds"
   )
   expect_equal_to_reference(
-    rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE),
+    rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE, use_specialized=FALSE),
     file="test-rolling_apply_4.rds"
   )
 })

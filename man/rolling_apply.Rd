@@ -8,7 +8,7 @@
 rolling_apply(x, ...)
 
 \method{rolling_apply}{uts}(x, width, FUN, ..., by = NULL, align = "right",
-  interior = FALSE)
+  interior = FALSE, use_specialized = TRUE)
 }
 \arguments{
 \item{x}{a numeric time series object.}
@@ -22,6 +22,8 @@ rolling_apply(x, ...)
 \item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 
 \item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
+
+\item{use_specialized}{logical. Whether to use a fast specialized implementation if available for the desired function \code{FUN}.}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }

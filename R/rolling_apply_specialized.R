@@ -67,9 +67,9 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ali
   check_window_width(width)
   if (align == "right") {
     width_before <- width
-    width_after <- ddays(0)
+    width_after <- 0
   } else if (align == "left") {
-    width_before <- ddays(0)
+    width_before <- 0
     width_after <- width
   } else if (align == "center") {
     width_before <- width / 2

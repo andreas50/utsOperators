@@ -130,14 +130,14 @@ void rolling_num_obs(double values[], double times[], int *n, double values_new[
   
   int left = 0, right = -1;
   
-  for (int i = 0; i < *n; i++) {   
-    // Shrink window on the left
-    while ((left < *n) && (times[left] <= times[i] - *width_before))
-      left++;
-    
+  for (int i = 0; i < *n; i++) {
     // Expand window on the right
     while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after))
       right++;
+    
+    // Shrink window on the left
+    while ((left < *n) && (times[left] <= times[i] - *width_before))
+      left++;
     
     // Number of observations is equal to length of window
     values_new[i] = right - left + 1;

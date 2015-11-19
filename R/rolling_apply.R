@@ -179,6 +179,7 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' @param by a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.
 #' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
 #' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
+#' @param use_specialized logical. Whether to use a fast specialized implementation if available for the desired function \code{FUN}.
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 
@@ -188,8 +189,19 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(0.5))
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
-rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE)
+rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE, use_specialized=TRUE)
 {
+  # Extract the name of the function to be called
+  if (is.function(FUN))
+    FUN_name <- deparse(substitute(FUN))
+  else
+    FUN_name <- FUN
+  
+  # Call fast special purpose implementation, if available
+  if (use_specialized && is.null(by) && (length(FUN_name) == 1) &&
+      (FUN_name %in% c("length", "mean", "min", "max", "median", "sum")))
+    return(rolling_apply_specialized(x, width=width, FUN=FUN_name, align=align, interior=interior))
+  
   # Argument checking
   check_window_width(width)
   if (!is.null(by)) {
