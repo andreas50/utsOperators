@@ -97,6 +97,9 @@ double median(double values[], int n)
 
   double value_low, value_high;
   
+  if (n == 0)
+    return NAN;
+  
   // Determine the mid points of the array
   int mid_low = (n - 1) / 2;
   int mid_high = n - mid_low - 1;
@@ -203,7 +206,10 @@ void rolling_mean(double values[], double times[], int *n, double values_new[],
     }
     
     // Calculate mean of values in rolling window
-    values_new[i] = roll_sum / (right - left + 1);
+    if (left <= right)  // non-empty window
+      values_new[i] = roll_sum / (right - left + 1);
+    else                // empty window
+      values_new[i] = NAN;
   }
 }
 
