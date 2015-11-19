@@ -19,11 +19,27 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=length),
     rolling_apply(ex_uts(), width=ddays(1), FUN=length)
   )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=length, align="center"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=length, align="center")
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=length, align="left"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=length, align="left")
+  )
   
   # FUN = min
   expect_equal(
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=min),
     rolling_apply(ex_uts(), width=ddays(1), FUN=min)
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=min, align="center"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=min, align="center")
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=min, align="left"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=min, align="left")
   )
   
   # FUN = max
@@ -31,11 +47,27 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=max),
     rolling_apply(ex_uts(), width=ddays(1), FUN=max)
   )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=max, align="center"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=max, align="center")
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=max, align="left"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=max, align="left")
+  )
   
   # FUN = mean
   expect_equal(
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=mean),
     rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=mean, align="center"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=mean, align="center")
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=mean, align="left"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=mean, align="left")
   )
   
   # FUN = median
@@ -43,11 +75,27 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=median),
     rolling_apply(ex_uts(), width=ddays(1), FUN=median)
   )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=median, align="center"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=median, align="center")
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=median, align="left"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=median, align="left")
+  )
   
   # FUN = sum
   expect_equal(
     rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum),
     rolling_apply(ex_uts(), width=ddays(1), FUN=sum)
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum, align="center"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=sum, align="center")
+  )
+  expect_equal(
+    rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum, align="left"),
+    rolling_apply(ex_uts(), width=ddays(1), FUN=sum, align="left")
   )
 })
 
