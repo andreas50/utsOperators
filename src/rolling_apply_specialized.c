@@ -4,7 +4,6 @@
  */
 
 #include <math.h>
-#include <stdlib.h>
 
 #ifndef swap
 #define swap(a,b) {temp=(a); (a)=(b); (b)=temp;}
@@ -42,6 +41,9 @@ double quickselect(double values[], int n, int k)
   // values ... array of values
   // n      ... length of array
   // k      ... return k-th smallest element
+  
+  if (k >= n)
+    return NAN;
   
   int i, j, left, right, mid;
   double pivot, temp;
@@ -248,7 +250,7 @@ void rolling_max(double values[], double times[], int *n, double values_new[],
           max_pos = j;
     }
     
-    // Save maximum for current time window
+    // Save maximum in current time window
     if (left <= right)  // non-empty window
       values_new[i] = values[max_pos];
     else                // empty window
@@ -291,7 +293,7 @@ void rolling_min(double values[], double times[], int *n, double values_new[],
           min_pos = j;
     }
     
-    // Save minium for current time window
+    // Save minium in current time window
     if (left <= right)  // non-empty window
       values_new[i] = values[min_pos];
     else                // empty window
@@ -323,7 +325,7 @@ void rolling_median(double values[], double times[], int *n, double values_new[]
     while ((left < *n) && (times[left] <= times[i] - *width_before))
       left++;
     
-    // Copy data in rolling window to temporary array, and calculate the median
+    // Copy data in rolling window to temporary array, then calculate the median
     window_length = right - left + 1;
     for (j = 0; j < window_length; j++)
       values_tmp[j] = values[left + j];
