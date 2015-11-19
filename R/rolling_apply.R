@@ -134,26 +134,14 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
   # Evaluate function on values in each time window
   FUN <- match.fun(FUN)
   values <- x$values    # attach to avoid constant dereferencing
-  if (0) {
-    args <- c(list(c()), list(...))
-    values_new <- rep(NA_real_, length(start_times))
-    for (j in which(!is.na(start_index))) {
-      pos_used <- seq(start_index[j], length.out = end_index[j] - start_index[j] + 1)
-      args[[1]] <- values[pos_used]
-      values_new[j] <- do.call(FUN, args)
-    }
-  } else {
-    # Equivalent to loop, easier to read (only slightly faster though)
-    helper <- function(start, end) {
-      if (is.na(start))
-        NA_real_
-      else {
-        pos_used <- seq(start, length.out = end - start + 1)
-        FUN(values[pos_used], ...)
-      }
-    }
-    values_new <- as.numeric(mapply(helper, start_index, end_index))
+  helper <- function(start, end) {
+    if (end >= start)
+      FUN(values[start:end], ...)
+    else
+      FUN(values[c()], ...)
   }
+  # Equivalent to loop, easier to read (only slightly faster though)
+  values_new <- as.numeric(mapply(helper, start_index, end_index))
   
   # Return output time series with proper time alignment
   if (align == "left")
