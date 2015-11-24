@@ -8,10 +8,9 @@
 #' 
 #' It is usually not necessary to call this function, because it is called automatically by \code{\link{rolling_apply}} whenever a specialized implementation is available.
 #' 
-#' @param x a numeric time series object.
+#' @param x a numeric time series object with finite, non-NA observation values.
 #' @param width a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.
-#' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.
 #' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
 #' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 #' @param \ldots further arguments passed to or from methods.
@@ -38,7 +37,7 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' # Rolling min/max
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
-rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", align="right", interior=FALSE, ...)
+rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior=FALSE, ...)
 {
   # Extract the name of the function to be called
   if (is.function(FUN)) {
@@ -79,7 +78,7 @@ rolling_apply_specialized.uts <- function(x, width, FUN, NA_method="ignore", ali
     
   
   # Call C function 
-  out <- generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct=C_fct, NA_method=NA_method)
+  out <- generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct=C_fct)
   
   # Optionally, drop output times for which the corresponding time window is not completely inside the temporal support of x
   if (interior)

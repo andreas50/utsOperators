@@ -100,24 +100,4 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
 })
 
 
-test_that("rolling_apply_specialized handles NAs correctly",{
-  x <- ex_uts()
-  x$values[2:3] <- NA
-  
-  # ignore NAs
-  expect_equal(
-    sum(is.na(rolling_apply_specialized(x, ddays(1), FUN=sum))),
-    sum(is.na(x))
-  )
-  
-  # omit NAs
-  expect_equal(
-    length(rolling_apply_specialized(x, ddays(1), FUN=sum, NA_method="omit")),
-    sum(!is.na(x))
-  )
-  
-  # fail
-  expect_error(rolling_apply_specialized(x, ddays(1), FUN=sum, NA_method="fail"))
-})
-
 

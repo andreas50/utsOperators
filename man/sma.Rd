@@ -7,8 +7,7 @@
 \usage{
 sma(x, ...)
 
-\method{sma}{uts}(x, width, interpolation = "last", NA_method = "ignore",
-  ...)
+\method{sma}{uts}(x, width, interpolation = "last", ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
@@ -16,8 +15,6 @@ sma(x, ...)
 \item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
 
 \item{interpolation}{the sample path interpolation method Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
-
-\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
@@ -43,7 +40,7 @@ These quantities are \emph{unweighted} averages of the observation values inside
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{uts}: simple moving average for \code{"uts"} objects.
+\item \code{uts}: simple moving average for \code{"uts"} objects with finite, non-NA observation values.
 }}
 \examples{
 sma(ex_uts(), ddays(1))

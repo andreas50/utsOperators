@@ -4,14 +4,12 @@
 \alias{generic_C_interface}
 \title{Generic C interface}
 \usage{
-generic_C_interface(x, C_fct, NA_method = "ignore", ...)
+generic_C_interface(x, C_fct, ...)
 }
 \arguments{
-\item{x}{a numeric \code{"uts"} object.}
+\item{x}{a numeric \code{"uts"} object with finite, non-NA observation values.}
 
 \item{C_fct}{the name of the C function to call.}
-
-\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, \code{"omit"}.}
 
 \item{\dots}{further arguments passed to the C function.}
 }
@@ -19,14 +17,10 @@ generic_C_interface(x, C_fct, NA_method = "ignore", ...)
 Generic interface for C-functions with inputs (values, times, length(values), values_new, ...) and output (values_new). Example: sma, rollingMax, ema, ...
 }
 \examples{
-# Prepare sample 'uts"
-x <- ex_uts()
-x$values[2] <- NA
-
 # SMA_last
-generic_C_interface(x, "sma_last", width=ddays(1))
-generic_C_interface(x, "sma_last", width=ddays(1), NA_method="omit")
+generic_C_interface(ex_uts(), "sma_last", width=ddays(1))
 
+# One- vs. two-sided window
 generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_after=dhours(0))
 generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_after=dhours(6))
 }

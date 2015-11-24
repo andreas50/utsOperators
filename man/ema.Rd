@@ -7,7 +7,7 @@
 \usage{
 ema(x, ...)
 
-\method{ema}{uts}(x, tau, interpolation = "last", NA_method = "ignore", ...)
+\method{ema}{uts}(x, tau, interpolation = "last", ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
@@ -15,8 +15,6 @@ ema(x, ...)
 \item{tau}{a finite \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.}
 
 \item{interpolation}{the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
-
-\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
@@ -37,7 +35,7 @@ Depending on the application, one sample path interpolation method will often be
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{uts}: exponential moving average for \code{"uts"} objects.
+\item \code{uts}: exponential moving average for \code{"uts"} objects with finite, non-NA observation values.
 }}
 \examples{
 ema(ex_uts(), ddays(1))

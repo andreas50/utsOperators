@@ -25,7 +25,6 @@
 #' @param x a numeric time series object.
 #' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
 #' @param interpolation the sample path interpolation method Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
-#' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
@@ -34,7 +33,7 @@
 sma <- function(x, ...) UseMethod("sma")
 
 
-#' @describeIn sma simple moving average for \code{"uts"} objects.
+#' @describeIn sma simple moving average for \code{"uts"} objects with finite, non-NA observation values.
 #' 
 #' @examples
 #' sma(ex_uts(), ddays(1))
@@ -62,7 +61,7 @@ sma <- function(x, ...) UseMethod("sma")
 #'   plot(sma(x, dhours(10), interpolation="linear"), ylim=c(0, 4), main="Linear interpolation")
 #'   plot(sma(x, dhours(10), interpolation="next"), ylim=c(0, 4), main="Next-point interpolation")
 #' }
-sma.uts <- function(x, width, interpolation="last", NA_method="ignore", ...)
+sma.uts <- function(x, width, interpolation="last", ...)
 {
   # For forward-looking SMAs, call an appropriate SMA on the time-reversed time series
   if (unclass(width) < 0) { # much faster than S4 method dispatch
@@ -76,18 +75,18 @@ sma.uts <- function(x, width, interpolation="last", NA_method="ignore", ...)
       interpolation_rev <- interpolation
     
     # Call C interface and reverse output again
-    tmp <- sma(x_rev, width=abs(width), interpolation=interpolation_rev, NA_method=NA_method, ...)
+    tmp <- sma(x_rev, width=abs(width), interpolation=interpolation_rev, ...)
     return(rev(tmp))
   }
   
   # Call generic C interface for rolling operators
   check_window_width(width)
   if (interpolation == "last")
-    generic_C_interface(x, width, C_fct="sma_last", NA_method=NA_method, ...)
+    generic_C_interface(x, width, C_fct="sma_last", ...)
   else if (interpolation == "linear")
-    generic_C_interface(x, width, C_fct="sma_linear", NA_method=NA_method, ...)
+    generic_C_interface(x, width, C_fct="sma_linear", ...)
   else if (interpolation == "next")
-    generic_C_interface(x, width, C_fct="sma_next", NA_method=NA_method, ...)
+    generic_C_interface(x, width, C_fct="sma_next", ...)
   else
     stop("Unknown sample path interpolation methods")
 }
@@ -95,7 +94,7 @@ sma.uts <- function(x, width, interpolation="last", NA_method="ignore", ...)
 
 #' R implementation of sma(..., interpolation="last")
 #'
-#' This function is identical to \code{\link{sma}} with \code{interpolation="last"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
+#' This function is identical to \code{\link{sma}} with \code{interpolation="last"}. It exists solely for testing the C implementation.
 #'
 #' @param x a \code{"uts"} object.
 #' @param width a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
@@ -159,7 +158,7 @@ sma_last_R <- function(x, width)
 
 #' R implementation of sma(..., interpolation="linear")
 #'
-#' This function is identical to \code{\link{sma}} with \code{interpolation="linear"}, except that the \code{NA_method} argument is not supported. It exists solely for testing the C implementation.
+#' This function is identical to \code{\link{sma}} with \code{interpolation="linear"}. It exists solely for testing the C implementation.
 #'
 #' @param x a \code{"uts"} object.
 #' @param width a positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.

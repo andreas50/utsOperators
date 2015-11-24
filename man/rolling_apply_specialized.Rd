@@ -7,17 +7,15 @@
 \usage{
 rolling_apply_specialized(x, ...)
 
-\method{rolling_apply_specialized}{uts}(x, width, FUN, NA_method = "ignore",
-  align = "right", interior = FALSE, ...)
+\method{rolling_apply_specialized}{uts}(x, width, FUN, align = "right",
+  interior = FALSE, ...)
 }
 \arguments{
-\item{x}{a numeric time series object.}
+\item{x}{a numeric time series object with finite, non-NA observation values.}
 
 \item{width}{a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
 \item{FUN}{a function to be applied to the vector of observation values inside the half-open (open on the left, closed on the right) rolling time window.}
-
-\item{NA_method}{the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.}
 
 \item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 

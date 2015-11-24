@@ -20,7 +20,6 @@
 #' @param x a numeric time series object.
 #' @param tau a finite \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.
 #' @param interpolation the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
-#' @param NA_method the method for dealing with \code{NA}s. Either \code{"fail"}, \code{"ignore"}, or \code{"omit"}.
 #' @param \dots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
@@ -29,7 +28,7 @@
 ema <- function(x, ...) UseMethod("ema")
 
 
-#' @describeIn ema exponential moving average for \code{"uts"} objects.
+#' @describeIn ema exponential moving average for \code{"uts"} objects with finite, non-NA observation values.
 #' 
 #' @examples
 #' ema(ex_uts(), ddays(1))
@@ -57,7 +56,7 @@ ema <- function(x, ...) UseMethod("ema")
 #'   plot(ema(x, dhours(10), interpolation="linear"), ylim=c(0, 3), main="Linear interpolation")
 #'   plot(ema(x, dhours(10), interpolation="next"), ylim=c(0, 3), main="Next-point interpolation")
 #' }
-ema.uts <- function(x, tau, interpolation="last", NA_method="ignore", ...)
+ema.uts <- function(x, tau, interpolation="last", ...)
 {
   # Argument checking and special case (not handled by C code)
   if (!is.duration(tau))
@@ -77,18 +76,18 @@ ema.uts <- function(x, tau, interpolation="last", NA_method="ignore", ...)
       interpolation_rev <- interpolation
     
     # Call C interface and reverse output again
-    tmp <- ema(x_rev, tau=abs(tau), interpolation=interpolation_rev, NA_method=NA_method, ...)
+    tmp <- ema(x_rev, tau=abs(tau), interpolation=interpolation_rev, ...)
     return(rev(tmp))
   }
   
   # Call generic C interface for rolling operators
   check_window_width(tau, des="EMA half-life")
   if (interpolation == "next")
-    generic_C_interface(x, tau, C_fct="ema_next", NA_method=NA_method, ...)
+    generic_C_interface(x, tau, C_fct="ema_next", ...)
   else if (interpolation == "last")
-    generic_C_interface(x, tau, C_fct="ema_last", NA_method=NA_method, ...)
+    generic_C_interface(x, tau, C_fct="ema_last", ...)
   else if (interpolation == "linear")
-    generic_C_interface(x, tau, C_fct="ema_linear", NA_method=NA_method, ...)
+    generic_C_interface(x, tau, C_fct="ema_linear", ...)
   else
     stop("Unknown sample path interpolation method")
 }

@@ -17,18 +17,6 @@ test_that("argument checking and trivial cases work",{
     sma(x, ddays(1)),
     x
   )
-  
-  # time series with only NAs
-  x <- uts(as.numeric(c(NA, NA)), as.POSIXct("2015-06-06") + dhours(0:1))
-  expect_identical(
-    sma(x, ddays(1), NA_method="ignore"),
-    x
-  )
-  expect_identical(
-    sma(x, ddays(1), NA_method="omit"),
-    uts()
-  )
-  expect_error(sma(x, ddays(1), NA_method="fail"))
 })
 
 
