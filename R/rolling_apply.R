@@ -171,6 +171,7 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 
+
 #' @describeIn rolling_apply apply rolling function to \code{"uts"} object.
 #' 
 #' @examples
@@ -179,16 +180,9 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE, use_specialized=TRUE)
 {
-  # Extract the name of the function to be called
-  if (is.function(FUN))
-    FUN_name <- deparse(substitute(FUN))
-  else
-    FUN_name <- FUN
-  
   # Call fast special purpose implementation, if available
-  if (use_specialized && is.null(by) && (length(FUN_name) == 1) &&
-      (FUN_name %in% c("length", "mean", "min", "max", "median", "sum")))
-    return(rolling_apply_specialized(x, width=width, FUN=FUN_name, align=align, interior=interior))
+  if (have_rolling_apply_specialized(x, FUN=FUN, by=by))
+    return(rolling_apply_specialized(x, width=width, FUN=FUN, align=align, interior=interior))
   
   # Argument checking
   check_window_width(width)

@@ -20,7 +20,7 @@
 rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specialized")
 
 
-#' @describeIn rolling_apply_specialized Implementation for \code{"uts"} objects.
+#' @describeIn rolling_apply_specialized Implementation for \code{"uts"} objects with finite, non-NA observation values.
 #' 
 #' @examples
 #' rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
@@ -86,3 +86,30 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
   out
 }
 
+
+#' Specialized Rolling Apply Available?
+#' 
+#' Check whether \code{\link{rolling_apply_specialized.uts}} can be called for a given \code{\link{uts}} object with arguments \code{FUN} and \code{by}.
+#' 
+#' @param x a \code{"uts"} object.
+#' @param FUN see \code{\link{rolling_apply_specialized}}.
+#' @param by see \code{\link{rolling_apply_specialized}}.
+#' 
+#' @keywords internal
+#' @examples 
+#' have_rolling_apply_specialized(ex_uts(), FUN=mean)
+#' have_rolling_apply_specialized(ex_uts(), FUN="mean")
+#' have_rolling_apply_specialized(ex_uts(), FUN=mean, by=ddays(1))
+#' have_rolling_apply_specialized(uts(NA, Sys.time()), FUN=mean)
+have_rolling_apply_specialized <- function(x, FUN, by=NULL)
+{
+  # Extract the name of the function to be called
+  if (is.function(FUN))
+    FUN_name <- deparse(substitute(FUN))
+  else
+    FUN_name <- FUN
+  
+  # Call fast special purpose implementation, if available
+  (length(FUN_name) == 1) && (FUN_name %in% c("length", "mean", "min", "max", "median", "sum")) &&
+    is.null(by) && (is.numeric(x$values)) && (!anyNA(x$values)) && (all(is.finite(x$values)))
+}

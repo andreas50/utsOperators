@@ -1,5 +1,15 @@
 context("rolling_apply_specialized")
 
+test_that("have_rolling_apply_specialized works",{
+  expect_true(have_rolling_apply_specialized(ex_uts(), FUN=mean))
+  expect_true(have_rolling_apply_specialized(ex_uts(), FUN="mean"))
+  
+  expect_false(have_rolling_apply_specialized(ex_uts(), FUN=mean, by=ddays(1)))
+  expect_false(have_rolling_apply_specialized(uts(NA, Sys.time()), FUN=mean))
+  expect_false(have_rolling_apply_specialized(uts(Inf, Sys.time()), FUN=mean))
+})
+
+
 test_that("rolling_apply_specialized argument checking",{
   # width
   expect_error(rolling_apply_specialized(ex_uts(), width="abc", FUN=sum))

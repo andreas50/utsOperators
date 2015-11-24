@@ -31,7 +31,7 @@ It is usually not necessary to call this function, because it is called automati
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{uts}: Implementation for \code{"uts"} objects.
+\item \code{uts}: Implementation for \code{"uts"} objects with finite, non-NA observation values.
 }}
 \examples{
 rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
