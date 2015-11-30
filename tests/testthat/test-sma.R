@@ -57,7 +57,7 @@ test_that("a flat uts produces a flat SMA",{
     x
   )
   
-  # SMA_next: coming soon
+  # SMA_next
   expect_equal(
     sma(x, width=ddays(4), align="left", interpolation="next"),
     x
@@ -71,7 +71,19 @@ test_that("a flat uts produces a flat SMA",{
     x
   )
   
-  # SMA_linear: coming soon
+  # SMA_linear
+  expect_equal(
+    sma(x, width=ddays(4), align="left", interpolation="linear"),
+    x
+  )
+  expect_equal(
+    sma(x, width=ddays(4), align="right", interpolation="linear"),
+    x
+  )
+  expect_equal(
+    sma(x, width=ddays(4), align="center", interpolation="linear"),
+    x
+  )
 })
 
 
