@@ -20,7 +20,7 @@ test_that("argument checking and trivial cases work",{
 })
 
 
-test_that("an extremely long SMA gives a flat output for all interpolation methods",{
+test_that("an extremely long SMA gives a flat output",{
   x <- ex_uts()
   width <- ddays(1e20)
   exptected_sma_values <- rep(first(x), length(x))
@@ -37,6 +37,29 @@ test_that("an extremely long SMA gives a flat output for all interpolation metho
     sma(x, width, interpolation="linear")$values,
     exptected_sma_values
   )
+})
+
+
+test_that("a flat uts gives a flat SMA",{
+  x <- uts(rep(5, 10), as.POSIXct("2010-01-01") + ddays(1:10))
+
+  # SMA_last
+  expect_equal(
+    sma(x, width=ddays(4), align="left", interpolation="last"),
+    x
+  )
+  expect_equal(
+    sma(x, width=ddays(4), align="right", interpolation="last"),
+    x
+  )
+  expect_equal(
+    sma(x, width=ddays(4), align="center", interpolation="last"),
+    x
+  )
+  
+  # SMA_next: coming soon
+  
+  # SMA_linear: coming soon
 })
 
 

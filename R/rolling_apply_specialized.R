@@ -62,7 +62,7 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
   else
     stop("This function does not have a specialized rolling_apply() implementation")
   
-  # Determine the window width before and after the current output time, depending on the chosen alignment
+  # Determine the window width before and after the current output time, depending on the window alignment
   check_window_width(width)
   if (align == "right") {
     width_before <- width

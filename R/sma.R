@@ -69,7 +69,7 @@ sma <- function(x, ...) UseMethod("sma")
 #' }
 sma.uts <- function(x, width, interpolation="last", align="right", interior=FALSE, ...)
 {
-  # Determine the window width before and after the current output time, depending on the chosen alignment
+  # Determine the window width before and after the current output time, depending on the window alignment
   check_window_width(width)
   if (align == "right") {
     width_before <- width
