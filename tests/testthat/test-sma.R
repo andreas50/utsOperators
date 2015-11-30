@@ -40,7 +40,7 @@ test_that("an extremely long SMA gives a flat output",{
 })
 
 
-test_that("a flat uts gives a flat SMA",{
+test_that("a flat uts produces a flat SMA",{
   x <- uts(rep(5, 10), as.POSIXct("2010-01-01") + ddays(1:10))
 
   # SMA_last
@@ -58,6 +58,18 @@ test_that("a flat uts gives a flat SMA",{
   )
   
   # SMA_next: coming soon
+  expect_equal(
+    sma(x, width=ddays(4), align="left", interpolation="next"),
+    x
+  )
+  expect_equal(
+    sma(x, width=ddays(4), align="right", interpolation="next"),
+    x
+  )
+  expect_equal(
+    sma(x, width=ddays(4), align="center", interpolation="next"),
+    x
+  )
   
   # SMA_linear: coming soon
 })
