@@ -49,10 +49,6 @@ test_that("sma_linear works",{
     sma(ex_uts(), ddays(1), interpolation="linear"),
     file="test-sma_linear_1.rds"
   )
-  expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), interpolation="linear"),
-    file="test-sma_linear_2.rds"
-  )
 })
 
 test_that("sma_linear and sma_linear_R give the same result",{
@@ -91,10 +87,6 @@ test_that("sma_last works",{
     sma(ex_uts(), ddays(1), interpolation="last"),
     file="test-sma_last_1.rds"
   )
-  expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), interpolation="last"),
-    file="test-sma_last_2.rds"
-  )
 })
 
 test_that("sma_last and sma_last_R give the same result",{
@@ -121,10 +113,6 @@ test_that("sma_next works",{
   expect_equal_to_reference(
     sma(ex_uts(), ddays(1), interpolation="next"),
     file="test-sma_next_1.rds"
-  )
-  expect_equal_to_reference(
-    sma(ex_uts(), ddays(-1), interpolation="next"),
-    file="test-sma_next_2.rds"
   )
 })
 

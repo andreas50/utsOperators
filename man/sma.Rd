@@ -7,14 +7,16 @@
 \usage{
 sma(x, ...)
 
-\method{sma}{uts}(x, width, interpolation = "last", ...)
+\method{sma}{uts}(x, width, interpolation = "last", align = "right", ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
 
-\item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.}
+\item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
-\item{interpolation}{the sample path interpolation method Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
+\item{interpolation}{the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
+
+\item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
@@ -46,6 +48,10 @@ These quantities are \emph{unweighted} averages of the observation values inside
 sma(ex_uts(), ddays(1))
 sma(ex_uts(), ddays(1), interpolation="linear")
 sma(ex_uts(), ddays(1), interpolation="next")
+
+sma(ex_uts(), ddays(1))
+sma(ex_uts(), ddays(1), align="center")
+sma(ex_uts(), ddays(1), align="left")
 
 # Plot a monotonically increasing time series 'x' together with
 # a backward-looking and forward-looking SMA.

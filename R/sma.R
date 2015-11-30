@@ -23,8 +23,9 @@
 #' }
 #' 
 #' @param x a numeric time series object.
-#' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window. Use positive values for backward-looking (i.e. normal, causal) SMAs, and negative values for forward-looking SMAs.
-#' @param interpolation the sample path interpolation method Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
+#' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
+#' @param interpolation the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
+#' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
 #' @param \dots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
@@ -39,6 +40,10 @@ sma <- function(x, ...) UseMethod("sma")
 #' sma(ex_uts(), ddays(1))
 #' sma(ex_uts(), ddays(1), interpolation="linear")
 #' sma(ex_uts(), ddays(1), interpolation="next")
+#' 
+#' sma(ex_uts(), ddays(1))
+#' sma(ex_uts(), ddays(1), align="center")
+#' sma(ex_uts(), ddays(1), align="left")
 #' 
 #' # Plot a monotonically increasing time series 'x' together with
 #' # a backward-looking and forward-looking SMA.
@@ -61,32 +66,30 @@ sma <- function(x, ...) UseMethod("sma")
 #'   plot(sma(x, dhours(10), interpolation="linear"), ylim=c(0, 4), main="Linear interpolation")
 #'   plot(sma(x, dhours(10), interpolation="next"), ylim=c(0, 4), main="Next-point interpolation")
 #' }
-sma.uts <- function(x, width, interpolation="last", ...)
+sma.uts <- function(x, width, interpolation="last", align="right", ...)
 {
-  # For forward-looking SMAs, call an appropriate SMA on the time-reversed time series
-  if (unclass(width) < 0) { # much faster than S4 method dispatch
-    # Need to switch interpolation methods "next" and "last"
-    x_rev <- rev(x)
-    if (interpolation == "next")
-      interpolation_rev <- "last"
-    else if (interpolation == "last")
-      interpolation_rev <- "next"
-    else
-      interpolation_rev <- interpolation
-    
-    # Call C interface and reverse output again
-    tmp <- sma(x_rev, width=abs(width), interpolation=interpolation_rev, ...)
-    return(rev(tmp))
-  }
+  # Determine the window width before and after the current output time, depending on the chosen alignment
+  check_window_width(width)
+  if (align == "right") {
+    width_before <- width
+    width_after <- 0
+  } else if (align == "left") {
+    width_before <- 0
+    width_after <- width
+  } else if (align == "center") {
+    width_before <- width / 2
+    width_after <- width / 2
+  } else
+    stop("'align' has to be either 'left', 'right', or 'center")
+  
   
   # Call generic C interface for rolling operators
-  check_window_width(width)
   if (interpolation == "last")
-    generic_C_interface(x, width, C_fct="sma_last", ...)
+    generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct="sma_last", ...)
   else if (interpolation == "linear")
-    generic_C_interface(x, width, C_fct="sma_linear", ...)
+    generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct="sma_linear", ...)
   else if (interpolation == "next")
-    generic_C_interface(x, width, C_fct="sma_next", ...)
+    generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct="sma_next", ...)
   else
     stop("Unknown sample path interpolation methods")
 }
