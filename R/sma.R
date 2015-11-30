@@ -26,6 +26,7 @@
 #' @param width a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param interpolation the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
+#' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 #' @param \dots further arguments passed to or from methods.
 #' 
 #' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
@@ -66,7 +67,7 @@ sma <- function(x, ...) UseMethod("sma")
 #'   plot(sma(x, dhours(10), interpolation="linear"), ylim=c(0, 4), main="Linear interpolation")
 #'   plot(sma(x, dhours(10), interpolation="next"), ylim=c(0, 4), main="Next-point interpolation")
 #' }
-sma.uts <- function(x, width, interpolation="last", align="right", ...)
+sma.uts <- function(x, width, interpolation="last", align="right", interior=FALSE, ...)
 {
   # Determine the window width before and after the current output time, depending on the chosen alignment
   check_window_width(width)
@@ -82,16 +83,23 @@ sma.uts <- function(x, width, interpolation="last", align="right", ...)
   } else
     stop("'align' has to be either 'left', 'right', or 'center")
   
-  
-  # Call generic C interface for rolling operators
+  # Select C function
   if (interpolation == "last")
-    generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct="sma_last", ...)
+    C_fct <- "sma_last"
   else if (interpolation == "linear")
-    generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct="sma_linear", ...)
+    C_fct <- "sma_linear"
   else if (interpolation == "next")
-    generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct="sma_next", ...)
+    C_fct <- "sma_next"
   else
-    stop("Unknown sample path interpolation methods")
+    stop("Unknown sample path interpolation method")
+  
+  # Call C interface for rolling operators
+  out <- generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct=C_fct, ...)
+  
+  # Optionally, drop output times for which the corresponding time window is not completely inside the temporal support of x
+  if (interior)
+    out <- window(out, start=start(out) + width_before, end(out) - width_after)
+  out
 }
 
 

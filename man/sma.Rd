@@ -7,7 +7,8 @@
 \usage{
 sma(x, ...)
 
-\method{sma}{uts}(x, width, interpolation = "last", align = "right", ...)
+\method{sma}{uts}(x, width, interpolation = "last", align = "right",
+  interior = FALSE, ...)
 }
 \arguments{
 \item{x}{a numeric time series object.}
@@ -17,6 +18,8 @@ sma(x, ...)
 \item{interpolation}{the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
 
 \item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
+
+\item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
 
 \item{\dots}{further arguments passed to or from methods.}
 }
