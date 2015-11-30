@@ -20,27 +20,7 @@ test_that("argument checking and trivial cases work",{
 })
 
 
-test_that("an extremely long SMA gives a flat output",{
-  x <- ex_uts()
-  width <- ddays(1e20)
-  exptected_sma_values <- rep(first(x), length(x))
-  
-  expect_equal(
-    sma(x, width, interpolation="last")$values,
-    exptected_sma_values
-  )
-  expect_equal(
-    sma(x, width, interpolation="next")$values,
-    exptected_sma_values
-  )
-  expect_equal(
-    sma(x, width, interpolation="linear")$values,
-    exptected_sma_values
-  )
-})
-
-
-test_that("a flat uts produces a flat SMA",{
+test_that("a flat time series produces a flat SMA",{
   x <- uts(rep(5, 10), as.POSIXct("2010-01-01") + ddays(1:10))
 
   # SMA_last
@@ -86,6 +66,46 @@ test_that("a flat uts produces a flat SMA",{
   )
 })
 
+
+test_that("an extremely long SMA gives a flat output",{
+  x <- ex_uts()
+  width <- ddays(1e20)
+  exptected_sma_values <- rep(first(x), length(x))
+  
+  expect_equal(
+    sma(x, width, interpolation="last")$values,
+    exptected_sma_values
+  )
+  expect_equal(
+    sma(x, width, interpolation="next")$values,
+    exptected_sma_values
+  )
+  expect_equal(
+    sma(x, width, interpolation="linear")$values,
+    exptected_sma_values
+  )
+})
+
+
+test_that("a SMA(align='left') >= SMA(align='center') >= SMA(align='right') for monotonically-increasing time series",{
+  x <- uts(1:10, Sys.time() + ddays(1:10))
+  width <- ddays(5)
+  SMA_last <- function(align) sma(x, width, align=align, interpolation="last")
+  SMA_next <- function(align) sma(x, width, align=align, interpolation="next")
+  SMA_linear <- function(align) sma(x, width, align=align, interpolation="linear")
+  
+  # SMA_last
+  expect_true(all(SMA_last("left") >= SMA_last("center")))
+  expect_true(all(SMA_last("center") >= SMA_last("right")))
+
+  # SMA_next
+  expect_true(all(SMA_next("left") >= SMA_last("center")))
+  expect_true(all(SMA_next("center") >= SMA_last("right")))
+  
+  # SMA_linear
+  expect_true(all(SMA_linear("left") >= SMA_linear("center")))
+  expect_true(all(SMA_linear("center") >= SMA_linear("right")))
+})
 
 
 ### SMA_linear ###
