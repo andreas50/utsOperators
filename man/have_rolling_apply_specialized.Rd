@@ -21,6 +21,9 @@ have_rolling_apply_specialized(ex_uts(), FUN=mean)
 have_rolling_apply_specialized(ex_uts(), FUN="mean")
 have_rolling_apply_specialized(ex_uts(), FUN=mean, by=ddays(1))
 have_rolling_apply_specialized(uts(NA, Sys.time()), FUN=mean)
+
+FUN <- mean
+have_rolling_apply_specialized(ex_uts(), FUN=FUN)
 }
 \keyword{internal}
 

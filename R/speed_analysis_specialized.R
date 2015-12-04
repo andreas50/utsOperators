@@ -7,14 +7,14 @@
 
 
 ### rolling_apply_specialized vs. rolling_apply for FUN=sum
-# -) the specialized implementation is ~60 times faster
+# -) the specialized implementation is ~50 times faster
 # -) the results for FUN=mean are very similar, because the implementations are almost identical
 if (0) {
   set.seed(1)
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
   width <- ddays(100)
   
-  # generic vs. specialized: 1.22s vs. 2.13s
+  # generic vs. specialized: 1.24s vs. 2.61s
   system.time(for (j in 1:200) rolling_apply(ts1, width, FUN=sum, use_specialized=FALSE))
   system.time(for (j in 1:20000) rolling_apply(ts1, width, FUN=sum))
   
@@ -35,13 +35,13 @@ if (0) {
 
 
 ### Same, but for FUN=min/max
-# -) the specialized implementation is ~60 times faster
+# -) the specialized implementation is ~50 times faster
 if (0) {
   set.seed(1)
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
   width <- ddays(100)
   
-  # generic vs. specialized: 1.21s vs. 2.17s
+  # generic vs. specialized: 1.31s vs. 2.53s
   system.time(for (j in 1:200) rolling_apply(ts1, width, FUN=min, use_specialized=FALSE))
   system.time(for (j in 1:20000) rolling_apply(ts1, width, FUN=min))
   
@@ -61,12 +61,12 @@ if (0) {
   ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
   width <- ddays(100)
   
-  # generic vs. specialized: 3.97s vs. 1.14s
+  # generic vs. specialized: 4.08s vs. 1.15s
   system.time(for (j in 1:100) rolling_apply(ts1, width, FUN=median, use_specialized=FALSE))
   system.time(for (j in 1:1000) rolling_apply_specialized(ts1, width, FUN=median))
   
   # Profile specialized implementation
-  # -) ~90% of time spent in C code
+  # -) ~85% of time spent in C code
   Rprof(interval=0.01)
   for (j in 1:2000) rolling_apply(ts1, width, FUN=median)
   Rprof(NULL)
