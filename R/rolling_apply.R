@@ -181,7 +181,7 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE, use_specialized=TRUE)
 {
   # Call fast special purpose implementation, if available
-  if (have_rolling_apply_specialized(x, FUN=FUN, by=by))
+  if (use_specialized && have_rolling_apply_specialized(x, FUN=FUN, by=by))
     return(rolling_apply_specialized(x, width=width, FUN=FUN, align=align, interior=interior))
   
   # Argument checking
