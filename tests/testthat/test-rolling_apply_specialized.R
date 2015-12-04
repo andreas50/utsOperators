@@ -3,6 +3,8 @@ context("rolling_apply_specialized")
 test_that("have_rolling_apply_specialized works",{
   expect_true(have_rolling_apply_specialized(ex_uts(), FUN=mean))
   expect_true(have_rolling_apply_specialized(ex_uts(), FUN="mean"))
+  FUN <- mean
+  expect_true(have_rolling_apply_specialized(ex_uts(), FUN=FUN))
   
   expect_false(have_rolling_apply_specialized(ex_uts(), FUN=mean, by=ddays(1)))
   expect_false(have_rolling_apply_specialized(uts(NA, Sys.time()), FUN=mean))

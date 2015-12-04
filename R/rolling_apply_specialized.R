@@ -41,9 +41,23 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
 {
   # Extract the name of the function to be called
   if (is.function(FUN)) {
-    FUN <- deparse(substitute(FUN))
-    if (length(FUN) > 1)
-      stop("Custom functions (FUN) are not supported")
+    if (identical(FUN, length))
+      FUN <- "length"
+    else if (identical(FUN, mean))
+      FUN <- "mean"
+    else if (identical(FUN, min))
+      FUN <- "min"
+    else if (identical(FUN, max))
+      FUN <- "max"
+    else if (identical(FUN, median))
+      FUN <- "median"
+    else if (identical(FUN, sum))
+      FUN <- "sum"
+    else {
+      FUN <- deparse(substitute(FUN))
+      if (length(FUN) > 1)
+        stop("Custom functions (FUN) are not supported")
+    }
   }
   
   # Select C function
@@ -101,15 +115,31 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
 #' have_rolling_apply_specialized(ex_uts(), FUN="mean")
 #' have_rolling_apply_specialized(ex_uts(), FUN=mean, by=ddays(1))
 #' have_rolling_apply_specialized(uts(NA, Sys.time()), FUN=mean)
+#' 
+#' FUN <- mean
+#' have_rolling_apply_specialized(ex_uts(), FUN=FUN)
 have_rolling_apply_specialized <- function(x, FUN, by=NULL)
 {
   # Extract the name of the function to be called
-  if (is.function(FUN))
-    FUN_name <- deparse(substitute(FUN))
-  else
-    FUN_name <- FUN
+  if (is.function(FUN)) {
+    if (identical(FUN, length))
+      FUN <- "length"
+    else if (identical(FUN, mean))
+      FUN <- "mean"
+    else if (identical(FUN, min))
+      FUN <- "min"
+    else if (identical(FUN, max))
+      FUN <- "max"
+    else if (identical(FUN, median))
+      FUN <- "median"
+    else if (identical(FUN, sum))
+      FUN <- "sum"
+    else
+      FUN <- deparse(substitute(FUN))
+  }
   
-  # Call fast special purpose implementation, if available
-  (length(FUN_name) == 1) && (FUN_name %in% c("length", "mean", "min", "max", "median", "sum")) &&
+  # Determine if fast special purpose implementation is available
+  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "sum")) &&
     is.null(by) && (is.numeric(x$values)) && (!anyNA(x$values)) && (all(is.finite(x$values)))
 }
+
