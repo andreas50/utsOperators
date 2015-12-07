@@ -6,8 +6,8 @@ Author: Andreas Eckner <andreas@eckner.com>
 Maintainer: Andreas Eckner <andreas@eckner.com>
 Depends: lubridate, uts
 Suggests: testthat
-Description: This package implements several rolling time series operators for
-    unevenly spaced data. In particular, simple moving averages (SMAs),
-    exponential moving averages (EMAs), and rolling functions are included.
+Description: Rolling time series operators for unevenly spaced data, such as
+    simple moving averages (SMAs), exponential moving averages (EMAs), and
+    arbitrary rolling R functions.
 License: GPL-2 | GPL-3
 URL: www.eckner.com
