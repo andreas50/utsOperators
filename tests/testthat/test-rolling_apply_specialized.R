@@ -27,43 +27,43 @@ test_that("rolling_apply_specialized argument checking",{
 
 test_that("rolling_apply_specialized gives the same results as rolling_apply",{
   # FUN = length
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=length),
     rolling_apply(ex_uts(), ddays(1), FUN=length, use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=length, align="center"),
     rolling_apply(ex_uts(), ddays(1), FUN=length, align="center", use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=length, align="left"),
     rolling_apply(ex_uts(), ddays(1), FUN=length, align="left", use_specialized=FALSE)
   )
   
   # FUN = min
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=min),
     rolling_apply(ex_uts(), ddays(1), FUN=min, use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=min, align="center"),
     rolling_apply(ex_uts(), ddays(1), FUN=min, align="center", use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=min, align="left"),
     rolling_apply(ex_uts(), ddays(1), FUN=min, align="left", use_specialized=FALSE)
   )
   
   # FUN = max
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=max),
     rolling_apply(ex_uts(), ddays(1), FUN=max, use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=max, align="center"),
     rolling_apply(ex_uts(), ddays(1), FUN=max, align="center", use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=max, align="left"),
     rolling_apply(ex_uts(), ddays(1), FUN=max, align="left", use_specialized=FALSE)
   )
@@ -83,11 +83,11 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
   )
   
   # FUN = median
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=median),
     rolling_apply(ex_uts(), ddays(1), FUN=median, use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=median, align="center"),
     rolling_apply(ex_uts(), ddays(1), FUN=median, align="center", use_specialized=FALSE)
   )
