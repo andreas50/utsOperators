@@ -91,7 +91,7 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply(ex_uts(), ddays(1), FUN=median, align="center"),
     rolling_apply(ex_uts(), ddays(1), FUN=median, align="center", use_specialized=FALSE)
   )
-  expect_equal(
+  expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=median, align="left"),
     rolling_apply(ex_uts(), ddays(1), FUN=median, align="left", use_specialized=FALSE)
   )

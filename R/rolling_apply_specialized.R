@@ -91,8 +91,11 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
     stop("'align' has to be either 'left', 'right', or 'center")
     
   
-  # Call C function 
+  # Call C function
   out <- generic_C_interface(x, width_before=width_before, width_after=width_after, C_fct=C_fct)
+  
+  # Replace NaN by NA in output to be consistent with generic rolling_apply()
+  out$values[is.nan(out$values)] <- NA
   
   # Optionally, drop output times for which the corresponding time window is not completely inside the temporal support of x
   if (interior)
