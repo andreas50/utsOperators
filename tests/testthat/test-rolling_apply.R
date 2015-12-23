@@ -31,23 +31,23 @@ test_that("rolling_time_window_indices works",{
   expect_error(rolling_time_window_indices(times, start_times, rev(end_times)))
   
   # Trivial case of zero-length time windows
-  expect_equal(
-    rolling_time_window_indices(times, times, times)$start_index - 1,
+  expect_identical(
+    rolling_time_window_indices(times, times, times)$start_index - 1L,
     rolling_time_window_indices(times, times, times)$end_index
   )
   
   # Windows contain no observations
-  expect_equal(
+  expect_identical(
     rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$start_index,
     2L:(length(times) + 1)
   )
-  expect_equal(
+  expect_identical(
     rolling_time_window_indices(times, times + dhours(1), times + dhours(2))$end_index,
     1:length(times)
   )
   
   # Trivial case of one observation in each time window
-  expect_equal(
+  expect_identical(
     rolling_time_window_indices(times[-1], times[-length(times)], times[-1])$start_index,
     rolling_time_window_indices(times[-1], times[-length(times)], times[-1])$end_index
   )
@@ -76,7 +76,7 @@ test_that("rolling_apply_static works",{
   expect_error(rolling_apply_static(ex_uts2(), start_times, end_times, FUN=mean))
   
   # Trivial case of no window
-  expect_equal(
+  expect_identical(
     rolling_apply_static(ex_uts(), as.POSIXct(character()), as.POSIXct(character()), FUN=mean),
     uts()
   )
