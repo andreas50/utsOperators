@@ -11,7 +11,11 @@ test_that("rolling_time_window works",{
   # Regression tests
   expect_equal_to_reference(
     rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30)),
-    file="test-rolling_time_window.rds"
+    file="test-rolling_time_window_1.rds"
+  )
+  expect_equal_to_reference(
+    rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30), interior=TRUE),
+    file="test-rolling_time_window_2.rds"
   )
 })
 

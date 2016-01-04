@@ -18,7 +18,7 @@ rolling_apply_static(x, start_times, end_times, FUN, ..., align = "right",
 
 \item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.}
 
-\item{interior}{logical. Only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.}
+\item{interior}{logical. If \code{TRUE}, only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }

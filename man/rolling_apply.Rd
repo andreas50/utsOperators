@@ -19,11 +19,11 @@ rolling_apply(x, ...)
 
 \item{by}{a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.}
 
-\item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
+\item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies whether the output times should right- or left-aligned or centered compared to their time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 
-\item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
+\item{interior}{logical. If \code{TRUE}, then \code{FUN} is only applied if the corresponding time window lies entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}.}
 
-\item{use_specialized}{logical. Whether to use a fast specialized implementation if available for the desired function \code{FUN}.}
+\item{use_specialized}{logical. Whether to use a fast specialized implementation if available for \code{FUN}.}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }
@@ -35,8 +35,19 @@ Apply a function to the time series values in a half-open (open on the left, clo
 \item \code{uts}: apply rolling function to \code{"uts"} object.
 }}
 \examples{
-rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(0.5))
-rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+# rolling mean, sum, number of observations
+rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
+rolling_apply(ex_uts(), width=ddays(1), FUN=sum)
+rolling_apply(ex_uts(), width=ddays(1), FUN=length)
+
+#
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(1), interior=FALSE)
+
+# only 
 rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
+
+# specialized vs. general-purpose implementation
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE)
 }
 

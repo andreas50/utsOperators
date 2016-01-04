@@ -11,11 +11,13 @@
 #' @param end a \code{\link{POSIXct}} object or coercible using \code{\link{as.POSIXct}}. The maximum end time of the last time window.
 #' @param width a non-negative \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param by a positive \code{\link[lubridate]{duration}} object. The temporal spacing between start times (and therefore also end times) of adjacent time windows.
+#' @param interior logical. If \code{TRUE}, only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
 #' 
 #' @keywords internal
 #' @examples
 #' rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))
-rolling_time_window <- function(start, end, width, by)
+#' rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30), interior=TRUE)
+rolling_time_window <- function(start, end, width, by, interior=FALSE)
 {
   # Argument checking
   check_window_width(width, require_positive=FALSE)
@@ -31,7 +33,10 @@ rolling_time_window <- function(start, end, width, by)
     stop("'start' cannot be after 'end'")
   
   # Determine the window start and end times
-  start_times <- seq(start, end - by, by=by)
+  if (interior)
+    start_times <- seq(start, end - by, by=by)
+  else
+    start_times <- seq(start, end, by=by)
   list(start_times=start_times, end_times=start_times + width)
 }
 
@@ -88,7 +93,7 @@ rolling_time_window_indices <- function(times, start_times, end_times)
 #' @param FUN a function to be applied to the vector of observation values inside each half-open time interval \code{(start_times[i], end_times[i]]}.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param align either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.
-#' @param interior logical. Only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
+#' @param interior logical. If \code{TRUE}, only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.
 #' 
 #' @keywords internal
 #' @seealso \code{\link{rolling_apply}} for a version of this function that \emph{dynamically} determines the time windows.
@@ -165,19 +170,29 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' @param FUN a function to be applied to the vector of observation values inside the half-open rolling time window.
 #' @param \dots arguments passed to \code{FUN}.
 #' @param by a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.
-#' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
-#' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
-#' @param use_specialized logical. Whether to use a fast specialized implementation if available for the desired function \code{FUN}.
+#' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies whether the output times should right- or left-aligned or centered compared to their time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
+#' @param interior logical. If \code{TRUE}, then \code{FUN} is only applied if the corresponding time window is in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}.
+#' @param use_specialized logical. Whether to use a fast specialized implementation if available for \code{FUN}.
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
-
 
 
 #' @describeIn rolling_apply apply rolling function to \code{"uts"} object.
 #' 
 #' @examples
-#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(0.5))
-#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+#' # rolling mean, sum, number of observations
+#' rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
+#' rolling_apply(ex_uts(), width=ddays(1), FUN=sum)
+#' rolling_apply(ex_uts(), width=ddays(1), FUN=length)
+#' 
+#' #
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(1), interior=FALSE)
+#' 
+#' # only 
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
+#' 
+#' # specialized vs. general-purpose implementation
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE)
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE, use_specialized=TRUE)
 {
   # Call fast special purpose implementation, if available
@@ -208,7 +223,7 @@ rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interi
       start_times <- x$times - adj
       end_times <- start_times + width
   } else {
-    tmp <- rolling_time_window(start(x) - adj, end(x) - adj, width=width, by=by)
+    tmp <- rolling_time_window(start(x) - adj, end(x) - adj, width=width, by=by, interior=interior)
     start_times <- tmp$start_times
     end_times <- tmp$end_times
   }
