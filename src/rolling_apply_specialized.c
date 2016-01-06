@@ -13,17 +13,15 @@
 /******************* Helper functions ********************/
 
 
-// Return smallest element of an array
+// Return smallest element of an array (defined as +infinity for empty array)
 double array_min(double values[], int n)
 {
   // values ... array of values
   // n      ... length of array
   
-  if (n == 0)
-    return INFINITY;
+  double min_value = INFINITY;
   
-  double min_value = values[0];    
-  for (int i = 1; i < n; i++) {
+  for (int i=0; i < n; i++) {
     if (values[i] < min_value)
       min_value = values[i];
   }
