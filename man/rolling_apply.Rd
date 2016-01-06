@@ -21,7 +21,7 @@ rolling_apply(x, ...)
 
 \item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies whether the output times should right- or left-aligned or centered compared to their time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 
-\item{interior}{logical. If \code{TRUE}, then \code{FUN} is only applied if the corresponding time window lies entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}.}
+\item{interior}{logical. If \code{TRUE}, then \code{FUN} is only applied if the corresponding time window is in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}.}
 
 \item{use_specialized}{logical. Whether to use a fast specialized implementation if available for \code{FUN}.}
 
@@ -40,14 +40,20 @@ rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
 rolling_apply(ex_uts(), width=ddays(1), FUN=sum)
 rolling_apply(ex_uts(), width=ddays(1), FUN=length)
 
-#
-rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(1), interior=FALSE)
+# move rolling time window by one observation vs. one day at a time
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(1))
 
-# only 
+# right-align, left-aligned, and centered rolling time window
+rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
+rolling_apply(ex_uts(), width=ddays(1), FUN=mean, align="left")
+rolling_apply(ex_uts(), width=ddays(1), FUN=mean, align="center")
+
+# restrict rolling time window to temporal support of x
 rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
 
 # specialized vs. general-purpose implementation
 rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
-rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE)
+rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE)    # same
 }
 

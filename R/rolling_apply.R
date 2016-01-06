@@ -184,15 +184,21 @@ rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 #' rolling_apply(ex_uts(), width=ddays(1), FUN=sum)
 #' rolling_apply(ex_uts(), width=ddays(1), FUN=length)
 #' 
-#' #
-#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(1), interior=FALSE)
+#' # move rolling time window by one observation vs. one day at a time
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", by=ddays(1))
 #' 
-#' # only 
+#' # right-align, left-aligned, and centered rolling time window
+#' rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
+#' rolling_apply(ex_uts(), width=ddays(1), FUN=mean, align="left")
+#' rolling_apply(ex_uts(), width=ddays(1), FUN=mean, align="center")
+#' 
+#' # restrict rolling time window to temporal support of x
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", interior=TRUE)
 #' 
 #' # specialized vs. general-purpose implementation
 #' rolling_apply(ex_uts(), width=ddays(1), FUN="mean")
-#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE)
+#' rolling_apply(ex_uts(), width=ddays(1), FUN="mean", use_specialized=FALSE)    # same
 rolling_apply.uts <- function(x, width, FUN, ..., by=NULL, align="right", interior=FALSE, use_specialized=TRUE)
 {
   # Call fast special purpose implementation, if available
