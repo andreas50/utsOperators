@@ -42,7 +42,6 @@ double trapezoid_right(double x1, double x2, double x3, double y1, double y3)
 }
 
 
-
 // SMA_last(X, width)
 void sma_last(double values[], double times[], int *n, double values_new[], double *width_before, double *width_after)
 {
@@ -104,7 +103,7 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
   // width_before ... (non-negative) width of rolling window before t_i
   // width_after  ... (non-negative) width of rolling window after t_i
   
-  int left = 0, right=0;
+  int left = 0, right = 0;
   double t_left_new, t_right_new, roll_area, left_area, right_area = 0;
   
   // Trivial case

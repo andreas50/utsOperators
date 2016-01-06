@@ -78,7 +78,7 @@ void ema_linear(double values[], double times[], int *n, double values_new[], do
     if (tmp > 1e-6)
       w2 = (1 - w) / tmp;
     else {
-      // Use Taylor expansion for numerical stabiliy
+      // Use Taylor expansion for numerical stability
       w2 = 1 - tmp/2 + tmp*tmp/6 - tmp*tmp*tmp/24;
     }
     values_new[i] = values_new[i-1] * w + values[i] * (1 - w2) + values[i-1] * (w2 - w);

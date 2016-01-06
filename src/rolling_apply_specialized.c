@@ -21,7 +21,7 @@ double array_min(double values[], int n)
   
   double min_value = INFINITY;
   
-  for (int i=0; i < n; i++) {
+  for (int i = 0; i < n; i++) {
     if (values[i] < min_value)
       min_value = values[i];
   }
@@ -48,7 +48,7 @@ double quickselect(double values[], int n, int k)
   left = 0;
   right = n - 1;
   
-  while (1 > 0) {
+  while (1) {
     if (right <= left + 1) {
       // Array down to 1-2 elements
       if ((right == left + 1) && (values[right] < values[left]))
