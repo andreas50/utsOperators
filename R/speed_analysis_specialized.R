@@ -10,8 +10,7 @@
 # -) the specialized implementation is ~50 times faster
 # -) the results for FUN=mean are very similar, because the implementations are almost identical
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   
   # generic vs. specialized: 1.24s vs. 2.61s
@@ -37,8 +36,7 @@ if (0) {
 ### Same, but for FUN=min/max
 # -) the specialized implementation is ~50 times faster
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   
   # generic vs. specialized: 1.31s vs. 2.53s
@@ -57,8 +55,7 @@ if (0) {
 ### Same, but for FUN=median
 # -) the specialized implementation is ~35 times faster
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   
   # generic vs. specialized: 4.08s vs. 1.15s
@@ -77,8 +74,7 @@ if (0) {
 ### rolling_num_obs vs. rolling_num_obs_two_sided
 # -) CONCLUSION: negligible difference -> removed one-sided version -> code does not run any more
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   width2 <- ddays(0)
   

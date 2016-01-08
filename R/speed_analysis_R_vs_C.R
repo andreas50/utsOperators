@@ -8,8 +8,7 @@
 ### sma(..., interpolation="last")
 # -) for a moderate-length time series, the C implementation is ~110 times faster
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   
   # R vs. C: 1.92s vs. 1.73s
@@ -29,8 +28,7 @@ if (0) {
 ### sma(..., interpolation="linear")
 # -) for a moderate-length time series, the C implementation is ~180 times faster
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   
   # R vs. C: 3.28s vs. 1.83s

@@ -7,8 +7,7 @@
 
 ### rolling_apply (non-specialized)
 if (0) {
-  set.seed(1)
-  ts1 <- uts(rnorm(1000), as.POSIXct("2000-01-01") + ddays(1:1000))
+  ts1 <- ex_uts3()
   width <- ddays(100)
   by <- ddays(50)
   
