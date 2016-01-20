@@ -35,6 +35,9 @@ if (0) {
   system.time(for (j in 1:200) sma_linear_R(ts1, width))
   system.time(for (j in 1:20000) sma(ts1, width, interpolation="linear"))
   
+  # With and without inlined helper functions: 1.87s vs. 1.92s
+  # -) just using "static" seems to give the same speed increase, because the compiler automatically inlines helper functions, even if not axed to
+  
   # Profile C implementation
   # -) ~20% of time spent in C implementation
   # -) argument checking takes up most of the time

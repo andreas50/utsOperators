@@ -14,7 +14,7 @@
 
 
 // Return smallest element of an array (defined as +infinity for empty array)
-double array_min(double values[], int n)
+static inline double array_min(double values[], int n)
 {
   // values ... array of values
   // n      ... length of array

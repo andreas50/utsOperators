@@ -62,6 +62,9 @@ if (0) {
   system.time(for (j in 1:100) rolling_apply(ts1, width, FUN=median, use_specialized=FALSE))
   system.time(for (j in 1:1000) rolling_apply_specialized(ts1, width, FUN=median))
   
+  # With and without inlined helper functions: could not detect speed difference
+  system.time(for (j in 1:2000) rolling_apply_specialized(ts1, width, FUN=median))
+  
   # Profile specialized implementation
   # -) ~85% of time spent in C code
   Rprof(interval=0.01)
