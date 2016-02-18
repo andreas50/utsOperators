@@ -25,7 +25,8 @@ Generate a sequence of start times and end times for a rolling time window of sp
 }
 \examples{
 rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))
-rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30), interior=TRUE)
+rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30),
+  interior=TRUE)
 }
 \keyword{internal}
 

@@ -16,7 +16,8 @@
 #' @keywords internal
 #' @examples
 #' rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30))
-#' rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30), interior=TRUE)
+#' rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=ddays(30),
+#'   interior=TRUE)
 rolling_time_window <- function(start, end, width, by, interior=FALSE)
 {
   # Argument checking

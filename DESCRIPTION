@@ -1,6 +1,6 @@
 Package: utsOperators
-Version: 0.3.0.9000
-Date: 2015-12-04
+Version: 0.4.0
+Date: 2016-02-18
 Title: Moving Averages and Other Rolling Operators for Unevenly Spaced Time
     Series
 Author: Andreas Eckner <andreas@eckner.com>
