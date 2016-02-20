@@ -30,7 +30,7 @@ static inline double array_min(double values[], int n)
 
 
 /*
-Find the k-th largest (counting starts at zero) of an array using the "quickselect" algorithm
+Find the k-th largest element (counting starts at zero) of an array using the "quickselect" algorithm
 -) O(N) average case performance
 -) the input array will be rearranged
 */
@@ -48,30 +48,35 @@ double quickselect(double values[], int n, int k)
   left = 0;
   right = n - 1;
   
+  // Loop invariant: values[left] <= k-th largest element of values <= values[right]
   while (1) {
-    if (right <= left + 1) {
-      // Array down to 1-2 elements
+    if (right - left <= 1) {
+      // Candidate region down to 1-2 elements
       if ((right == left + 1) && (values[right] < values[left]))
         swap(values[left], values[right])
       return values[k];
     } else {
-      // Select pivot element
-      mid = (left + right) / 2;   // integer devision
+      // The pivot element is the second largest value of: values[left], values[mid], values[right]
+      // -) avoids quadractic run-time on some common inputs, without need to pick random element
+      mid = (left + right) / 2;
       swap(values[mid], values[left + 1]);
       
-      // Put pivot element and the elements at the left and right boundary in the correct relative order
+      // Sort the three elements from which the pivot is picked
       if (values[left] > values[right])
         swap(values[left], values[right])
       if (values[left + 1] > values[right])
         swap(values[left + 1], values[right])
       if (values[left] > values[left + 1])
         swap(values[left], values[left + 1])
+      pivot = values[left + 1];
       
-      // Put smaller elements to left of pivot, larger to right
+      // Partition the candidate region, i.e. put smaller elements to left of pivot, larger to right
+      // -) the two-sided algorithm avoids quadratic run-time on some common inputs
+      // -) loop invariant: elements <= i are less than the pivot, elements >= j are larger than the pivot
+      // -) see Chapter 11.3 in "Programming Pearls", 2nd edition, by John Bentley
       i = left + 1;
       j = right;
-      pivot = values[left + 1];
-      for (;;) {
+      while (1) {
         do i++; while (values[i] < pivot);
         do j--; while (values[j] > pivot);
         if (j < i)
