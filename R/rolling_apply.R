@@ -166,6 +166,8 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' 
 #' Apply a function to the time series values in a half-open (open on the left, closed on the right) rolling time window of fixed temporal width.
 #' 
+#' A fast optimized implementation is used automatically for certain choices of \code{FUN}. See the \code{use_specialized} argument for details.
+#' 
 #' @param x a numeric time series object.
 #' @param width a finite, positive \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.
 #' @param FUN a function to be applied to the vector of observation values inside the half-open rolling time window.
@@ -173,7 +175,7 @@ rolling_apply_static <- function(x, start_times, end_times, FUN, ..., align="rig
 #' @param by a positive \code{\link[lubridate]{duration}} object. If not \code{NULL}, move the rolling time window by steps of this size forward in time, rather than by the observation time differences of \code{x}.
 #' @param align either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies whether the output times should right- or left-aligned or centered compared to their time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.
 #' @param interior logical. If \code{TRUE}, then \code{FUN} is only applied if the corresponding time window is in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}.
-#' @param use_specialized logical. Whether to use a fast specialized implementation if available for \code{FUN}.
+#' @param use_specialized logical. Whether to use a fast optimized implementation if available. Currently, the following choices for \code{FUN} are supported: \code{mean}, \code{median}, \code{min}, \code{max}, \code{sum}
 rolling_apply <- function(x, ...) UseMethod("rolling_apply")
 
 
