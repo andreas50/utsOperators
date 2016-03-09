@@ -18,8 +18,8 @@
 #' 
 #' \code{uts} methods:
 #' \itemize{
-#'   \item \code{\link[=rev.uts]{rev}}
-#'   \item \code{\link[=rolling_apply_static]{rolling_apply_static}}
+#'   \item \code{\link{rev.uts}}
+#'   \item \code{\link{rolling_apply_static}}
 #'   \item \code{\link{sma_last_R}}
 #'   \item \code{\link{sma_linear_R}}
 #' }
