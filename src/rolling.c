@@ -1,7 +1,5 @@
-/* 
- * This implementation is a subset of the implementation described in
- * "Algorithms for Unevenly-Spaced Time Series", Eckner (2011).
- */
+// Copyright: 2011-2016 by Andreas Eckner
+// License: GPL-2 | GPL-3
 
 #include <math.h>
 

@@ -1,7 +1,5 @@
-/* 
- * This implementation is a subset of the implementation described in
- * "Algorithms for Unevenly-Spaced Time Series", Eckner (2011).
- */
+// Copyright: 2011-2016 by Andreas Eckner
+// License: GPL-2 | GPL-3
 
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -133,7 +131,7 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
       left++;  
     }
     
-    // Add truncated area on left and rith end
+    // Add truncated area on left and rigth end
     left_area = values[left] * (times[left] - t_left_new);
     right_area = values[right] * (t_right_new - times[right]);
     roll_area += left_area + right_area;
