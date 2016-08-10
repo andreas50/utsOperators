@@ -1,4 +1,4 @@
-// Copyright: 2011-2016 by Andreas Eckner
+// Copyright: 2012-2016 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
 #include <math.h>
