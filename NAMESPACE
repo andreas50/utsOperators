@@ -5,6 +5,7 @@ useDynLib(utsOperators)
 # Imports from other packages
 import(uts)
 import(lubridate)
+importFrom("stats", "end", "median", "start", "window")
 
 
 # Export generic methods
