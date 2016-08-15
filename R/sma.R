@@ -29,8 +29,8 @@
 #' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 #' @param \dots further arguments passed to or from methods.
 #' 
-#' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
-#' @references Eckner, A. (2014) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
+#' @references Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+#' @references Eckner, A. (2016) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 #' @seealso \code{\link{ema}} for exponential moving averages.
 sma <- function(x, ...) UseMethod("sma")
 

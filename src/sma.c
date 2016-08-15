@@ -142,7 +142,6 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
 }
 
 
-
 // SMA_linear(X, width)
 void sma_linear(double values[], double times[], int *n, double values_new[], double *width_before, double *width_after)
 {

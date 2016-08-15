@@ -22,8 +22,8 @@
 #' @param interpolation the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.
 #' @param \dots further arguments passed to or from methods.
 #' 
-#' @references Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
-#' @references Eckner, A. (2014) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
+#' @references Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+#' @references Eckner, A. (2016) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 #' @seealso \code{\link{sma}} for simple moving averages.
 ema <- function(x, ...) UseMethod("ema")
 

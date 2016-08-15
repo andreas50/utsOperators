@@ -50,7 +50,7 @@ rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
 }
 \references{
-Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 }
 \keyword{internal}
 

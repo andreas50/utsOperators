@@ -79,9 +79,9 @@ sma(ex_uts(), ddays(1), align="left")
 }
 }
 \references{
-Eckner, A. (2010) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 
-Eckner, A. (2014) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
+Eckner, A. (2016) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 }
 \seealso{
 \code{\link{ema}} for exponential moving averages.
