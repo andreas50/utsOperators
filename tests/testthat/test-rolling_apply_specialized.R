@@ -143,6 +143,21 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply(ex_uts(), ddays(1), FUN=prod, align="left"),
     rolling_apply(ex_uts(), ddays(1), FUN=prod, align="left", use_specialized=FALSE)
   )
+  # same, but with some observation values equal to zero
+  x <- ex_uts()
+  x$values[2] <- 0
+  expect_equal(
+    rolling_apply(x, ddays(1), FUN=prod),
+    rolling_apply(x, ddays(1), FUN=prod, use_specialized=FALSE)
+  )
+  expect_equal(
+    rolling_apply(x, ddays(1), FUN=prod, align="center"),
+    rolling_apply(x, ddays(1), FUN=prod, align="center", use_specialized=FALSE)
+  )
+  expect_equal(
+    rolling_apply(x, ddays(1), FUN=prod, align="left"),
+    rolling_apply(x, ddays(1), FUN=prod, align="left", use_specialized=FALSE)
+  )
 })
 
 
