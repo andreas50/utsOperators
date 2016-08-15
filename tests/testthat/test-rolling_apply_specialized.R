@@ -25,6 +25,26 @@ test_that("rolling_apply_specialized argument checking",{
 })
 
 
+test_that("rolling_prod special cases work",{
+  # One observation in each window
+  expect_identical(
+    ex_uts(),
+    rolling_apply(ex_uts(), ddays(0.01), FUN=prod)
+  )
+  expect_identical(
+    ex_uts(),
+    rolling_apply(ex_uts(), ddays(0.01), FUN=prod, align="center")
+  )
+  
+  # Empty time windows
+  expect_identical(
+    uts(rep(1, length(ex_uts())), ex_uts()$times),
+    rolling_apply(ex_uts(), ddays(0.01), FUN=prod, align="left")
+  )
+})
+
+
+
 test_that("rolling_apply_specialized gives the same results as rolling_apply",{
   # FUN = length
   expect_identical(
@@ -108,6 +128,20 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
   expect_equal(
     rolling_apply(ex_uts(), ddays(1), FUN=sum, align="left"),
     rolling_apply(ex_uts(), ddays(1), FUN=sum, align="left", use_specialized=FALSE)
+  )
+  
+  # FUN = prod
+  expect_equal(
+    rolling_apply(ex_uts(), ddays(1), FUN=prod),
+    rolling_apply(ex_uts(), ddays(1), FUN=prod, use_specialized=FALSE)
+  )
+  expect_equal(
+    rolling_apply(ex_uts(), ddays(1), FUN=prod, align="center"),
+    rolling_apply(ex_uts(), ddays(1), FUN=prod, align="center", use_specialized=FALSE)
+  )
+  expect_equal(
+    rolling_apply(ex_uts(), ddays(1), FUN=prod, align="left"),
+    rolling_apply(ex_uts(), ddays(1), FUN=prod, align="left", use_specialized=FALSE)
   )
 })
 
