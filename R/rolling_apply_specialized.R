@@ -37,6 +37,9 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' # Rolling min/max
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
+#' 
+#' # Rolling prdocut
+#' rolling_apply_specialized(ex_uts(), ddays(0.5), FUN=prod)
 rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior=FALSE, ...)
 {
   # Extract the name of the function to be called
@@ -51,6 +54,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
       FUN <- "max"
     else if (identical(FUN, median))
       FUN <- "median"
+    else if (identical(FUN, prod))
+      FUN <- "prod"
     else if (identical(FUN, sum))
       FUN <- "sum"
     else {
@@ -71,6 +76,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
     C_fct <- "rolling_mean"
   else if (FUN == "median")
     C_fct <- "rolling_median"
+  else if (FUN == "prod")
+    C_fct <- "rolling_product"
   else if (FUN == "sum")
     C_fct <- "rolling_sum"
   else
@@ -135,6 +142,8 @@ have_rolling_apply_specialized <- function(x, FUN, by=NULL)
       FUN <- "max"
     else if (identical(FUN, median))
       FUN <- "median"
+    else if (identical(FUN, prod))
+      FUN <- "prod"
     else if (identical(FUN, sum))
       FUN <- "sum"
     else
@@ -142,7 +151,7 @@ have_rolling_apply_specialized <- function(x, FUN, by=NULL)
   }
   
   # Determine if fast special purpose implementation is available
-  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "sum")) &&
+  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sum")) &&
     is.null(by) && (is.numeric(x$values)) && (!anyNA(x$values)) && (all(is.finite(x$values)))
 }
 

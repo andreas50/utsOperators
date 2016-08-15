@@ -181,6 +181,51 @@ void rolling_sum(double values[], double times[], int *n, double values_new[],
 }
 
 
+// Rolling product of observation values
+void rolling_product(double values[], double times[], int *n, double values_new[],
+  double *width_before, double *width_after)
+{
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
+  
+  int left = 0, right = -1, most_recent_zero = -1;
+  double roll_product = 1;
+  
+  for (int i = 0; i < *n; i++) {
+    // Expand window on the right
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after)) {
+      right++;
+      roll_product = roll_product * values[right];
+      
+      // Save position of most recent zero
+      if ((values[right] > -1e-10) && (values[right] < 1e-10))
+        most_recent_zero = right;
+    }
+    
+    // Shrink window on the left
+    while ((left < *n) && (times[left] <= times[i] - *width_before)) {
+      // Don't need to update rolling product if zero drops out, because calculated from scratch below
+      if ((values[left] < -1e-10) || (values[left] > 1e-10))
+        roll_product = roll_product / values[left];
+      left++;
+    }
+    
+    // Update rolling product
+    // -) need to calculate from scratch in case a zero dropped out of the window
+    if ((roll_product == 0) && (most_recent_zero < left)) {
+      roll_product = 1;
+      for (int pos=left; pos <= right; pos++)
+        roll_product = roll_product * values[pos];
+    }
+    values_new[i] = roll_product;
+  }
+}
+
+
 // Rolling average of observation values
 void rolling_mean(double values[], double times[], int *n, double values_new[],
   double *width_before, double *width_after)
