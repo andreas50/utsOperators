@@ -38,7 +38,7 @@ rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specializ
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 #' rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
 #' 
-#' # Rolling prdocut
+#' # Rolling prodcut
 #' rolling_apply_specialized(ex_uts(), ddays(0.5), FUN=prod)
 rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior=FALSE, ...)
 {

@@ -49,8 +49,8 @@ rolling_apply_specialized(ex_uts(), ddays(1), FUN=sum) - rolling_apply(ex_uts(),
 rolling_apply_specialized(ex_uts(), ddays(1), FUN=min)
 rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
 
-# Rolling prdocut
-rolling_apply_specialized(ex_uts(), ddays(1), FUN=prod)
+# Rolling prodcut
+rolling_apply_specialized(ex_uts(), ddays(0.5), FUN=prod)
 }
 \references{
 Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
