@@ -158,6 +158,20 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
     rolling_apply(x, ddays(1), FUN=prod, align="left"),
     rolling_apply(x, ddays(1), FUN=prod, align="left", use_specialized=FALSE)
   )
+  
+  # FUN = sd
+  expect_equal(
+    rolling_apply(ex_uts(), ddays(1), FUN=sd),
+    rolling_apply(ex_uts(), ddays(1), FUN=sd, use_specialized=FALSE)
+  )
+  expect_equal(
+    rolling_apply(ex_uts(), ddays(1), FUN=sd, align="center"),
+    rolling_apply(ex_uts(), ddays(1), FUN=sd, align="center", use_specialized=FALSE)
+  )
+  expect_equal(
+    rolling_apply(ex_uts(), ddays(1), FUN=sd, align="left"),
+    rolling_apply(ex_uts(), ddays(1), FUN=sd, align="left", use_specialized=FALSE)
+  )
 })
 
 
