@@ -23,7 +23,7 @@ rolling_apply(x, ...)
 
 \item{interior}{logical. If \code{TRUE}, then \code{FUN} is only applied if the corresponding time window is in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}.}
 
-\item{use_specialized}{logical. Whether to use a fast optimized implementation if available. Currently, the following choices for \code{FUN} are supported: \code{mean}, \code{median}, \code{min}, \code{max}, \code{prod}, \code{sum}}
+\item{use_specialized}{logical. Whether to use a fast optimized implementation if available. Currently, the following choices for \code{FUN} are supported: \code{mean}, \code{median}, \code{min}, \code{max}, \code{prod}, \code{sd}, \code{sum}}
 
 \item{\dots}{arguments passed to \code{FUN}.}
 }

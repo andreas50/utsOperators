@@ -56,6 +56,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
       FUN <- "median"
     else if (identical(FUN, prod))
       FUN <- "prod"
+    else if (identical(FUN, sd))
+      FUN <- "sd"
     else if (identical(FUN, sum))
       FUN <- "sum"
     else {
@@ -78,6 +80,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
     C_fct <- "rolling_median"
   else if (FUN == "prod")
     C_fct <- "rolling_product"
+  else if (FUN == "sd")
+    C_fct <- "rolling_sd"
   else if (FUN == "sum")
     C_fct <- "rolling_sum"
   else
@@ -144,6 +148,8 @@ have_rolling_apply_specialized <- function(x, FUN, by=NULL)
       FUN <- "median"
     else if (identical(FUN, prod))
       FUN <- "prod"
+    else if (identical(FUN, sd))
+      FUN <- "sd"
     else if (identical(FUN, sum))
       FUN <- "sum"
     else
@@ -151,7 +157,7 @@ have_rolling_apply_specialized <- function(x, FUN, by=NULL)
   }
   
   # Determine if fast special purpose implementation is available
-  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sum")) &&
+  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sd", "sum")) &&
     is.null(by) && (is.numeric(x$values)) && (!anyNA(x$values)) && (all(is.finite(x$values)))
 }
 
