@@ -60,6 +60,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
       FUN <- "sd"
     else if (identical(FUN, sum))
       FUN <- "sum"
+    else if (identical(FUN, var))
+      FUN <- "var"
     else {
       FUN <- deparse(substitute(FUN))
       if (length(FUN) > 1)
@@ -84,6 +86,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
     C_fct <- "rolling_sd"
   else if (FUN == "sum")
     C_fct <- "rolling_sum"
+  else if (FUN == "var")
+    C_fct <- "rolling_var"
   else
     stop("This function does not have a specialized rolling_apply() implementation")
   
@@ -152,12 +156,14 @@ have_rolling_apply_specialized <- function(x, FUN, by=NULL)
       FUN <- "sd"
     else if (identical(FUN, sum))
       FUN <- "sum"
+    else if (identical(FUN, sum))
+      FUN <- "var"
     else
       FUN <- deparse(substitute(FUN))
   }
   
   # Determine if fast special purpose implementation is available
-  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sd", "sum")) &&
+  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sd", "sum", "var")) &&
     is.null(by) && (is.numeric(x$values)) && (!anyNA(x$values)) && (all(is.finite(x$values)))
 }
 
