@@ -381,6 +381,49 @@ void rolling_median(double values[], double times[], int *n, double values_new[]
 }
 
 
+// Rolling central moment of observation values
+void rolling_central_moment(double values[], double times[], int *n, double values_new[],
+  double *width_before, double *width_after, double *m)
+{
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
+  // m            ... which moment to calculate (non-negative number)
+  
+  int left = 0, right = -1;
+  double tmp;
+  
+  // Calculate the rolling first moment
+  double *rolling_1st_moment = malloc(*n * sizeof(double));
+  rolling_mean(values, times, n, rolling_1st_moment, width_before, width_after);
+  
+  // Calculate m-th central moment
+  for (int i = 0; i < *n; i++) {
+    // Expand window on the right
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after))
+      right++;
+    
+    // Shrink window on the left
+    while ((left < *n) && (times[left] <= times[i] - *width_before))
+      left++;
+    
+    // Calculate m-th central moment in current time window
+    if (left < right) {   // two or more observations in time window
+      tmp = 0;
+      for (int pos = left; pos <= right; pos++)
+        tmp = tmp + pow(values[pos] - rolling_1st_moment[i], *m);
+      values_new[i] = tmp / (right - left);
+    } else
+      values_new[i] = NAN;
+  }
+  free(rolling_1st_moment);
+}
+
+
+
 // Rolling standard deviation of observation values
 void rolling_sd(double values[], double times[], int *n, double values_new[],
   double *width_before, double *width_after)
@@ -392,31 +435,24 @@ void rolling_sd(double values[], double times[], int *n, double values_new[],
   // width_before ... (non-negative) width of rolling window before t_i
   // width_after  ... (non-negative) width of rolling window after t_i
   
-  int left = 0, right = -1;
-  double tmp;
+  double moment = 2;
+  rolling_central_moment(values, times, n, values_new, width_before, width_after, &moment);
+  for (int i = 0; i < *n; i++)
+    values_new[i] = sqrt(values_new[i]);
+}
+
+
+// Rolling variance of observation values
+void rolling_var(double values[], double times[], int *n, double values_new[],
+  double *width_before, double *width_after)
+{
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
   
-  // For numerical stability, first calculate the rolling first moment
-  double *rolling_1st_moment = malloc(*n * sizeof(double));
-  rolling_mean(values, times, n, rolling_1st_moment, width_before, width_after);
-  
-  // Calculate rolling standard deviation
-  for (int i = 0; i < *n; i++) {
-    // Expand window on the right
-    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after))
-      right++;
-    
-    // Shrink window on the left
-    while ((left < *n) && (times[left] <= times[i] - *width_before))
-      left++;
-    
-    // Calculate standard deviation in current time window
-    if (left < right) {   // two or more observations in time window
-      tmp = 0;
-      for (int pos=left; pos <= right; pos++)
-        tmp = tmp + (values[pos] - rolling_1st_moment[i]) * (values[pos] - rolling_1st_moment[i]);
-      values_new[i] = sqrt(tmp / (right - left));
-    } else
-      values_new[i] = NAN;
-  }
-  free(rolling_1st_moment);
+  double moment = 2;
+  rolling_central_moment(values, times, n, values_new, width_before, width_after, &moment);
 }
