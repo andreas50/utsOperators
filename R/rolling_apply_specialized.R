@@ -86,6 +86,8 @@ rolling_apply_specialized.uts <- function(x, width, FUN, align="right", interior
     C_fct <- "rolling_sd"
   else if (FUN == "sum")
     C_fct <- "rolling_sum"
+  else if (FUN == "sum_stable")
+    C_fct <- "rolling_sum_stable"
   else if (FUN == "var")
     C_fct <- "rolling_var"
   else
@@ -163,7 +165,8 @@ have_rolling_apply_specialized <- function(x, FUN, by=NULL)
   }
   
   # Determine if fast special purpose implementation is available
-  (length(FUN) == 1) && (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sd", "sum", "var")) &&
+  (length(FUN) == 1) &&
+    (FUN %in% c("length", "mean", "min", "max", "median", "prod", "sd", "sum", "sum_stable", "var")) &&
     is.null(by) && (is.numeric(x$values)) && (!anyNA(x$values)) && (all(is.finite(x$values)))
 }
 

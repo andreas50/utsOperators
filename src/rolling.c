@@ -118,6 +118,23 @@ double median(double values[], int n)
 }
 
 
+// Compensated addition using Kahan (1965) summation algorithm
+void compensated_addition(double *sum, double addend, double *comp)
+{
+  // sum    ... sum calculated so far
+  // addend ... value to be added to 'sum'
+  // comp   ... accumulated numeric error so far
+  
+  double sum_new;
+  
+  addend = addend - *comp;
+  sum_new = *sum + addend;
+  *comp = (sum_new - *sum) - addend;
+  *sum = sum_new;
+}
+
+
+
 /****************** END: Helper functions ****************/
 
 
@@ -180,6 +197,40 @@ void rolling_sum(double values[], double times[], int *n, double values_new[],
     values_new[i] = roll_sum;
   }
 }
+
+
+// Same as rolling_sum, but use Kahan (1965) summation algorithm to reduce numerical error
+void rolling_sum_stable(double values[], double times[], int *n, double values_new[],
+  double *width_before, double *width_after)
+{
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
+  // width_before ... (non-negative) width of rolling window before t_i
+  // width_after  ... (non-negative) width of rolling window after t_i
+  
+  int left = 0, right = -1;
+  double roll_sum = 0, comp = 0;
+  
+  for (int i = 0; i < *n; i++) {
+    // Expand window on the right
+    while ((right < *n - 1) && (times[right + 1] <= times[i] + *width_after)) {
+      right++;
+      compensated_addition(&roll_sum, values[right], &comp);
+    }
+    
+    // Shrink window on the left
+    while ((left < *n) && (times[left] <= times[i] - *width_before)) {
+      compensated_addition(&roll_sum, -values[left], &comp);
+      left++;
+    }
+    
+    // Update rolling sum
+    values_new[i] = roll_sum;
+  }
+}
+
 
 
 // Rolling product of observation values
