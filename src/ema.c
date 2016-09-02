@@ -2,6 +2,7 @@
 // License: GPL-2 | GPL-3
 
 #include <math.h>
+#include "ema.h"
 
 
 // EMA_next(X, tau)

@@ -1,6 +1,8 @@
 // Copyright: 2012-2016 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
+#include "sma.h"
+
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
