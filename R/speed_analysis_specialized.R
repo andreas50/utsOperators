@@ -79,7 +79,7 @@ if (0) {
   x <- ex_uts3()
   width <- ddays(100)
   
-  # 2.31s vs. 2.07s
+  # 2.07s vs. 2.03s
   # -) almost no speed difference, because only 10-15% of time time is spent in the C code
   system.time(for (j in 1:2e4) rolling_apply_specialized(x, width, FUN="sum_stable"))
   system.time(for (j in 1:2e4) rolling_apply_specialized(x, width, FUN="sum"))

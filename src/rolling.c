@@ -119,7 +119,7 @@ double median(double values[], int n)
 
 
 // Compensated addition using Kahan (1965) summation algorithm
-void compensated_addition(double *sum, double addend, double *comp)
+static inline void compensated_addition(double *sum, double addend, double *comp)
 {
   // sum    ... sum calculated so far
   // addend ... value to be added to 'sum'
