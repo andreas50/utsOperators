@@ -1,12 +1,12 @@
-// Copyright: 2012-2016 by Andreas Eckner
+// Copyright: 2012-2017 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
 #include <math.h>
 #include <stdlib.h>
 #include "rolling.h"
 
-#ifndef swap
-#define swap(a,b) {temp=(a); (a)=(b); (b)=temp;}
+#ifndef SWAP
+#  define SWAP(a,b) {temp=(a); (a)=(b); (b)=temp;}
 #endif
 
 
@@ -52,21 +52,21 @@ double quickselect(double values[], int n, int k)
     if (right - left <= 1) {
       // Candidate region down to 1-2 elements
       if ((right == left + 1) && (values[right] < values[left]))
-        swap(values[left], values[right])
+        SWAP(values[left], values[right])
       return values[k];
     } else {
       // The pivot element is the second largest value of: values[left], values[mid], values[right]
       // -) avoids quadractic run-time on some common inputs, without need to pick random element
       mid = (left + right) / 2;
-      swap(values[mid], values[left + 1]);
+      SWAP(values[mid], values[left + 1]);
       
       // Sort the three elements from which the pivot is picked
       if (values[left] > values[right])
-        swap(values[left], values[right])
+        SWAP(values[left], values[right])
       if (values[left + 1] > values[right])
-        swap(values[left + 1], values[right])
+        SWAP(values[left + 1], values[right])
       if (values[left] > values[left + 1])
-        swap(values[left], values[left + 1])
+        SWAP(values[left], values[left + 1])
       pivot = values[left + 1];
       
       // Partition the candidate region, i.e. put smaller elements to left of pivot, larger to right
@@ -80,7 +80,7 @@ double quickselect(double values[], int n, int k)
         do j--; while (values[j] > pivot);
         if (j < i)
           break;
-        swap(values[i], values[j])
+        SWAP(values[i], values[j])
       }
       values[left + 1] = values[j];
       values[j] = pivot;

@@ -1,14 +1,14 @@
-// Copyright: 2012-2016 by Andreas Eckner
+// Copyright: 2012-2017 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
 #include "sma.h"
 
-#ifndef max
-#define max(a,b) (((a) > (b)) ? (a) : (b))
+#ifndef MAX
+#  define MAX(a,b) (((a) > (b)) ? (a) : (b))
 #endif
 
-#ifndef min
-#define min(a,b) (((a) < (b)) ? (a) : (b))
+#ifndef MIN
+#  define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
 
@@ -83,7 +83,7 @@ void sma_last(double values[], double times[], int *n, double values_new[], doub
     }
     
     // Add truncated area on left and right end
-    left_area = values[max(0, left-1)] * (times[left] - t_left_new);
+    left_area = values[MAX(0, left-1)] * (times[left] - t_left_new);
     right_area = values[right] * (t_right_new - times[right]);
     roll_area += left_area + right_area;
     
@@ -186,10 +186,10 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
     }
     
     // Add truncated area on left and right end
-    left_area = trapezoid_left(times[max(0, left-1)], t_left_new, times[left],
-      values[max(0, left-1)], values[left]);
-    right_area = trapezoid_right(times[right], t_right_new, times[min(right+1, *n-1)],
-      values[right], values[min(right+1, *n-1)]);
+    left_area = trapezoid_left(times[MAX(0, left-1)], t_left_new, times[left],
+      values[MAX(0, left-1)], values[left]);
+    right_area = trapezoid_right(times[right], t_right_new, times[MIN(right+1, *n-1)],
+      values[right], values[MIN(right+1, *n-1)]);
     roll_area += left_area + right_area;
     
     // Save SMA value for current time window

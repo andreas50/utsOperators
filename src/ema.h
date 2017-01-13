@@ -1,4 +1,4 @@
-// Copyright: 2012-2016 by Andreas Eckner
+// Copyright: 2012-2017 by Andreas Eckner
 // License: GPL-2 | GPL-3
 // Remark: To facilitate interfaces to other programming languages such as R, all variables are either pointers or arrays
 
