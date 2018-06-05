@@ -71,7 +71,7 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
   )
   expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=min, align="left"),
-    rolling_apply(ex_uts(), ddays(1), FUN=min, align="left", use_specialized=FALSE)
+    expect_warning(rolling_apply(ex_uts(), ddays(1), FUN=min, align="left", use_specialized=FALSE))
   )
   
   # FUN = max
@@ -85,7 +85,7 @@ test_that("rolling_apply_specialized gives the same results as rolling_apply",{
   )
   expect_identical(
     rolling_apply(ex_uts(), ddays(1), FUN=max, align="left"),
-    rolling_apply(ex_uts(), ddays(1), FUN=max, align="left", use_specialized=FALSE)
+    expect_warning(rolling_apply(ex_uts(), ddays(1), FUN=max, align="left", use_specialized=FALSE))
   )
   
   # FUN = mean
