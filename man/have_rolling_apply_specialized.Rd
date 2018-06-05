@@ -26,4 +26,3 @@ FUN <- mean
 have_rolling_apply_specialized(ex_uts(), FUN=FUN)
 }
 \keyword{internal}
-

@@ -29,4 +29,3 @@ Helper functions:
   \item \code{\link{sma_linear_R}}
 }
 }
-

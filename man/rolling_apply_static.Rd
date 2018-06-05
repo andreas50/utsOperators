@@ -16,11 +16,11 @@ rolling_apply_static(x, start_times, end_times, FUN, ..., align = "right",
 
 \item{FUN}{a function to be applied to the vector of observation values inside each half-open time interval \code{(start_times[i], end_times[i]]}.}
 
+\item{\dots}{arguments passed to \code{FUN}.}
+
 \item{align}{either \code{"right"} (the default), \code{"left"}, or \code{"center"}. Specifies the position of each output time inside the corresponding time window.}
 
 \item{interior}{logical. If \code{TRUE}, only include time windows \code{[start_times[i], end_times[i]]} in the output that are in the interior of the temporal support of \code{x}, i.e. in the interior of the time interval \code{[start(x), end(x)]}.}
-
-\item{\dots}{arguments passed to \code{FUN}.}
 }
 \description{
 Apply a function to the time series values in a sequence of user-defined, half-open time windows.
@@ -37,4 +37,3 @@ rolling_apply_static(ex_uts(), start_times, end_times, FUN=mean, align="center")
 \code{\link{rolling_apply}} for a version of this function that \emph{dynamically} determines the time windows.
 }
 \keyword{internal}
-

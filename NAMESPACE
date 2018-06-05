@@ -1,4 +1,4 @@
-# Load dynamic library with compliled C code
+# Load dynamic library with compiled C code
 useDynLib(utsOperators)
 
 

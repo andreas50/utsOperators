@@ -12,11 +12,11 @@ ema(x, ...)
 \arguments{
 \item{x}{a numeric time series object.}
 
+\item{\dots}{further arguments passed to or from methods.}
+
 \item{tau}{a finite \code{\link[lubridate]{duration}} object, specifying the effective temporal length of the EMA. Use positive values for backward-looking (i.e. normal, causal) EMAs, and negative values for forward-looking EMAs.}
 
 \item{interpolation}{the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
-
-\item{\dots}{further arguments passed to or from methods.}
 }
 \description{
 Calculate an exponential moving average (EMA) of a time series by applying an exponential kernel to the time series sample path.
@@ -37,6 +37,7 @@ Depending on the application, one sample path interpolation method will often be
 \itemize{
 \item \code{uts}: exponential moving average for \code{"uts"} objects with finite, non-NA observation values.
 }}
+
 \examples{
 ema(ex_uts(), ddays(1))
 ema(ex_uts(), ddays(1), interpolation="linear")
@@ -65,11 +66,10 @@ ema(ex_uts(), ddays(1), interpolation="next")
 }
 }
 \references{
-Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+Eckner, A. (2017) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 
-Eckner, A. (2016) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
+Eckner, A. (2017) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 }
 \seealso{
 \code{\link{sma}} for simple moving averages.
 }
-

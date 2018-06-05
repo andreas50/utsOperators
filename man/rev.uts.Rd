@@ -24,4 +24,3 @@ diff(ex_uts()$times)
 diff(rev(ex_uts())$times)
 }
 \keyword{internal}
-

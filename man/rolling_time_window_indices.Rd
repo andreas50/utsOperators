@@ -25,4 +25,3 @@ times <- seq(as.POSIXct("2014-12-01"), as.POSIXct("2015-12-30"), by="week")
 rolling_time_window_indices(times, tmp$start_times, tmp$end_times)
 }
 \keyword{internal}
-

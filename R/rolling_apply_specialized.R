@@ -15,7 +15,7 @@
 #' @param interior logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?
 #' @param \ldots further arguments passed to or from methods.
 #' 
-#' @references Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}. 
+#' @references Eckner, A. (2017) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}. 
 #' @keywords internal
 rolling_apply_specialized <- function(x, ...) UseMethod("rolling_apply_specialized")
 

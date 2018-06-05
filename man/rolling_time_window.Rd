@@ -29,4 +29,3 @@ rolling_time_window(start="2015-01-01", end="2015-06-30", width=ddays(90), by=dd
   interior=TRUE)
 }
 \keyword{internal}
-

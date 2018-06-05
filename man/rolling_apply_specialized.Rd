@@ -33,6 +33,7 @@ It is usually not necessary to call this function, because it is called automati
 \itemize{
 \item \code{uts}: Implementation for \code{"uts"} objects with finite, non-NA observation values.
 }}
+
 \examples{
 rolling_apply_specialized(ex_uts(), dhours(12), FUN=length)
 rolling_apply_specialized(ex_uts(), dhours(12), FUN=length, align="center")
@@ -53,7 +54,6 @@ rolling_apply_specialized(ex_uts(), ddays(1), FUN=max)
 rolling_apply_specialized(ex_uts(), ddays(0.5), FUN=prod)
 }
 \references{
-Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+Eckner, A. (2017) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 }
 \keyword{internal}
-

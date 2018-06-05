@@ -13,6 +13,8 @@ sma(x, ...)
 \arguments{
 \item{x}{a numeric time series object.}
 
+\item{\dots}{further arguments passed to or from methods.}
+
 \item{width}{a positive, finite \code{\link[lubridate]{duration}} object, specifying the temporal width of the rolling time window.}
 
 \item{interpolation}{the sample path interpolation method. Either \code{"last"}, \code{"next"}, or \code{"linear"}. See below for details.}
@@ -20,8 +22,6 @@ sma(x, ...)
 \item{align}{either \code{"right"}, \code{"left"}, or \code{"center"}. Specifies the alignment of each output time relative to its corresponding time window. Using \code{"right"} gives a causal (i.e. backward-looking) time series operator, while using \code{"left"} gives a purely forward-looking time series operator.}
 
 \item{interior}{logical. Should time windows lie entirely in the interior of the temporal support of \code{x}, i.e. inside the time interval \code{[start(x), end(x)]}?}
-
-\item{\dots}{further arguments passed to or from methods.}
 }
 \description{
 Calculate a simple moving average (SMA) of a time series by applying a moving average kernel to the sample path.
@@ -47,6 +47,7 @@ These quantities are \emph{unweighted} averages of the observation values inside
 \itemize{
 \item \code{uts}: simple moving average for \code{"uts"} objects with finite, non-NA observation values.
 }}
+
 \examples{
 sma(ex_uts(), ddays(1))
 sma(ex_uts(), ddays(1), interpolation="linear")
@@ -79,11 +80,10 @@ sma(ex_uts(), ddays(1), align="left")
 }
 }
 \references{
-Eckner, A. (2016) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
+Eckner, A. (2017) \emph{Algorithms for Unevenly Spaced Time Series: Moving Averages and Other Rolling Operators}.
 
-Eckner, A. (2016) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
+Eckner, A. (2017) \emph{Some Properties of Operators for Unevenly Spaced Time Series}.
 }
 \seealso{
 \code{\link{ema}} for exponential moving averages.
 }
-

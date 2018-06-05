@@ -18,4 +18,3 @@ This function is identical to \code{\link{sma}} with \code{interpolation="linear
 sma_linear_R(ex_uts(), ddays(1)) - sma(ex_uts(), ddays(1), interpolation="linear")
 }
 \keyword{internal}
-

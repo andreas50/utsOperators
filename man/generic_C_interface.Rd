@@ -25,4 +25,3 @@ generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_a
 generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_after=dhours(6))
 }
 \keyword{internal}
-

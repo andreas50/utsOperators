@@ -24,4 +24,3 @@ This helper functions checks if a given window width is valid. It allows to stre
 check_window_width(ddays(1))
 }
 \keyword{internal}
-
