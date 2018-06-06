@@ -17,7 +17,7 @@ options(width=100)
 
 ### Introduction
 
-This package provides rolling time series operators for unevenly spaced data, such as simple moving averages (SMAs), exponential moving averages (EMAs), and arbitrary rolling R functions. It is a wrapper around highly-optimized [C library](http://www.eckner.com/research.html).
+This package provides rolling time series operators for unevenly spaced data, such as simple moving averages (SMAs), exponential moving averages (EMAs), and arbitrary rolling R functions. It is a wrapper around a highly-optimized [C library](http://www.eckner.com/research.html).
 
 The time series class used by this package is the [uts](https://github.com/andreas50/uts) class.
 
@@ -26,8 +26,8 @@ The time series class used by this package is the [uts](https://github.com/andre
 This package is not yet available on CRAN, but can be installled from GitHub:
 
 ```{r, eval=FALSE}
-devtools::install_github(c("andreas50/uts", "andreas50/utsOperators"))   # using 'devtools'
-remotes::install_github(c("andreas50/uts", "andreas50/utsOperators"))    # ... or using 'remotes'
+devtools::install_github(c("andreas50/uts", "andreas50/utsOperators"))  # using package 'devtools'
+remotes::install_github(c("andreas50/uts", "andreas50/utsOperators"))   # ... or using package 'remotes'
 ```
 
 ### Sample Code
@@ -45,7 +45,7 @@ sma(x, ddays(1))
 # EMA with linear interpolation, 12-hour effective temporal length
 ema(x, dhours(12), interpolation="linear")
 
-# Rolling mean, sum, number of observation values in a 1-day wide time window
+# Rolling mean, sum, number of observation values in a 1-day wide rolling time window
 rolling_apply(ex_uts(), width=ddays(1), FUN=mean)
 rolling_apply(ex_uts(), width=ddays(1), FUN=sum)
 rolling_apply(ex_uts(), width=ddays(1), FUN=length)
