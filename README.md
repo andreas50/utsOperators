@@ -4,6 +4,8 @@
 
 This package provides rolling time series operators for unevenly spaced data, such as simple moving averages (SMAs), exponential moving averages (EMAs), and arbitrary rolling R functions. It is a wrapper around highly-optimized [C library](http://www.eckner.com/research.html).
 
+The time series class used by this package is the [uts](https://github.com/andreas50/uts) class.
+
 ### Installation
 
 This package is not yet available on CRAN, but can be installled from GitHub:
