@@ -65,11 +65,11 @@ sma(ex_uts(), ddays(1), align="left")
   x <- uts(0:10, Sys.time() + dhours(0:10))
   par(mfrow=c(1, 3))
   plot(x, ylim=c(0, 10), main="Original time series")
-  plot(sma(x, dhours(3)), ylim=c(0, 10), main="Backward-looking SMA")
-  plot(sma(x, dhours(-3)), ylim=c(0, 10), main="Forward-looking SMA")
+  plot(sma(x, dhours(3), align="right"), ylim=c(0, 10), main="Backward-looking SMA")
+  plot(sma(x, dhours(3), align="left"), ylim=c(0, 10), main="Forward-looking SMA")
 }
 
-# Plot three different SMAs of a monotonically increasing time series
+# Plot three different SMAs of a monotonically increasing time series.
 # Note that SMA_last(x)_t <= SMA_linear(x)_t <= SMA_next(x)_t for all observation times t
 \dontrun{
   x <- uts(0:8, Sys.time() + dhours(0:8))
