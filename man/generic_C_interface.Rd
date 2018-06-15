@@ -14,11 +14,11 @@ generic_C_interface(x, C_fct, ...)
 \item{\dots}{further arguments passed to the C function.}
 }
 \description{
-Generic interface for C-functions with inputs (values, times, length(values), values_new, ...) and output (values_new). Example: sma, rollingMax, ema, ...
+Generic interface for C-functions with inputs (values, times, length(values), ...) and output (values_new). Example: sma, rolling_max, ema, ...
 }
 \examples{
 # SMA_last
-generic_C_interface(ex_uts(), "sma_last", width=ddays(1))
+generic_C_interface(ex_uts(), "sma_last", width_before=ddays(1), width_after=ddays(0))
 
 # One- vs. two-sided window
 generic_C_interface(ex_uts(), "rolling_num_obs", width_before=dhours(6), width_after=dhours(0))

@@ -4,15 +4,14 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/",
-  global.par = TRUE
+  fig.path = "man/"
 )
-library(utsOperators)
 options(width=100)
+library(utsOperators)
 ```
 
 ### Introduction
