@@ -6,7 +6,7 @@ extern "C" {
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_central_moment(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_central_moment(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after, const double m)
 {
   // Allocate memory for output
@@ -21,7 +21,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_central_moment(Rcpp::NumericVector valu
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_max(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_max(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -36,7 +36,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_max(Rcpp::NumericVector values, Rcpp::N
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_mean(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_mean(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -51,7 +51,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_mean(Rcpp::NumericVector values, Rcpp::
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_median(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_median(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -66,7 +66,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_median(Rcpp::NumericVector values, Rcpp
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_min(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_min(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -81,7 +81,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_min(Rcpp::NumericVector values, Rcpp::N
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_num_obs(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_num_obs(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -96,7 +96,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_num_obs(Rcpp::NumericVector values, Rcp
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_product(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_product(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -111,7 +111,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_product(Rcpp::NumericVector values, Rcp
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_sd(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_sd(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -126,7 +126,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_sd(Rcpp::NumericVector values, Rcpp::Nu
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_sum(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_sum(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -141,7 +141,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_sum(Rcpp::NumericVector values, Rcpp::N
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_sum_stable(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_sum_stable(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -156,7 +156,7 @@ Rcpp::NumericVector Rcpp_wrapper_rolling_sum_stable(Rcpp::NumericVector values, 
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Rcpp_wrapper_rolling_var(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_rolling_var(Rcpp::NumericVector values, Rcpp::DatetimeVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output

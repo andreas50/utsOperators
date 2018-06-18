@@ -27,16 +27,12 @@ generic_C_interface <- function(x, C_fct, ...)
     stop("The time series is not numeric")
   if (anyNA(x$values) || any(is.infinite(x$values)))
     stop("The time series observation values have to be finite and not NA")
-  
-  # Prepare data for C++ interface
-  values <- as.double(x$values)
-  times <- as.double(x$times)
-  if (length(values) != length(times))
+  if (length(x$values) != length(x$times))
     stop("The number of observation values and observation times does not match")
   
   # Call Rcpp wrapper function
   Cpp_fct <- paste0("Rcpp_wrapper_", C_fct)
-  values_new <- do.call(Cpp_fct, list(values=values, times=times, ...))
+  values_new <- do.call(Cpp_fct, list(x$values, x$times, ...))
   
   # Generate output time series in efficient way, avoiding calls to POSIXct constructors
   x$values <- values_new
