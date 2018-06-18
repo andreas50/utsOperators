@@ -6,7 +6,7 @@ extern "C" {
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector C_sma_last(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_sma_last(Rcpp::NumericVector values, Rcpp::NumericVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -21,7 +21,7 @@ Rcpp::NumericVector C_sma_last(Rcpp::NumericVector values, Rcpp::NumericVector t
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector C_sma_linear(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_sma_linear(Rcpp::NumericVector values, Rcpp::NumericVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output
@@ -36,7 +36,7 @@ Rcpp::NumericVector C_sma_linear(Rcpp::NumericVector values, Rcpp::NumericVector
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector C_sma_next(Rcpp::NumericVector values, Rcpp::NumericVector times,
+Rcpp::NumericVector Rcpp_wrapper_sma_next(Rcpp::NumericVector values, Rcpp::NumericVector times,
   const double width_before, const double width_after)
 {
   // Allocate memory for output

@@ -34,8 +34,8 @@ generic_C_interface <- function(x, C_fct, ...)
   if (length(values) != length(times))
     stop("The number of observation values and observation times does not match")
   
-  # Call C++ wrapper function
-  Cpp_fct <- paste0("C_", C_fct)
+  # Call Rcpp wrapper function
+  Cpp_fct <- paste0("Rcpp_wrapper_", C_fct)
   values_new <- do.call(Cpp_fct, list(values=values, times=times, ...))
   
   # Generate output time series in efficient way, avoiding calls to POSIXct constructors

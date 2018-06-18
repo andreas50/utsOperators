@@ -5,48 +5,48 @@
 
 using namespace Rcpp;
 
-// C_ema_last
-Rcpp::NumericVector C_ema_last(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau);
-RcppExport SEXP _utsOperators_C_ema_last(SEXP valuesSEXP, SEXP timesSEXP, SEXP tauSEXP) {
+// Rcpp_wrapper_ema_last
+Rcpp::NumericVector Rcpp_wrapper_ema_last(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_ema_last(SEXP valuesSEXP, SEXP timesSEXP, SEXP tauSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type tau(tauSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_ema_last(values, times, tau));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_ema_last(values, times, tau));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_ema_linear
-Rcpp::NumericVector C_ema_linear(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau);
-RcppExport SEXP _utsOperators_C_ema_linear(SEXP valuesSEXP, SEXP timesSEXP, SEXP tauSEXP) {
+// Rcpp_wrapper_ema_linear
+Rcpp::NumericVector Rcpp_wrapper_ema_linear(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_ema_linear(SEXP valuesSEXP, SEXP timesSEXP, SEXP tauSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type tau(tauSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_ema_linear(values, times, tau));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_ema_linear(values, times, tau));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_ema_next
-Rcpp::NumericVector C_ema_next(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau);
-RcppExport SEXP _utsOperators_C_ema_next(SEXP valuesSEXP, SEXP timesSEXP, SEXP tauSEXP) {
+// Rcpp_wrapper_ema_next
+Rcpp::NumericVector Rcpp_wrapper_ema_next(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_ema_next(SEXP valuesSEXP, SEXP timesSEXP, SEXP tauSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type values(valuesSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type tau(tauSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_ema_next(values, times, tau));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_ema_next(values, times, tau));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_central_moment
-Rcpp::NumericVector C_rolling_central_moment(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after, const double m);
-RcppExport SEXP _utsOperators_C_rolling_central_moment(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP, SEXP mSEXP) {
+// Rcpp_wrapper_rolling_central_moment
+Rcpp::NumericVector Rcpp_wrapper_rolling_central_moment(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after, const double m);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_central_moment(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,13 +55,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
     Rcpp::traits::input_parameter< const double >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_central_moment(values, times, width_before, width_after, m));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_central_moment(values, times, width_before, width_after, m));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_max
-Rcpp::NumericVector C_rolling_max(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_max(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_max
+Rcpp::NumericVector Rcpp_wrapper_rolling_max(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_max(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -69,13 +69,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_max(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_max(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_mean
-Rcpp::NumericVector C_rolling_mean(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_mean(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_mean
+Rcpp::NumericVector Rcpp_wrapper_rolling_mean(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_mean(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -83,13 +83,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_mean(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_mean(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_median
-Rcpp::NumericVector C_rolling_median(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_median(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_median
+Rcpp::NumericVector Rcpp_wrapper_rolling_median(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_median(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -97,13 +97,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_median(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_median(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_min
-Rcpp::NumericVector C_rolling_min(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_min(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_min
+Rcpp::NumericVector Rcpp_wrapper_rolling_min(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_min(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -111,13 +111,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_min(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_min(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_num_obs
-Rcpp::NumericVector C_rolling_num_obs(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_num_obs(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_num_obs
+Rcpp::NumericVector Rcpp_wrapper_rolling_num_obs(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_num_obs(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -125,13 +125,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_num_obs(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_num_obs(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_product
-Rcpp::NumericVector C_rolling_product(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_product(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_product
+Rcpp::NumericVector Rcpp_wrapper_rolling_product(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_product(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -139,13 +139,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_product(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_product(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_sd
-Rcpp::NumericVector C_rolling_sd(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_sd(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_sd
+Rcpp::NumericVector Rcpp_wrapper_rolling_sd(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_sd(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -153,13 +153,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_sd(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_sd(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_sum
-Rcpp::NumericVector C_rolling_sum(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_sum(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_sum
+Rcpp::NumericVector Rcpp_wrapper_rolling_sum(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_sum(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -167,13 +167,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_sum(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_sum(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_sum_stable
-Rcpp::NumericVector C_rolling_sum_stable(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_sum_stable(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_sum_stable
+Rcpp::NumericVector Rcpp_wrapper_rolling_sum_stable(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_sum_stable(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -181,13 +181,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_sum_stable(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_sum_stable(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_rolling_var
-Rcpp::NumericVector C_rolling_var(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_rolling_var(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_rolling_var
+Rcpp::NumericVector Rcpp_wrapper_rolling_var(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_rolling_var(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -195,13 +195,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_rolling_var(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_rolling_var(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_sma_last
-Rcpp::NumericVector C_sma_last(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_sma_last(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_sma_last
+Rcpp::NumericVector Rcpp_wrapper_sma_last(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_sma_last(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -209,13 +209,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_sma_last(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_sma_last(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_sma_linear
-Rcpp::NumericVector C_sma_linear(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_sma_linear(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_sma_linear
+Rcpp::NumericVector Rcpp_wrapper_sma_linear(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_sma_linear(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -223,13 +223,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_sma_linear(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_sma_linear(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
-// C_sma_next
-Rcpp::NumericVector C_sma_next(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
-RcppExport SEXP _utsOperators_C_sma_next(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
+// Rcpp_wrapper_sma_next
+Rcpp::NumericVector Rcpp_wrapper_sma_next(Rcpp::NumericVector values, Rcpp::NumericVector times, const double width_before, const double width_after);
+RcppExport SEXP _utsOperators_Rcpp_wrapper_sma_next(SEXP valuesSEXP, SEXP timesSEXP, SEXP width_beforeSEXP, SEXP width_afterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -237,29 +237,29 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< const double >::type width_before(width_beforeSEXP);
     Rcpp::traits::input_parameter< const double >::type width_after(width_afterSEXP);
-    rcpp_result_gen = Rcpp::wrap(C_sma_next(values, times, width_before, width_after));
+    rcpp_result_gen = Rcpp::wrap(Rcpp_wrapper_sma_next(values, times, width_before, width_after));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_utsOperators_C_ema_last", (DL_FUNC) &_utsOperators_C_ema_last, 3},
-    {"_utsOperators_C_ema_linear", (DL_FUNC) &_utsOperators_C_ema_linear, 3},
-    {"_utsOperators_C_ema_next", (DL_FUNC) &_utsOperators_C_ema_next, 3},
-    {"_utsOperators_C_rolling_central_moment", (DL_FUNC) &_utsOperators_C_rolling_central_moment, 5},
-    {"_utsOperators_C_rolling_max", (DL_FUNC) &_utsOperators_C_rolling_max, 4},
-    {"_utsOperators_C_rolling_mean", (DL_FUNC) &_utsOperators_C_rolling_mean, 4},
-    {"_utsOperators_C_rolling_median", (DL_FUNC) &_utsOperators_C_rolling_median, 4},
-    {"_utsOperators_C_rolling_min", (DL_FUNC) &_utsOperators_C_rolling_min, 4},
-    {"_utsOperators_C_rolling_num_obs", (DL_FUNC) &_utsOperators_C_rolling_num_obs, 4},
-    {"_utsOperators_C_rolling_product", (DL_FUNC) &_utsOperators_C_rolling_product, 4},
-    {"_utsOperators_C_rolling_sd", (DL_FUNC) &_utsOperators_C_rolling_sd, 4},
-    {"_utsOperators_C_rolling_sum", (DL_FUNC) &_utsOperators_C_rolling_sum, 4},
-    {"_utsOperators_C_rolling_sum_stable", (DL_FUNC) &_utsOperators_C_rolling_sum_stable, 4},
-    {"_utsOperators_C_rolling_var", (DL_FUNC) &_utsOperators_C_rolling_var, 4},
-    {"_utsOperators_C_sma_last", (DL_FUNC) &_utsOperators_C_sma_last, 4},
-    {"_utsOperators_C_sma_linear", (DL_FUNC) &_utsOperators_C_sma_linear, 4},
-    {"_utsOperators_C_sma_next", (DL_FUNC) &_utsOperators_C_sma_next, 4},
+    {"_utsOperators_Rcpp_wrapper_ema_last", (DL_FUNC) &_utsOperators_Rcpp_wrapper_ema_last, 3},
+    {"_utsOperators_Rcpp_wrapper_ema_linear", (DL_FUNC) &_utsOperators_Rcpp_wrapper_ema_linear, 3},
+    {"_utsOperators_Rcpp_wrapper_ema_next", (DL_FUNC) &_utsOperators_Rcpp_wrapper_ema_next, 3},
+    {"_utsOperators_Rcpp_wrapper_rolling_central_moment", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_central_moment, 5},
+    {"_utsOperators_Rcpp_wrapper_rolling_max", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_max, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_mean", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_mean, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_median", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_median, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_min", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_min, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_num_obs", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_num_obs, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_product", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_product, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_sd", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_sd, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_sum", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_sum, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_sum_stable", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_sum_stable, 4},
+    {"_utsOperators_Rcpp_wrapper_rolling_var", (DL_FUNC) &_utsOperators_Rcpp_wrapper_rolling_var, 4},
+    {"_utsOperators_Rcpp_wrapper_sma_last", (DL_FUNC) &_utsOperators_Rcpp_wrapper_sma_last, 4},
+    {"_utsOperators_Rcpp_wrapper_sma_linear", (DL_FUNC) &_utsOperators_Rcpp_wrapper_sma_linear, 4},
+    {"_utsOperators_Rcpp_wrapper_sma_next", (DL_FUNC) &_utsOperators_Rcpp_wrapper_sma_next, 4},
     {NULL, NULL, 0}
 };
 

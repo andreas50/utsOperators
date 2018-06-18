@@ -6,7 +6,7 @@ extern "C" {
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector C_ema_last(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau)
+Rcpp::NumericVector Rcpp_wrapper_ema_last(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau)
 {
   // Allocate memory for output
   int n = values.size();
@@ -19,7 +19,7 @@ Rcpp::NumericVector C_ema_last(Rcpp::NumericVector values, Rcpp::NumericVector t
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector C_ema_linear(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau)
+Rcpp::NumericVector Rcpp_wrapper_ema_linear(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau)
 {
   // Allocate memory for output
   int n = values.size();
@@ -32,7 +32,7 @@ Rcpp::NumericVector C_ema_linear(Rcpp::NumericVector values, Rcpp::NumericVector
 
 
 // [[Rcpp::export]]
-Rcpp::NumericVector C_ema_next(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau)
+Rcpp::NumericVector Rcpp_wrapper_ema_next(Rcpp::NumericVector values, Rcpp::NumericVector times, const double tau)
 {
   // Allocate memory for output
   int n = values.size();
