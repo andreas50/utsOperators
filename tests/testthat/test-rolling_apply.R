@@ -27,6 +27,7 @@ test_that("rolling_time_window_indices works",{
   times <- seq(as.POSIXct("2014-12-01"), as.POSIXct("2015-12-30"), by="week")
   
   # Argument checking
+  expect_error(rolling_time_window_indices("abc", times, end_times))
   expect_error(rolling_time_window_indices(times, "abc", end_times))
   expect_error(rolling_time_window_indices(times, start_times, "abc"))
   expect_error(rolling_time_window_indices(times, end_times, start_times))

@@ -5,6 +5,7 @@ test_that("check_window_width works",{
   expect_error(check_window_width(ddays(-5)))
   expect_error(check_window_width(ddays(-5), require_positive=FALSE))
   expect_error(check_window_width(Inf))
+  expect_error(check_window_width(NA))
   expect_error(check_window_width(ddays(0)))
   
   expect_identical(
