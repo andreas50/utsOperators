@@ -6,6 +6,7 @@ test_that("argument checking and trivial cases work",{
   expect_error(sma(ex_uts(), ddays(1), interpolation="abc"))
   expect_error(sma(ex_uts(), ddays(0)))
   expect_error(sma(ex_uts(), ddays(Inf)))
+  expect_error(sma(ex_uts(), ddays(1), align="abc"))
   
   # "uts" with <= 1 observations
   expect_identical(
@@ -153,6 +154,10 @@ test_that("sma_last works",{
   expect_equal_to_reference(
     sma(ex_uts(), ddays(1), interpolation="last"),
     file="test-sma_last_1.rds"
+  )
+  expect_equal_to_reference(
+    sma(ex_uts(), ddays(1), interpolation="last", interior=TRUE),
+    file="test-sma_last_2.rds"
   )
 })
 
