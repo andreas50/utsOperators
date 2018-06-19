@@ -2,9 +2,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 ### Introduction
 
-This package provides rolling time series operators for unevenly spaced data, such as simple moving averages (SMAs), exponential moving averages (EMAs), and arbitrary rolling R functions. It is a wrapper around a highly-optimized [C library](http://www.eckner.com/research.html) that I released in 2012. The time series class used by this package is the [uts](https://github.com/andreas50/uts) class.
+This package provides rolling time series operators for unevenly spaced data, such as simple moving averages (SMAs), exponential moving averages (EMAs), and arbitrary rolling R functions. It is a wrapper around the highly-optimized C library [utsAlgorithms](https://github.com/andreas50/utsAlgorithms). The time series class used by this package is the [uts](https://github.com/andreas50/uts) class.
 
-The package [rcpputs](https://github.com/eddelbuettel/rcpputs) is a low-level wrapper around the same [C library](http://www.eckner.com/research.html) that does not rely on any time series class, but instead requires the user to pass in a vector of observation values and observation times to each function.
+The package [rcpputs](https://github.com/eddelbuettel/rcpputs) is a low-level wrapper around the same C library that does not rely on any time series class, but instead requires the user to pass in a vector of observation values and observation times to each function.
 
 ### Installation
 
