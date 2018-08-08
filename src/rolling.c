@@ -1,4 +1,4 @@
-// Copyright: 2012-2017 by Andreas Eckner
+// Copyright: 2012-2018 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
 #include <math.h>
@@ -139,8 +139,8 @@ static inline void compensated_addition(double *sum, double addend, double *comp
 
 
 // Rolling number of observation values
-void rolling_num_obs(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_num_obs(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -167,8 +167,8 @@ void rolling_num_obs(double values[], double times[], int *n, double values_new[
 
 
 // Rolling sum of observation values
-void rolling_sum(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_sum(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -200,8 +200,8 @@ void rolling_sum(double values[], double times[], int *n, double values_new[],
 
 
 // Same as rolling_sum, but use Kahan (1965) summation algorithm to reduce numerical error
-void rolling_sum_stable(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_sum_stable(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -234,8 +234,8 @@ void rolling_sum_stable(double values[], double times[], int *n, double values_n
 
 
 // Rolling product of observation values
-void rolling_product(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_product(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -279,8 +279,8 @@ void rolling_product(double values[], double times[], int *n, double values_new[
 
 
 // Rolling average of observation values
-void rolling_mean(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_mean(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -315,8 +315,8 @@ void rolling_mean(double values[], double times[], int *n, double values_new[],
 
 
 // Rolling maximum of observation values
-void rolling_max(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_max(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times matching time series values
@@ -358,8 +358,8 @@ void rolling_max(double values[], double times[], int *n, double values_new[],
 
 
 // Rolling minimum of observation values
-void rolling_min(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_min(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times matching time series values
@@ -401,8 +401,8 @@ void rolling_min(double values[], double times[], int *n, double values_new[],
 
 
 // Rolling median
-void rolling_median(double values[], double times[], int *n, double values_new[], 
-  double *width_before, double *width_after)
+void rolling_median(const double values[], const double times[], const int *n, double values_new[], 
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times matching time series values
@@ -433,8 +433,8 @@ void rolling_median(double values[], double times[], int *n, double values_new[]
 
 
 // Rolling central moment of observation values
-void rolling_central_moment(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after, double *m)
+void rolling_central_moment(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after, const double *m)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -476,8 +476,8 @@ void rolling_central_moment(double values[], double times[], int *n, double valu
 
 
 // Rolling standard deviation of observation values
-void rolling_sd(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_sd(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -494,8 +494,8 @@ void rolling_sd(double values[], double times[], int *n, double values_new[],
 
 
 // Rolling variance of observation values
-void rolling_var(double values[], double times[], int *n, double values_new[],
-  double *width_before, double *width_after)
+void rolling_var(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times

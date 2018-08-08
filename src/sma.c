@@ -1,4 +1,4 @@
-// Copyright: 2012-2017 by Andreas Eckner
+// Copyright: 2012-2018 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
 #include "sma.h"
@@ -43,7 +43,8 @@ static inline double trapezoid_right(double x1, double x2, double x3, double y1,
 
 
 // SMA_last(X, width)
-void sma_last(double values[], double times[], int *n, double values_new[], double *width_before, double *width_after)
+void sma_last(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
   // values       ... array of time series values
   // times        ... array of observation times
@@ -94,12 +95,13 @@ void sma_last(double values[], double times[], int *n, double values_new[], doub
 
 
 // SMA_next(X, width)
-void sma_next(double values[], double times[], int *n, double values_new[], double *width_before, double *width_after)
+void sma_next(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
   // width_before ... (non-negative) width of rolling window before t_i
   // width_after  ... (non-negative) width of rolling window after t_i
   
@@ -145,12 +147,13 @@ void sma_next(double values[], double times[], int *n, double values_new[], doub
 
 
 // SMA_linear(X, width)
-void sma_linear(double values[], double times[], int *n, double values_new[], double *width_before, double *width_after)
+void sma_linear(const double values[], const double times[], const int *n, double values_new[],
+  const double *width_before, const double *width_after)
 {
-  // values     ... array of time series values
-  // times      ... array of observation times
-  // n          ... number of observations, i.e. length of 'values' and 'times'
-  // values_new ... array of length *n to store output time series values
+  // values       ... array of time series values
+  // times        ... array of observation times
+  // n            ... number of observations, i.e. length of 'values' and 'times'
+  // values_new   ... array of length *n to store output time series values
   // width_before ... (non-negative) width of rolling window before t_i
   // width_after  ... (non-negative) width of rolling window after t_i
   
@@ -196,4 +199,3 @@ void sma_linear(double values[], double times[], int *n, double values_new[], do
     values_new[i] = roll_area / (*width_before + *width_after);
   }
 }
-

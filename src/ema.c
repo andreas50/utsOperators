@@ -1,4 +1,4 @@
-// Copyright: 2012-2017 by Andreas Eckner
+// Copyright: 2012-2018 by Andreas Eckner
 // License: GPL-2 | GPL-3
 
 #include <math.h>
@@ -6,7 +6,7 @@
 
 
 // EMA_next(X, tau)
-void ema_next(double values[], double times[], int *n, double values_new[], double *tau)
+void ema_next(const double values[], const double times[], const int *n, double values_new[], const double *tau)
 {
   // values     ... array of time series values
   // times      ... array of observation times
@@ -30,7 +30,7 @@ void ema_next(double values[], double times[], int *n, double values_new[], doub
 
 
 // EMA_last(X, tau)
-void ema_last(double values[], double times[], int *n, double values_new[], double *tau)
+void ema_last(const double values[], const double times[], const int *n, double values_new[], const double *tau)
 {
   // values     ... array of time series values
   // times      ... array of observation times
@@ -55,7 +55,7 @@ void ema_last(double values[], double times[], int *n, double values_new[], doub
 
 
 // EMA_lin(X, tau)
-void ema_linear(double values[], double times[], int *n, double values_new[], double *tau)
+void ema_linear(const double values[], const double times[], const int *n, double values_new[], const double *tau)
 {
   // values     ... array of time series values
   // times      ... array of observation times
